@@ -1,0 +1,24 @@
+{
+  "name": "swaadisht",
+  "version": "1.0.0",
+  "description": "dependency-------------------- web, thymeleaf, data jpa, validation, security, oauth2-client, modelmapper, starter mail, lombok, devtools, mysql connector",
+  "main": "index.js",
+  "type": "commonjs",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TaranSingh2004/Swaadisht.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TaranSingh2004/Swaadisht/issues"
+  },
+  "homepage": "https://github.com/TaranSingh2004/Swaadisht#readme",
+  "devDependencies": {
+    "tailwindcss": "^3.4.17"
+  }
+}
