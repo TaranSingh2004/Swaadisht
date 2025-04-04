@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title >SCM</title>
+    <title >Swaadisht</title>
     <link
             href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css"
             rel="stylesheet"
@@ -23,20 +23,16 @@
     />
 </head>
 <body>
+<div class="custom-bg">
+    <div  th:replace="~{navbar :: header}"></div>
 
-<div th:replace="~{navbar :: header}"></div>
+    <div th:replace="${content}"></div>
 
-<div th:replace="${content}"></div>
-
-<!--    start of footer-->
-<!--<div class="container-fluid p-1 bg-primary text-center text-white mt-1" style="margin-top:200px">-->
-<!--    <p>ecom.com</p>-->
-<!--</div>-->
-<div th:replace="~{footer :: footer}"></div>
-<!--    end of footer-->
-<!--Jquery validation library-->
+    <div th:replace="~{footer :: footer}"></div>
+</div>
 
 
+<!--start script-->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.js"></script>
 <script type="text/javascript" src="js/script.js"></script>
