@@ -25,12 +25,15 @@ public class User {
     @Column(unique = true, nullable = false)
     private String email;
 
-    @Getter(value = AccessLevel.NONE)
+//    @Getter(value = AccessLevel.NONE)
+//    @Setter
     private String password;
+
+    private String profilePic;
 
     private String phoneNumber;
 
-    @Getter(value = AccessLevel.NONE)
+//    @Getter(value = AccessLevel.NONE)
     private boolean enabled=false;
 
     private boolean emailVerified=false;
@@ -45,4 +48,5 @@ public class User {
     private List<String> roleList = new ArrayList<>();
 
     private String emailToken;
+
 }

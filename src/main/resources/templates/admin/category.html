@@ -66,10 +66,11 @@
                             <input
                                     type="file"
                                     name="file"
-                                    id="expiry-date"
+                                    id="image_file_input"
                                     class="mt-1 block w-full p-2 rounded-lg border-gray-300 focus:ring-blue-500 focus:border-blue-500 shadow-sm"
                                     required
                             />
+                            <img class="max-h-52 mx-auto rounded-lg shadow m-3" src="" id="upload_image_preview" alt=""/>
                         </div>
 
                     </div>
@@ -132,7 +133,6 @@
                     <a href="@{'/admin/deleteCategory/' + ${cat.id}}" class="ml-2 text-red-600 hover:text-red-900">Delete</a>
                 </td>
             </tr>
-
             <!-- More rows... -->
 
             </tbody>
