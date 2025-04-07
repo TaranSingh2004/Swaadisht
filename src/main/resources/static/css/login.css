@@ -21,12 +21,11 @@ body{
 .container{
     position: relative;
     width: 900px;
-    height: 750px;
+    height: 900px;
     background: #fff;
     margin: auto;
     margin-top: 50px;
     margin-bottom: 50px;
-    border-radius: 30%;
     box-shadow: 0 0 30px rgba(0, 0, 0, .2);
     overflow: hidden;
 }
