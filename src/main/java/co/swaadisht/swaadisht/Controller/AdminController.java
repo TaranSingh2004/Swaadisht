@@ -21,6 +21,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -109,4 +110,73 @@ public class AdminController {
     public String addProduct(){
         return "admin/addProduct";
     }
+
+    @GetMapping("/editCategory/{id}")
+    public String editCategory(@PathVariable int id, Model m){
+        m.addAttribute("category", categoryService.getCategoryById(id));
+        return "admin/editCategory";
+    }
+
+    @PostMapping("/updateCategory")
+    public String updateCategory(@ModelAttribute Category category,
+                                 @RequestParam("file") MultipartFile file,
+                                 HttpSession session) {
+
+        try {
+            // 1. Get existing category with null check
+            Category oldCategory = categoryService.getCategoryById(category.getId());
+            if (oldCategory == null) {
+                session.setAttribute("errorMsg", "Category not found");
+                return "redirect:/admin/category";
+            }
+
+            // 2. Handle image upload to Cloudinary
+            String imageUrl = oldCategory.getCategoryImage(); // Keep old image by default
+
+            if (!file.isEmpty()) {
+                // Delete old image from Cloudinary if exists
+                if (oldCategory.getCategoryImage() != null) {
+                    String publicId = extractPublicId(oldCategory.getCategoryImage());
+                    cloudinary.uploader().destroy(publicId, Collections.emptyMap());
+                }
+
+                // Upload new image with same options as saveCategory
+                Map<String, Object> uploadOptions = new HashMap<>();
+                uploadOptions.put("public_id", "category_" + UUID.randomUUID());
+                uploadOptions.put("folder", "category_images");
+
+                Map<?, ?> uploadResult = cloudinary.uploader().upload(file.getBytes(), uploadOptions);
+                imageUrl = (String) uploadResult.get("secure_url");
+            }
+
+            // 3. Update category details
+            oldCategory.setName(category.getName());
+            oldCategory.setIsActive(category.getIsActive());
+            oldCategory.setCategoryImage(imageUrl);
+
+            // 4. Save to database
+            Category updatedCategory = categoryService.saveCategory(oldCategory);
+
+            if (updatedCategory != null) {
+                session.setAttribute("succMsg", "Category updated successfully!");
+            } else {
+                session.setAttribute("errorMsg", "Failed to update category");
+            }
+
+            return "redirect:/admin/editCategory/" + category.getId();
+
+        } catch (Exception e) {
+            session.setAttribute("errorMsg", "Error updating category: " + e.getMessage());
+            e.printStackTrace();
+            return "redirect:/admin/editCategory/" + category.getId();
+        }
+    }
+
+    private String extractPublicId(String imageUrl) {
+        // Example URL: https://res.cloudinary.com/demo/image/upload/v123/category_images/category_123.jpg
+        String[] parts = imageUrl.split("/");
+        String fileName = parts[parts.length - 1];
+        return fileName.substring(0, fileName.lastIndexOf('.'));
+    }
+
 }

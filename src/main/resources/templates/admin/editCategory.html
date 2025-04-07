@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en"
+      th:replace="~{base :: parent(~{::#content},~{::title},~{::script})}" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="content" class="border">
+    <a href="/admin/category" class="text-decoration-none"><i class="fa-solid fa-arrow-left"></i> Back</a>
+    <div class="flex items-center justify-center min-h-screen ">
+        <div class="bg-white p-6 rounded-2xl shadow-lg max-w-md w-full">
+            <h1 class="text-2xl font-semibold mb-4 text-gray-800">Add Category</h1>
+            <th:block th:if="${session.succMsg}">
+                <p class="text-success fw-bold">[[${session.succMsg}]]</p>
+                <th:block th:text="${@commonServiceImpl.removeSessionMessage()}"></th:block>
+            </th:block>
+
+            <th:block th:if="${session.errorMsg}">
+                <p class="text-danger fw-bold">[[${session.errorMsg}]]</p>
+                <th:block th:text="${@commonServiceImpl.removeSessionMessage()}"></th:block>
+            </th:block>
+            <form action="/admin/updateCategory" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="id" th:value="${category.id}">
+                <!-- Category Name -->
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700">Enter category</label>
+                    <input
+                            type="text"
+                            name="name"
+                            th:value="${category.name}"
+                            class="mt-1 block w-full p-2 rounded-lg border-gray-300 focus:ring-blue-500 focus:border-blue-500 shadow-sm"
+                            required
+                    />
+                </div>
+
+                <!-- Category Status -->
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700">Status</label>
+                    <!--                        <input-->
+                    <!--                                type="text"-->
+                    <!--                                id="card-number"-->
+                    <!--                                name="status"-->
+                    <!--                                placeholder="1234 5678 9012 3456"-->
+                    <!--                                class="mt-1 block w-full p-2 rounded-lg border-gray-300 focus:ring-blue-500 focus:border-blue-500 shadow-sm"-->
+                    <!--                                required-->
+                    <!--                                maxlength="19"-->
+                    <!--                        />-->
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio"
+                               th:checked="${category.isActive==true}"
+                               value="true" name="isActive" id="flexRadioDefault1">
+                        <label class="form-check-label" for="flexRadioDefault1">
+                            Active </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="isActive"
+                               th:checked="${category.isActive==false}"
+                               value="false" id="flexRadioDefault2"> <label
+                            class="form-check-label" for="flexRadioDefault2">
+                        Inactive </label>
+                    </div>
+                </div>
+
+                <!-- Upload image -->
+                <div class="flex gap-4">
+                    <!-- Image Upload Section -->
+                    <div class="mb-4 w-1/2">
+                        <label class="block text-sm font-medium text-gray-700">Upload Image</label>
+                        <input
+                                type="file"
+                                name="file"
+                                id="image_file_input"
+
+                        class="mt-1 block w-full p-2 rounded-lg border-gray-300 focus:ring-blue-500 focus:border-blue-500 shadow-sm"
+                        />
+                        <!-- Image Preview -->
+                        <img class="max-h-52 mx-auto rounded-lg shadow m-3"
+                             th:src="${category?.categoryImage ?: 'https://via.placeholder.com/300'}"
+                             id="upload_image_preview"
+                             alt="Category Preview"
+                             style="display: ${category?.categoryImage != null} ? 'block' : 'none'"/>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <div>
+                    <button
+                            type="submit"
+                            class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg shadow hover:bg-blue-700 transition"
+                    >
+                        Submit
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    console.log(edit category);
+</script>
+</body>
+</html>
