@@ -9,4 +9,6 @@ public interface ImageService {
     String uploadImage(MultipartFile contactImage, String fileName) throws IOException;
 
     String getUrlFromPublicId(String publicId);
+
+    String getDefaultProductImageUrl();
 }

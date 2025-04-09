@@ -106,11 +106,6 @@ public class AdminController {
         return "redirect:/admin/category";
     }
 
-    @GetMapping("/product")
-    public String addProduct(){
-        return "admin/addProduct";
-    }
-
     @GetMapping("/editCategory/{id}")
     public String editCategory(@PathVariable int id, Model m){
         m.addAttribute("category", categoryService.getCategoryById(id));
@@ -178,5 +173,8 @@ public class AdminController {
         String fileName = parts[parts.length - 1];
         return fileName.substring(0, fileName.lastIndexOf('.'));
     }
+
+
+
 
 }
