@@ -1,12 +1,10 @@
 package co.swaadisht.swaadisht.Controller;
 
-import co.swaadisht.swaadisht.Services.CategoryServices;
-import co.swaadisht.swaadisht.Services.CustomizationIngredientService;
-import co.swaadisht.swaadisht.Services.ImageService;
-import co.swaadisht.swaadisht.Services.ProductService;
+import co.swaadisht.swaadisht.Services.*;
 import co.swaadisht.swaadisht.entities.Category;
 import co.swaadisht.swaadisht.entities.CustomizationIngredient;
 import co.swaadisht.swaadisht.entities.Product;
+import co.swaadisht.swaadisht.entities.Toppings;
 import co.swaadisht.swaadisht.forms.ProductFormDto;
 import com.cloudinary.Cloudinary;
 import jakarta.servlet.http.HttpSession;
@@ -19,10 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
@@ -44,6 +39,9 @@ public class ProductController {
     @Autowired
     private CustomizationIngredientService ingredientService;
 
+    @Autowired
+    private ToppingService toppingService;
+
     @GetMapping("/products")
     public String loadViewProduct(Model m){
         List<Product> products = productService.getAllProductsWithIngredients();
@@ -56,11 +54,13 @@ public class ProductController {
         model.addAttribute("product", new ProductFormDto());
         model.addAttribute("categories", categoryService.getAllCategory());
         model.addAttribute("allIngredients", ingredientService.getAllActiveIngredients());
+        model.addAttribute("allToppings", toppingService.getAllActiveToppings());
         return "admin/addProduct";
     }
 
     @PostMapping("/saveProduct")
     public String saveProduct(@ModelAttribute @Valid ProductFormDto productDto,
+                              @RequestParam("file") MultipartFile file,
                               BindingResult bindingResult,
                               HttpSession session) {
 
@@ -68,6 +68,10 @@ public class ProductController {
 //            session.setAttribute("errorMsg", "Please fill all required fields correctly");
 //            return "redirect:/admin/loadAddProduct";
 //        }
+        if (file.isEmpty()) {
+            session.setAttribute("errorMsg", "Please select an image file");
+            return "redirect:/admin/category";
+        }
 
         try {
             // 1. Convert DTO to Product entity
@@ -87,18 +91,29 @@ public class ProductController {
             product.setCategory(category);
 
             // 3. Handle image upload
-            if (productDto.getImageFile() != null && !productDto.getImageFile().isEmpty()) {
-                try {
-                    String publicId = "product_" + UUID.randomUUID();
-                    String imageUrl = imageService.uploadImage(String.valueOf(productDto.getImageFile()), publicId);
-                    product.setProductImage(imageUrl);
-                } catch (IOException e) {
-                    session.setAttribute("errorMsg", "Image upload failed: " + e.getMessage());
-                    return "redirect:/admin/loadAddProduct";
-                }
-            } else {
-                product.setProductImage(imageService.getDefaultImageUrl());
-            }
+//            if (productDto.getImageFile() != null && !productDto.getImageFile().isEmpty()) {
+//                try {
+//                    String publicId = "product_" + UUID.randomUUID();
+//                    String imageUrl = imageService.uploadImage(String.valueOf(productDto.getImageFile()), publicId);
+//                    product.setProductImage(imageUrl);
+//                } catch (IOException e) {
+//                    session.setAttribute("errorMsg", "Image upload failed: " + e.getMessage());
+//                    return "redirect:/admin/loadAddProduct";
+//                }
+//            } else {
+//                product.setProductImage(imageService.getDefaultImageUrl());
+//            }
+
+            Map<String, Object> uploadOptions = new HashMap<>();
+            uploadOptions.put("public_id", "product_" + UUID.randomUUID());
+            uploadOptions.put("folder", "product_images");
+
+            // Upload to Cloudinary
+            Map<?, ?> uploadResult = cloudinary.uploader().upload(file.getBytes(), uploadOptions);
+
+            // Set the URL in the category
+            product.setProductImage((String) uploadResult.get("secure_url"));
+
 
             // 4. Save product with ingredients
             if (productDto.getSelectedIngredientIds() != null && !productDto.getSelectedIngredientIds().isEmpty()) {
@@ -106,6 +121,14 @@ public class ProductController {
                 product.setAvailableIngredients(ingredients);
             } else {
                 product.setAvailableIngredients(new ArrayList<>());
+            }
+
+            // 5. Save product with toppings
+            if (productDto.getSelectedToppingIds() != null && !productDto.getSelectedToppingIds().isEmpty()) {
+                List<Toppings> toppings = toppingService.findAllByIds(productDto.getSelectedToppingIds());
+                product.setAvailableToppings(toppings);
+            } else {
+                product.setAvailableToppings(new ArrayList<>());
             }
 
             Product savedProduct = productService.saveProduct(product);
@@ -142,6 +165,7 @@ public class ProductController {
         m.addAttribute("product", productDto);
         m.addAttribute("categories", categoryService.getAllCategory());
         m.addAttribute("allIngredients", ingredientService.getAllActiveIngredients());
+        m.addAttribute("allToppings", toppingService.getAllActiveToppings());
         return "admin/editProduct";
     }
 
@@ -156,6 +180,9 @@ public class ProductController {
         }
 
         try{
+            if(productFormDto.getDiscount()<0 || productFormDto.getDiscount()>100){
+                session.setAttribute("errorMsg", "invalid discount");
+            }
             Product product = productService.getProductById(productFormDto.getId());
 
             product.setName(productFormDto.getName());
@@ -170,22 +197,46 @@ public class ProductController {
             Category category = categoryService.findById(productFormDto.getCategoryId()).orElseThrow(()-> new IllegalArgumentException("Invalid category ID"));
             product.setCategory(category);
 
+
+            String imageUrl = product.getProductImage();
             if(!file.isEmpty()){
-                try {
-                    String publicId = "product_" + UUID.randomUUID();
-                    String imageUrl = imageService.uploadImage(String.valueOf(file), publicId);
-                    product.setProductImage(imageUrl);
-                } catch (IOException e) {
-                    session.setAttribute("errorMsg", "Image upload failed: " + e.getMessage());
-                    return "redirect:/admin/editProduct/" + productFormDto.getId();
+//                try {
+//                    String publicId = "product_" + UUID.randomUUID();
+//                    String imageUrl = imageService.uploadImage(String.valueOf(file), publicId);
+//                    product.setProductImage(imageUrl);
+//                } catch (IOException e) {
+//                    session.setAttribute("errorMsg", "Image upload failed: " + e.getMessage());
+//                    return "redirect:/admin/editProduct/" + productFormDto.getId();
+//                }
+
+                // Delete old image from Cloudinary if exists
+                if (product.getProductImage() != null) {
+                    String publicId = extractPublicId(product.getProductImage());
+                    cloudinary.uploader().destroy(publicId, Collections.emptyMap());
                 }
+
+                // Upload new image with same options as saveCategory
+                Map<String, Object> uploadOptions = new HashMap<>();
+                uploadOptions.put("public_id", "product_" + UUID.randomUUID());
+                uploadOptions.put("folder", "product_images");
+
+                Map<?, ?> uploadResult = cloudinary.uploader().upload(file.getBytes(), uploadOptions);
+                imageUrl = (String) uploadResult.get("secure_url");
+
             }
+            product.setProductImage(imageUrl);
 
             if(productFormDto.getSelectedIngredientIds() != null){
                 List<CustomizationIngredient> ingredients = ingredientService.findAllByIds(productFormDto.getSelectedIngredientIds());
                 product.setAvailableIngredients(ingredients);
             } else {
                 product.setAvailableIngredients(new ArrayList<>());
+            }
+            if(productFormDto.getSelectedToppingIds() != null){
+                List<Toppings> toppings = toppingService.findAllByIds(productFormDto.getSelectedToppingIds());
+                product.setAvailableToppings(toppings);
+            } else {
+                product.setAvailableToppings(new ArrayList<>());
             }
             Product updatedProduct = productService.saveProduct(product);
             session.setAttribute("succMsg", " product updated Successfully");
@@ -215,7 +266,21 @@ public class ProductController {
                             .collect(Collectors.toList())
             );
         }
+        if (product.getAvailableToppings() != null) {
+            dto.setSelectedToppingIds(
+                    product.getAvailableToppings().stream()
+                            .map(Toppings::getId)
+                            .collect(Collectors.toList())
+            );
+        }
         return dto;
+    }
+
+    private String extractPublicId(String imageUrl) {
+        // Example URL: https://res.cloudinary.com/demo/image/upload/v123/category_images/category_123.jpg
+        String[] parts = imageUrl.split("/");
+        String fileName = parts[parts.length - 1];
+        return fileName.substring(0, fileName.lastIndexOf('.'));
     }
 
 }
