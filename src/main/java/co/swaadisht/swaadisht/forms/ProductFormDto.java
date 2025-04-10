@@ -28,5 +28,6 @@ public class ProductFormDto {
     private int categoryId;
     private MultipartFile imageFile;
     private List<Integer> selectedIngredientIds = new ArrayList<>();
+    private List<Integer> selectedToppingIds = new ArrayList<>();
     private boolean customizable;
 }

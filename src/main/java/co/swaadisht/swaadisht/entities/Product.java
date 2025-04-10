@@ -44,6 +44,8 @@ public class Product {
 
     private String productImage;
 
+    private boolean customizable;
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "product_available_ingredients",
@@ -52,5 +54,12 @@ public class Product {
     )
     private List<CustomizationIngredient> availableIngredients = new ArrayList<>();
 
-    private boolean customizable;
+    @ManyToMany
+    @JoinTable(
+            name = "product_toppings",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "topping_id")
+    )
+    private List<Toppings> availableToppings = new ArrayList<>();
+
 }
