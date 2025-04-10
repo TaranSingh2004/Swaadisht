@@ -7,67 +7,7 @@
     <title>Home page</title>
 </head>
 <body>
-<div id="content">
-<!--    <div class="container p-5 mt-3">-->
-<!--        <div class="row">-->
-
-
-<!--            <div class="col-md-6 offset-md-3">-->
-<!--                <div class="card card-sh">-->
-<!--                    <div class="card-header text-center">-->
-<!--                        <p class="fs-4">Add Product</p>-->
-
-<!--                    </div>-->
-<!--                    <div class="card-body">-->
-<!--                        <form action="/admin/saveProduct" method="post" enctype="multipart/form-data">-->
-<!--                            <div class="mb-3">-->
-<!--                                <label>Product Name</label>-->
-<!--                                <input type="text" name="name" class="form-control" required>-->
-<!--                            </div>-->
-
-<!--                            <div class="mb-3">-->
-<!--                                <label>Description</label>-->
-<!--                                <textarea rows="3" class="form-control" name="description" required></textarea>-->
-<!--                            </div>-->
-
-<!--                            <div class="mb-3">-->
-<!--                                <label>Category</label>-->
-<!--                                <select class="form-control" name="categoryId" required>-->
-<!--                                    <option value="">&#45;&#45;select&#45;&#45;</option>-->
-<!--                                    <option th:each="c : ${categories}"-->
-<!--                                            th:value="${c.id}"-->
-<!--                                            th:text="${c.name}"></option>-->
-<!--                                </select>-->
-<!--                            </div>-->
-
-<!--                            <div class="mb-3">-->
-<!--                                <label>Price</label>-->
-<!--                                <input type="number" name="price" class="form-control" required min="0">-->
-<!--                            </div>-->
-
-<!--                            <div class="mb-3">-->
-
-<!--                            </div>-->
-
-<!--                            <div class="row">-->
-<!--                                <div class="mb-3 col">-->
-<!--                                    <label>Stock</label>-->
-<!--                                    <input type="number" name="stock" class="form-control" required min="0">-->
-<!--                                </div>-->
-
-<!--                                <div class="mb-3 col">-->
-<!--                                    <label>Product Image</label>-->
-<!--                                    <input type="file" name="file" class="form-control" accept="image/*">-->
-<!--                                </div>-->
-<!--                            </div>-->
-
-<!--                            <button type="submit" class="btn btn-primary col-md-12">Submit</button>-->
-<!--                        </form>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
+<div id="content" class="border">
 
     <a href="/admin/" class="text-decoration-none"><i class="fa-solid fa-arrow-left"></i> Back</a>
     <h2 class="text-center"> Add Product </h2>
@@ -89,7 +29,7 @@
             <label class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Product Name</label>
         </div>
         <div class="relative z-0 w-full mb-5 group">
-            <input type="text" name="name" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+            <input type="text" name="description" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
             <label class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Description</label>
         </div>
 
@@ -138,7 +78,7 @@
         <div class="relative z-0 w-full mb-5 group">
             <input
                     type="file"
-                    name="file"
+                    name="imageFile"
                     accept="image/*"
                     class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder=" "
@@ -149,6 +89,29 @@
             >
                 Product Image
             </label>
+        </div>
+
+        <div class="flex items-center">
+            <input id="link-checkbox" name="customizable" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+            <label for="link-checkbox" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">This product can be customized</label>
+        </div>
+
+        <!-- Customization Ingredients Section -->
+<!--        <div class="mb-6" th:if="${product.customizable}">-->
+        <div class="mb-6">
+            <h3 class="text-lg font-medium mb-3">Available Customizations</h3>
+
+            <div th:each="ingredient : ${allIngredients}" class="flex items-center mb-2">
+                <input type="checkbox"
+                       th:id="'ingredient_' + ${ingredient.id}"
+                       th:value="${ingredient.id}"
+                       th:name="selectedIngredientIds"
+                       class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500">
+                <label th:for="'ingredient_' + ${ingredient.id}"
+                       class="ms-2 text-sm font-medium text-gray-900">
+                    <span th:text="${ingredient.name}"></span>
+                </label>
+            </div>
         </div>
 
         <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>

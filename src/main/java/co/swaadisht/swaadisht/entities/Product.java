@@ -8,7 +8,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "products")
@@ -21,6 +23,7 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @Column(nullable = false)
     private String name; // Should match "title" in form or vice versa
 
     private String description;
@@ -41,11 +44,13 @@ public class Product {
 
     private String productImage;
 
-    /*@ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-            name = "product_ingredients",
+            name = "product_available_ingredients",
             joinColumns = @JoinColumn(name = "product_id"),
             inverseJoinColumns = @JoinColumn(name = "ingredient_id")
     )
-    private List<Ingredients> ingredients = new ArrayList<>();*/
+    private List<CustomizationIngredient> availableIngredients = new ArrayList<>();
+
+    private boolean customizable;
 }

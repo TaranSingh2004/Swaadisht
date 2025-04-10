@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en"
+      th:replace="~{base :: parent(~{::#content},~{::title},~{::script})}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="content" class="flex">
+    <div class="border">
+        <div class="flex items-center justify-center min-h-screen ">
+            <div class="bg-white p-6 rounded-2xl shadow-lg max-w-md w-full">
+                <h1 class="text-2xl font-semibold mb-4 text-gray-800">Add Ingredients</h1>
+                <th:block th:if="${session.succMsg}">
+                    <p class="text-success fw-bold">[[${session.succMsg}]]</p>
+                    <th:block th:text="${@commonServiceImpl.removeSessionMessage()}"></th:block>
+                </th:block>
+
+                <th:block th:if="${session.errorMsg}">
+                    <p class="text-danger fw-bold">[[${session.errorMsg}]]</p>
+                    <th:block th:text="${@commonServiceImpl.removeSessionMessage()}"></th:block>
+                </th:block>
+                <form action="/admin/saveIngredient" method="post">
+                    <!-- Category Name -->
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700">Enter Ingredient</label>
+                        <input
+                                type="text"
+                                name="name"
+                                class="mt-1 block w-full p-2 rounded-lg border-gray-300 focus:ring-blue-500 focus:border-blue-500 shadow-sm"
+                                required
+                        />
+                    </div>
+
+                    <!-- Category Status -->
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700">Status</label>
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" checked
+                                   value="true" name="isActive" id="flexRadioDefault1">
+                            <label class="form-check-label" for="flexRadioDefault1">
+                                Active </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="isActive"
+                                   value="false" id="flexRadioDefault2"> <label
+                                class="form-check-label" for="flexRadioDefault2">
+                            Inactive </label>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div>
+                        <button
+                                type="submit"
+                                class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg shadow hover:bg-blue-700 transition"
+                        >
+                            Submit
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="pl-8px">
+        <table class="min-w-full divide-y divide-gray-200 overflow-x-auto border ml-20px">
+            <thead class="bg-gray-50">
+            <tr>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    SI No.
+                </th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Ingredient
+                </th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Status
+                </th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Actions
+                </th>
+            </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+            <tr th:each="ingdt, i:${ingredients}">
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="flex items-center">
+                        [[${i.count}]]
+                    </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="text-sm text-gray-900">[[${ingdt.name}]]</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                    [[${ingdt.isActive}]]
+                </span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap  text-sm font-medium">
+                    <a th:href="@{'/admin/editIngredient/' + ${ingdt.id}}" class="text-indigo-600 hover:text-indigo-900">Edit</a>
+                    <a th:href="@{'/admin/deleteIngredient/' + ${ingdt.id}}" class="ml-2 text-red-600 hover:text-red-900">Delete</a>
+                </td>
+            </tr>
+            <!-- More rows... -->
+
+            </tbody>
+        </table>
+    </div>
+</div>
+<script>
+    console.log("about page");
+</script>
+</body>
+</html>

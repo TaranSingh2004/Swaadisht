@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Map;
 
 @Service
 public class ImageServiceImpl implements ImageService {
@@ -24,18 +25,16 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public String uploadImage(MultipartFile file, String filename) throws IOException {
-        if (file == null || file.isEmpty()) {
-            throw new IllegalArgumentException("File cannot be empty");
-        }
+    public String uploadImage(String file, String publicId) throws IOException {
+        Map<String, Object> options = ObjectUtils.asMap(
+                "public_id", publicId,
+                "folder", "product_images",
+                "overwrite", true,
+                "resource_type", "image"
+        );
 
-        byte[] data = file.getBytes();
-        cloudinary.uploader().upload(data, ObjectUtils.asMap(
-                "public_id", filename,
-                "folder", "product_images"  // Add folder organization
-        ));
-
-        return this.getUrlFromPublicId(filename);
+        Map<?, ?> uploadResult = cloudinary.uploader().upload(file.getBytes(), options);
+        return (String) uploadResult.get("secure_url");
     }
 
     @Override
@@ -51,5 +50,10 @@ public class ImageServiceImpl implements ImageService {
     @Override
     public String getDefaultProductImageUrl() {
         return this.getUrlFromPublicId(defaultProductImageId);
+    }
+
+    @Override
+    public String getDefaultImageUrl() {
+        return cloudinary.url().generate("default_product_image");
     }
 }
