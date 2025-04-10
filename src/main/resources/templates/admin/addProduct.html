@@ -8,96 +8,156 @@
 </head>
 <body>
 <div id="content">
-    <div class="flex items-center justify-center p-12">
-        <!-- Author: FormBold Team -->
-        <div class="mx-auto w-70% max-w-[550px] bg-white">
-            <form class="border">
-                <div class="mb-5">
-                    <label for="name" class="mb-3 block text-base font-medium text-[#07074D]">
-                        Enter Title
-                    </label>
-                    <input type="text" name="name" id="name" placeholder="Full Name"
-                           class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
-                </div>
-                <div class="mb-5">
-                    <label for="phone" class="mb-3 block text-base font-medium text-[#07074D]">
-                        Enter Description
-                    </label>
-                    <input type="text" name="phone" id="phone" placeholder="Enter your phone number"
-                           class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
-                </div>
-                <div class="mb-5">
-                    <label for="email" class="mb-3 block text-base font-medium text-[#07074D]">
-                        Enter Category
-                    </label>
-                    <input type="email" name="email" id="email" placeholder="Enter your email"
-                           class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
-                </div>
-                <div class="-mx-3 flex flex-wrap">
-                    <div class="w-full px-3 sm:w-1/2">
-                        <div class="mb-5">
-                            <label for="date" class="mb-3 block text-base font-medium text-[#07074D]">
-                                Date
-                            </label>
-                            <input type="date" name="date" id="date"
-                                   class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
-                        </div>
-                    </div>
-                    <div class="w-full px-3 sm:w-1/2">
-                        <div class="mb-5">
-                            <label for="time" class="mb-3 block text-base font-medium text-[#07074D]">
-                                Time
-                            </label>
-                            <input type="time" name="time" id="time"
-                                   class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
-                        </div>
-                    </div>
-                </div>
+<!--    <div class="container p-5 mt-3">-->
+<!--        <div class="row">-->
 
-                <div class="mb-5 pt-3">
-                    <label class="mb-5 block text-base font-semibold text-[#07074D] sm:text-xl">
-                        Address Details
-                    </label>
-                    <div class="-mx-3 flex flex-wrap">
-                        <div class="w-full px-3 sm:w-1/2">
-                            <div class="mb-5">
-                                <input type="text" name="area" id="area" placeholder="Enter area"
-                                       class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
-                            </div>
-                        </div>
-                        <div class="w-full px-3 sm:w-1/2">
-                            <div class="mb-5">
-                                <input type="text" name="city" id="city" placeholder="Enter city"
-                                       class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
-                            </div>
-                        </div>
-                        <div class="w-full px-3 sm:w-1/2">
-                            <div class="mb-5">
-                                <input type="text" name="state" id="state" placeholder="Enter state"
-                                       class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
-                            </div>
-                        </div>
-                        <div class="w-full px-3 sm:w-1/2">
-                            <div class="mb-5">
-                                <input type="text" name="post-code" id="post-code" placeholder="Post Code"
-                                       class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
-                <div>
-                    <button
-                            class="hover:shadow-form w-full rounded-md bg-[#6A64F1] py-3 px-8 text-center text-base font-semibold text-white outline-none">
-                        Book Appointment
-                    </button>
-                </div>
-            </form>
+<!--            <div class="col-md-6 offset-md-3">-->
+<!--                <div class="card card-sh">-->
+<!--                    <div class="card-header text-center">-->
+<!--                        <p class="fs-4">Add Product</p>-->
+
+<!--                    </div>-->
+<!--                    <div class="card-body">-->
+<!--                        <form action="/admin/saveProduct" method="post" enctype="multipart/form-data">-->
+<!--                            <div class="mb-3">-->
+<!--                                <label>Product Name</label>-->
+<!--                                <input type="text" name="name" class="form-control" required>-->
+<!--                            </div>-->
+
+<!--                            <div class="mb-3">-->
+<!--                                <label>Description</label>-->
+<!--                                <textarea rows="3" class="form-control" name="description" required></textarea>-->
+<!--                            </div>-->
+
+<!--                            <div class="mb-3">-->
+<!--                                <label>Category</label>-->
+<!--                                <select class="form-control" name="categoryId" required>-->
+<!--                                    <option value="">&#45;&#45;select&#45;&#45;</option>-->
+<!--                                    <option th:each="c : ${categories}"-->
+<!--                                            th:value="${c.id}"-->
+<!--                                            th:text="${c.name}"></option>-->
+<!--                                </select>-->
+<!--                            </div>-->
+
+<!--                            <div class="mb-3">-->
+<!--                                <label>Price</label>-->
+<!--                                <input type="number" name="price" class="form-control" required min="0">-->
+<!--                            </div>-->
+
+<!--                            <div class="mb-3">-->
+
+<!--                            </div>-->
+
+<!--                            <div class="row">-->
+<!--                                <div class="mb-3 col">-->
+<!--                                    <label>Stock</label>-->
+<!--                                    <input type="number" name="stock" class="form-control" required min="0">-->
+<!--                                </div>-->
+
+<!--                                <div class="mb-3 col">-->
+<!--                                    <label>Product Image</label>-->
+<!--                                    <input type="file" name="file" class="form-control" accept="image/*">-->
+<!--                                </div>-->
+<!--                            </div>-->
+
+<!--                            <button type="submit" class="btn btn-primary col-md-12">Submit</button>-->
+<!--                        </form>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+
+    <a href="/admin/" class="text-decoration-none"><i class="fa-solid fa-arrow-left"></i> Back</a>
+    <h2 class="text-center"> Add Product </h2>
+    <th:block th:if="${session.succMsg}">
+        <p class="text-success fw-bold">[[${session.succMsg}]]</p>
+        <th:block th:text="${@commonServiceImpl.removeSessionMessage()}"></th:block>
+    </th:block>
+
+    <th:block th:if="${session.errorMsg}">
+        <p class="text-danger fw-bold">[[${session.errorMsg}]]</p>
+        <th:block th:text="${@commonServiceImpl.removeSessionMessage()}"></th:block>
+    </th:block>
+
+
+
+    <form class="max-w-md mx-auto" action="/admin/saveProduct" method="post" enctype="multipart/form-data">
+        <div class="relative z-0 w-full mb-5 group">
+            <input type="text" name="name" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+            <label class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Product Name</label>
         </div>
-    </div>
+        <div class="relative z-0 w-full mb-5 group">
+            <input type="text" name="name" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+            <label class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Description</label>
+        </div>
+
+
+
+        <div class="relative z-0 w-full mb-5 group">
+            <label>Status</label>
+            <div class="flex items-center mb-4">
+                <input id="default-radio-1" type="radio" value="true" name="status" checked class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                <label for="default-radio-1" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Active</label>
+            </div>
+            <div class="flex items-center">
+                <input checked id="default-radio-2" type="radio" name="status" value="false" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                <label for="default-radio-2" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Inactive</label>
+            </div>
+        </div>
+        <div class="relative z-0 w-full mb-5 group">
+            <select name="categoryId" required
+                    class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer">
+                <option value="">-- Select Category --</option>
+                <option th:each="category : ${categories}"
+                        th:value="${category.id}"
+                        th:text="${category.name}"></option>
+            </select>
+            <label class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Category</label>
+        </div>
+        <div class="grid md:grid-cols-2 md:gap-6">
+            <!-- Price -->
+            <div class="relative z-0 w-full mb-5 group">
+                <input type="number" name="price" min="0" step="0.01" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+                <label class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Price (₹)</label>
+            </div>
+            <div class="relative z-0 w-full mb-5 group">
+                <input
+                        type="number"
+                        name="stock"
+                        min="0"
+                        step="0.01"
+                        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                        placeholder=" "
+                        required
+                />
+                <label class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Stock</label>
+            </div>
+        </div>
+        <div class="relative z-0 w-full mb-5 group">
+            <input
+                    type="file"
+                    name="file"
+                    accept="image/*"
+                    class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                    placeholder=" "
+                    required
+            />
+            <label
+                    class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+            >
+                Product Image
+            </label>
+        </div>
+
+        <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
+    </form>
+
+
 </div>
 <script>
-    console.log("about page");
+    console.log("add product");
 </script>
 </body>
 </html>
