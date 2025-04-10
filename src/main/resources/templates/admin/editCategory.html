@@ -10,7 +10,7 @@
     <a href="/admin/category" class="text-decoration-none"><i class="fa-solid fa-arrow-left"></i> Back</a>
     <div class="flex items-center justify-center min-h-screen ">
         <div class="bg-white p-6 rounded-2xl shadow-lg max-w-md w-full">
-            <h1 class="text-2xl font-semibold mb-4 text-gray-800">Add Category</h1>
+            <h1 class="text-2xl font-semibold mb-4 text-gray-800">Edit Category</h1>
             <th:block th:if="${session.succMsg}">
                 <p class="text-success fw-bold">[[${session.succMsg}]]</p>
                 <th:block th:text="${@commonServiceImpl.removeSessionMessage()}"></th:block>
@@ -37,15 +37,6 @@
                 <!-- Category Status -->
                 <div class="mb-4">
                     <label class="block text-sm font-medium text-gray-700">Status</label>
-                    <!--                        <input-->
-                    <!--                                type="text"-->
-                    <!--                                id="card-number"-->
-                    <!--                                name="status"-->
-                    <!--                                placeholder="1234 5678 9012 3456"-->
-                    <!--                                class="mt-1 block w-full p-2 rounded-lg border-gray-300 focus:ring-blue-500 focus:border-blue-500 shadow-sm"-->
-                    <!--                                required-->
-                    <!--                                maxlength="19"-->
-                    <!--                        />-->
                     <div class="form-check">
                         <input class="form-check-input" type="radio"
                                th:checked="${category.isActive==true}"

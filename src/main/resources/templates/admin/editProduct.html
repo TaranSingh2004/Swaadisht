@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html
+        lang="en"
+        th:replace="~{base :: parent(~{::#content},~{::title},~{::script})}"
+>
+<head>
+  <title>Home page</title>
+</head>
+<body>
+<div id="content" class="border">
+  <a th:href="@{/admin/products}" class="text-decoration-none">
+    <i class="fa-solid fa-arrow-left"></i> Back
+  </a>
+  <h2 class="text-center">Edit Product</h2>
+
+  <!-- Messages -->
+  <div th:if="${session.succMsg}" class="alert alert-success">
+    <p th:text="${session.succMsg}"></p>
+  </div>
+  <div th:if="${session.errorMsg}" class="alert alert-danger">
+    <p th:text="${session.errorMsg}"></p>
+  </div>
+
+  <form class="max-w-md mx-auto" th:action="@{/admin/updateProduct}" th:object="${product}" method="post" enctype="multipart/form-data">
+    <input type="hidden" th:field="*{id}">
+
+    <!-- Product Name -->
+    <div class="relative z-0 w-full mb-5 group">
+      <input type="text" th:field="*{name}" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" required />
+      <label class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Product Name</label>
+    </div>
+
+    <!-- Description -->
+    <div class="relative z-0 w-full mb-5 group">
+      <input type="text" th:field="*{description}" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" required />
+      <label class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Description</label>
+    </div>
+
+    <!-- Status -->
+    <div class="relative z-0 w-full mb-5 group">
+      <label>Status</label>
+      <div class="flex items-center mb-4">
+        <input type="radio" th:field="*{status}" th:value="true" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500">
+        <label class="ms-2 text-sm font-medium text-gray-900">Active</label>
+      </div>
+      <div class="flex items-center">
+        <input type="radio" th:field="*{status}" th:value="false" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500">
+        <label class="ms-2 text-sm font-medium text-gray-900">Inactive</label>
+      </div>
+    </div>
+
+    <!-- Category -->
+    <div class="relative z-0 w-full mb-5 group">
+      <select th:field="*{categoryId}" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" required>
+<!--        <option value="">&#45;&#45; Select Category &#45;&#45;</option>-->
+        <option th:each="category : ${categories}"
+                th:value="${category.id}"
+                th:text="${category.name}"
+                th:selected="${category.id == product.categoryId}"></option>
+      </select>
+      <label class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Category</label>
+    </div>
+
+    <!-- Price and Stock -->
+    <div class="grid md:grid-cols-2 md:gap-6">
+      <div class="relative z-0 w-full mb-5 group">
+        <input type="number" th:field="*{price}" min="0" step="0.01" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" required />
+        <label class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Price (₹)</label>
+      </div>
+      <div class="relative z-0 w-full mb-5 group">
+        <input type="number" th:field="*{stock}" min="0" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" required />
+        <label class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Stock</label>
+      </div>
+    </div>
+
+    <!-- Discount and Discount Price -->
+    <div class="grid md:grid-cols-2 md:gap-6">
+      <div class="relative z-0 w-full mb-5 group">
+        <input type="number" th:field="*{discount}" min="0" max="100" step="0.01" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" required />
+        <label class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Discount (%)</label>
+      </div>
+      <div class="relative z-0 w-full mb-5 group">
+        <input type="number" th:field="*{discountPrice}" min="0" step="0.01" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" required />
+        <label class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Discounted Price</label>
+      </div>
+    </div>
+
+    <!-- Image Upload -->
+    <div class="relative z-0 w-full mb-5 group">
+      <input type="file" name="file" id="image_file_input" accept="image/*" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" />
+      <label class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Product Image</label>
+      <img class="max-h-52 mx-auto rounded-lg shadow m-3"
+           th:src="${product.imageFile != null} ? ${product.imageFile} : 'https://via.placeholder.com/300'"
+           id="upload_image_preview"
+           alt="Product Preview" />
+
+    </div>
+
+    <!-- Customizable Checkbox -->
+    <div class="flex items-center mb-4">
+      <input id="link-checkbox" type="checkbox" th:field="*{customizable}" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500">
+      <label for="link-checkbox" class="ms-2 text-sm font-medium text-gray-900">This product can be customized</label>
+    </div>
+
+    <!-- Ingredients (only show if customizable) -->
+    <div class="mb-6" th:if="*{customizable}">
+      <h3 class="text-lg font-medium mb-3">Available Customizations</h3>
+      <div th:each="ingredient : ${allIngredients}" class="flex items-center mb-2">
+        <input type="checkbox"
+               th:id="'ingredient_' + ${ingredient.id}"
+               th:value="${ingredient.id}"
+               th:field="*{selectedIngredientIds}"
+               class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500">
+        <label th:for="'ingredient_' + ${ingredient.id}" class="ms-2 text-sm font-medium text-gray-900">
+          [[${ingredient.name}]]
+        </label>
+      </div>
+    </div>
+
+    <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">Submit</button>
+  </form>
+</div>
+<script>
+  // Image preview functionality
+  document.getElementById('image_file_input').addEventListener('change', function(event) {
+      const file = event.target.files[0];
+      if (file) {
+          const reader = new FileReader();
+          reader.onload = function(e) {
+              document.getElementById('upload_image_preview').src = e.target.result;
+              document.getElementById('upload_image_preview').style.display = 'block';
+          }
+          reader.readAsDataURL(file);
+      }
+  });
+
+  // Toggle ingredients section based on customizable checkbox
+  document.getElementById('link-checkbox').addEventListener('change', function() {
+      const ingredientsSection = document.querySelector('div[th\\:if="*{customizable}"]');
+      if (this.checked) {
+          ingredientsSection.style.display = 'block';
+      } else {
+          ingredientsSection.style.display = 'none';
+      }
+  });
+</script>
+
+</body>
+</html>

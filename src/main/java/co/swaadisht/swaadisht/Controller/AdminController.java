@@ -99,7 +99,7 @@ public class AdminController {
     public String deleteCategory(@PathVariable int id, HttpSession session){
         boolean deleteCategory=categoryService.deleteCategory(id);
         if(deleteCategory){
-            session.setAttribute("succMsg", "category deleted succesfully");
+            session.setAttribute("succMsg", "category deleted successfully");
         } else {
             session.setAttribute("errMsg", "something wrong on server");
         }
