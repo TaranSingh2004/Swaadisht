@@ -28,6 +28,13 @@ public class Toppings {
 
     private boolean isActive = true;
 
-    @ManyToMany(mappedBy = "availableToppings")
+    @ManyToMany(mappedBy = "availableToppings", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Product> products = new ArrayList<>();
+
+    public void removeFromAllProducts() {
+        for (Product product : new ArrayList<>(products)) {
+            product.getAvailableToppings().remove(this);
+            products.remove(product);
+        }
+    }
 }

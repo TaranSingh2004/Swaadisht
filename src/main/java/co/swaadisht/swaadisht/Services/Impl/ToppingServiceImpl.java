@@ -1,13 +1,17 @@
 package co.swaadisht.swaadisht.Services.Impl;
 
+import co.swaadisht.swaadisht.Repository.ProductRepository;
 import co.swaadisht.swaadisht.Repository.ToppingRepository;
 import co.swaadisht.swaadisht.Services.ToppingService;
+import co.swaadisht.swaadisht.entities.Product;
 import co.swaadisht.swaadisht.entities.Toppings;
 import co.swaadisht.swaadisht.helpers.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -16,6 +20,9 @@ public class ToppingServiceImpl implements ToppingService {
 
     @Autowired
     private ToppingRepository toppingRepository;
+
+    @Autowired
+    private ProductRepository productRepository;
 
     @Override
     public List<Toppings> getAllToppings() {
@@ -34,13 +41,29 @@ public class ToppingServiceImpl implements ToppingService {
     }
 
     @Override
+    @Transactional
     public boolean deleteTopping(int id) {
-        Toppings toppings = toppingRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Topping not found"));
-        if(!ObjectUtils.isEmpty(toppings)){
-            toppingRepository.delete(toppings);
+        try {
+            Toppings topping = toppingRepository.findById(id)
+                    .orElseThrow(() -> new ResourceNotFoundException("Topping not found with id: " + id));
+
+            // Remove this topping from all products first
+            for (Product product : new ArrayList<>(topping.getProducts())) {
+                product.getAvailableToppings().remove(topping);
+                productRepository.save(product);
+            }
+
+            // Clear the products list to maintain bidirectional relationship
+            topping.getProducts().clear();
+
+            // Now delete the topping
+            toppingRepository.delete(topping);
+
             return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
         }
-        return false;
     }
 
     @Override

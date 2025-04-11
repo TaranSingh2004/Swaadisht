@@ -4,9 +4,10 @@ import co.swaadisht.swaadisht.Repository.ProductRepository;
 import co.swaadisht.swaadisht.Services.ProductService;
 import co.swaadisht.swaadisht.entities.Product;
 import co.swaadisht.swaadisht.helpers.ResourceNotFoundException;
-import jakarta.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
 import java.util.List;
@@ -33,10 +34,14 @@ public class ProductServiceImpl  implements ProductService {
     }
 
     @Override
+    @Transactional
     public boolean deleteProduct(int id) {
         Product product = productRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("product not found"));
         if(!ObjectUtils.isEmpty(product)){
+//            productRepository.removeIngredientFromAllProducts(id);
+//            productRepository.removeToppingFromAllProducts(id);
             productRepository.delete(product);
+
             return true;
         }
         return false;

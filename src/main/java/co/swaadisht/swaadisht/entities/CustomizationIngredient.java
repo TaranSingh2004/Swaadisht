@@ -30,7 +30,14 @@ public class CustomizationIngredient {
 
     private boolean isActive = true;
 
-    @ManyToMany(mappedBy = "availableIngredients")
+    @ManyToMany(mappedBy = "availableIngredients", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Product> products = new ArrayList<>();
+
+    public void removeFromAllProducts() {
+        for (Product product : new ArrayList<>(products)) {
+            product.getAvailableIngredients().remove(this);
+            products.remove(product);
+        }
+    }
 
 }

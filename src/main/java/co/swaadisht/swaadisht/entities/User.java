@@ -49,4 +49,6 @@ public class User {
 
     private String emailToken;
 
+    private String role;
+
 }

@@ -2,7 +2,7 @@ package co.swaadisht.swaadisht.Controller;
 
 import co.swaadisht.swaadisht.Services.UserService;
 import co.swaadisht.swaadisht.entities.User;
-import co.swaadisht.swaadisht.forms.UserForm;
+import co.swaadisht.swaadisht.forms.UserFormDto;
 import co.swaadisht.swaadisht.helpers.Message;
 import co.swaadisht.swaadisht.helpers.MessageType;
 import jakarta.servlet.http.HttpSession;
@@ -33,13 +33,13 @@ public class HomeController {
 
     @GetMapping("/register")
     public String register(Model m) {
-        UserForm userForm = new UserForm();
+        UserFormDto userForm = new UserFormDto();
         m.addAttribute("userForm", userForm);
         return "login-signup/login";
     }
 
     @RequestMapping(value = "/do-register", method = RequestMethod.POST)
-    public String processRegister(@ModelAttribute UserForm userForm, HttpSession session){
+    public String processRegister(@ModelAttribute UserFormDto userForm, HttpSession session){
 //        System.out.println(userForm);
         User user = new User();
         user.setName(userForm.getName());
