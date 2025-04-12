@@ -20,3 +20,13 @@ npx tailwindcss -i ./src/main/resources/static/css/input.css -o ./src/main/resou
 4. create userDetialServiceImpl and implement UserDetailsService
 5. create security config
 6. create AuthSuccessHandler
+
+login with google
+
+1. OAuth2 -> add oauth2 client starter depr=endency
+2. google -> a. clientid  :
+   470586430884-28kobl3dij3i636g4p8r233e9t2ubh73.apps.googleusercontent.com
+   b.  client secret : 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
+3. add the oath login configuration:
+4. login page /login and successhandler
+5. in your success handler you are getting data .. save kare sakte ahin data based on provider information.

@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<h1>OAuth2 User Attributes</h1>
+<ul>
+    <li th:each="entry : ${attributes}">
+        <strong th:text="${entry.key}"></strong>:
+        <span th:text="${entry.value}"></span>
+    </li>
+</ul>
+</body>
+</html>

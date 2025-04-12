@@ -3,6 +3,7 @@ package co.swaadisht.swaadisht.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class User {
+public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id", nullable = false)
@@ -45,6 +46,8 @@ public class User {
     private String providerId;
 
     @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
+    @Column(name = "role")
     private List<String> roleList = new ArrayList<>();
 
     private String emailToken;
@@ -52,5 +55,6 @@ public class User {
     private String role;
 
     private String resetToken;
+
 
 }

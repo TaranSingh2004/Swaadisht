@@ -8,11 +8,24 @@
 </head>
 <body>
 <div id="content">
-    <h1>Welcome to Users page</h1>
-    <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur,
-        ratione!
-    </p>
+    <div class="container mx-auto px-4 py-8">
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <h1 class="text-2xl font-bold mb-4">
+                Welcome, <span th:text="${userName} ?: 'User'"></span>!
+            </h1>
+
+            <!-- Show email for OAuth users -->
+            <div th:if="${userEmail}">
+                <p class="text-gray-700">Email: <span th:text="${userEmail}"></span></p>
+            </div>
+
+            <!-- Show profile picture for OAuth users -->
+            <div th:if="${userPicture}" class="mt-4">
+                <img th:src="${userPicture}"
+                     class="w-24 h-24 rounded-full border-2 border-gray-200">
+            </div>
+        </div>
+    </div>
 </div>
 <script>
     console.log("about page");
