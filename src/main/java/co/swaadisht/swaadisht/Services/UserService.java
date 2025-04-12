@@ -11,8 +11,6 @@ public interface UserService {
 
     Optional<User> getUserById(String id);
 
-    Optional<User> updateUser(User user);
-
     Optional<User> upadteUser(User user);
 
     void deleteUser(String id);
@@ -24,4 +22,6 @@ public interface UserService {
     List<User> getAllUser();
 
     User getUserByEmail(String email);
+
+    boolean emailExists(String email);
 }

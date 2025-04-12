@@ -1,24 +1,42 @@
 package co.swaadisht.swaadisht.Controller;
 
+import co.swaadisht.swaadisht.Services.CategoryServices;
 import co.swaadisht.swaadisht.Services.UserService;
+import co.swaadisht.swaadisht.entities.Category;
 import co.swaadisht.swaadisht.entities.User;
 import co.swaadisht.swaadisht.forms.UserFormDto;
 import co.swaadisht.swaadisht.helpers.Message;
 import co.swaadisht.swaadisht.helpers.MessageType;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
+import java.util.List;
 
 @Controller
 public class HomeController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private CategoryServices categoryServices;
+
+    @ModelAttribute
+    public void getUserDetails(Principal p, Model m){
+        if(p!=null){
+            String email= p.getName();
+            User user = userService.getUserByEmail(email);
+            m.addAttribute("user", user);
+        }
+        List<Category> list = categoryServices.getAllActiveCategory();
+        m.addAttribute("categorys", list);
+    }
 
     @GetMapping("/")
     public String home(){
@@ -35,29 +53,46 @@ public class HomeController {
     public String register(Model m) {
         UserFormDto userForm = new UserFormDto();
         m.addAttribute("userForm", userForm);
-        return "login-signup/login";
+        return "register";
     }
 
-    @RequestMapping(value = "/do-register", method = RequestMethod.POST)
-    public String processRegister(@ModelAttribute UserFormDto userForm, HttpSession session){
-//        System.out.println(userForm);
+    @PostMapping("/do-register")
+    public String processRegister(@Valid @ModelAttribute UserFormDto userForm,
+                                  BindingResult result,
+                                  HttpSession session) {
+
+        if(result.hasErrors()) {
+            return "register";
+        }
+
+        if(userService.emailExists(userForm.getEmail())) {
+            session.setAttribute("message",
+                    new Message("Email already exists", MessageType.red));
+            return "redirect:/register";
+        }
+
         User user = new User();
         user.setName(userForm.getName());
         user.setEmail(userForm.getEmail());
-        user.setPassword(userForm.getPassword());
-        user.setEnabled(false);
+        user.setPassword(userForm.getPassword()); // Will be encoded in service
+        user.setEnabled(true);
         user.setPhoneNumber(userForm.getPhoneNumber());
-        user.setProfilePic("https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.vecteezy.com%2Ffree-vector%2Fdefault-profile-picture&psig=AOvVaw1iyEPc3lJJRtMa74rzjCaP&ust=1744055862434000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCJj6yseYxIwDFQAAAAAdAAAAABAE");
+        user.setProfilePic("default.jpg");
 
-        User savedUser = userService.saveUser(user);
-
-        Message message = Message.builder().content("Registration Successful").type(MessageType.green).build();
-        session.setAttribute("message", message);
-
-        System.out.println("User saved");
-        System.out.println(savedUser);
-
-        return "redirect:/register";
+        try {
+            User savedUser = userService.saveUser(user);
+            session.setAttribute("message",
+                    new Message("Registration successful!", MessageType.green));
+            return "redirect:/signin";
+        } catch (Exception e) {
+            session.setAttribute("message",
+                    new Message("Registration failed: " + e.getMessage(), MessageType.red));
+            return "redirect:/register";
+        }
     }
 
+    @GetMapping("/signin")
+    public String login() {
+        return "login";
+    }
 }
