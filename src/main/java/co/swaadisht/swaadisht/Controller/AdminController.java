@@ -2,7 +2,9 @@ package co.swaadisht.swaadisht.Controller;
 
 import co.swaadisht.swaadisht.Services.CategoryServices;
 import co.swaadisht.swaadisht.Services.ImageService;
+import co.swaadisht.swaadisht.Services.UserService;
 import co.swaadisht.swaadisht.entities.Category;
+import co.swaadisht.swaadisht.entities.User;
 import com.cloudinary.Cloudinary;
 import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
@@ -21,10 +23,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.security.Principal;
+import java.util.*;
 
 @Controller
 @RequestMapping("/admin")
@@ -40,6 +40,21 @@ public class AdminController {
     private Cloudinary cloudinary;
 
     Logger logger = LoggerFactory.getLogger(AdminController.class);
+
+    @Autowired
+    private UserService userService;
+
+
+    @ModelAttribute
+    public void getUserDetails(Principal p, Model m){
+        if(p!=null){
+            String email= p.getName();
+            User user = userService.getUserByEmail(email);
+            m.addAttribute("user", user);
+        }
+        List<Category> list = categoryService.getAllActiveCategory();
+        m.addAttribute("categorys", list);
+    }
 
     @GetMapping("/")
     public String index() {
