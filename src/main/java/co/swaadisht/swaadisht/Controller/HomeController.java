@@ -7,16 +7,24 @@ import co.swaadisht.swaadisht.entities.User;
 import co.swaadisht.swaadisht.forms.UserFormDto;
 import co.swaadisht.swaadisht.helpers.Message;
 import co.swaadisht.swaadisht.helpers.MessageType;
+import co.swaadisht.swaadisht.util.CommonUtil;
+import jakarta.mail.MessagingException;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.ObjectUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.UnsupportedEncodingException;
 import java.security.Principal;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 public class HomeController {
@@ -26,6 +34,12 @@ public class HomeController {
 
     @Autowired
     private CategoryServices categoryServices;
+
+    @Autowired
+    private CommonUtil commonUtil;
+
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
     @ModelAttribute
     public void getUserDetails(Principal p, Model m){
@@ -94,5 +108,72 @@ public class HomeController {
     @GetMapping("/signin")
     public String login() {
         return "login";
+    }
+
+    @GetMapping("/forgot-password")
+    public String showForgotPassword(HttpSession session, Model model){
+        model.addAttribute("succMsg", session.getAttribute("succMsg"));
+        model.addAttribute("errorMsg", session.getAttribute("errorMsg"));
+        session.removeAttribute("succMsg");
+        session.removeAttribute("errorMsg");
+        return "forgot_password";
+    }
+
+    @PostMapping("/forgot-password")
+    public String processForgotPassword(@RequestParam String email,
+                                        HttpSession session,
+                                        HttpServletRequest request)
+            throws MessagingException, UnsupportedEncodingException {
+        User userDtls = userService.getUserByEmail(email);
+        if(ObjectUtils.isEmpty(userDtls)){
+            session.setAttribute("errorMsg","Invalid email");
+        }else{
+
+            String resetToken = UUID.randomUUID().toString();
+            userService.updateUserResetToken(email, resetToken);
+
+            //generate Url = http://localhost:8080/reset-password?token=lkjhgfdsxcvlkjhgfdfghjkkjh
+
+            String url = CommonUtil.generateUrl(request)+"/reset-password?token="+ resetToken;
+
+            Boolean sendMail = commonUtil.sendMail(url, email);
+            if(sendMail){
+                session.setAttribute("succMsg","please check your email.. password reset link is sent.");
+            } else {
+                session.setAttribute("errorMsg", "Something wrong on server ! mail not sent");
+            }
+        }
+        return "redirect:/forgot-password";
+    }
+
+    @GetMapping("/reset-password")
+    public String showResetPassword(@RequestParam String token, HttpSession session, Model m){
+        User userByToken = userService.getUserByToken(token);
+        if(userByToken==null){
+            m.addAttribute("msg", "Your link is invalid or expired !!");
+            return "message";
+        }
+        m.addAttribute("token", token);
+        return "reset_password";
+    }
+
+    @PostMapping("/reset-password")
+    public String resetPassword(@RequestParam String token,
+                                @RequestParam String password,
+                                HttpSession session,
+                                Model m,
+                                RedirectAttributes redirectAttributes){
+        User userByToken = userService.getUserByToken(token);
+        if(userByToken==null){
+            redirectAttributes.addFlashAttribute("msg", "Your link is invalid or expired !!");
+            return "redirect:/signin";
+        }else {
+            userByToken.setPassword(passwordEncoder.encode(password));
+            userByToken.setResetToken(null);
+            userService.updateUser(userByToken);
+            session.setAttribute("succMsg", "Password Changed successfully");
+            redirectAttributes.addFlashAttribute("msg", "Password Changed successfully");
+            return "redirect:/signin";
+        }
     }
 }

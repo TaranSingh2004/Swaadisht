@@ -28,4 +28,10 @@ public interface UserService {
     List<User> getUsers(String roleUser);
 
     boolean updateAccountStatus(String id, boolean status);
+
+    public void updateUserResetToken(String email, String resetToken);
+
+    public User getUserByToken(String token);
+
+    public User updateUser(User user);
 }
