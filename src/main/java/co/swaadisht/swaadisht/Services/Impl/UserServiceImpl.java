@@ -27,8 +27,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User saveUser(User user) {
-        String userId = UUID.randomUUID().toString();
-        user.setUserId(userId);
         user.setRole("ROLE_USER");
         String encodePassword = passwordEncoder.encode(user.getPassword()); // Now this will work
         user.setPassword(encodePassword);
@@ -41,22 +39,22 @@ public class UserServiceImpl implements UserService {
     }
 
 
-    @Override
-    public Optional<User> upadteUser(User user) {
-        User user2 = userRepo.findById(user.getUserId()).orElseThrow(()-> new ResourceNotFoundException("User not found"));
-        user2.setName(user.getName());
-        user2.setEmail(user.getEmail());
-        user2.setPassword(user.getPassword());
-        user2.setPhoneNumber(user.getPhoneNumber());
-        user2.setEnabled(user.isEnabled());
-        user2.setEmailVerified(user.isEmailVerified());
-        user2.setPhoneVerified(user.isPhoneVerified());
-        user2.setProvider(user.getProvider());
-        user2.setProviderId(user.getProviderId());
-
-        User save = userRepo.save(user2);
-        return Optional.ofNullable(save);
-    }
+//    @Override
+//    public Optional<User> upadteUser(User user) {
+//        User user2 = userRepo.findById(user.getUserId()).orElseThrow(()-> new ResourceNotFoundException("User not found"));
+//        user2.setName(user.getName());
+//        user2.setEmail(user.getEmail());
+//        user2.setPassword(user.getPassword());
+//        user2.setPhoneNumber(user.getPhoneNumber());
+//        user2.setEnabled(user.isEnabled(status));
+//        user2.setEmailVerified(user.isEmailVerified());
+//        user2.setPhoneVerified(user.isPhoneVerified());
+//        user2.setProvider(user.getProvider());
+//        user2.setProviderId(user.getProviderId());
+//
+//        User save = userRepo.save(user2);
+//        return Optional.ofNullable(save);
+//    }
 
     @Override
     public void deleteUser(String id) {
@@ -89,4 +87,22 @@ public class UserServiceImpl implements UserService {
     public boolean emailExists(String email) {
         return userRepo.findByEmail(email) != null;
     }
+
+    @Override
+    public List<User> getUsers(String roleUser) {
+        return userRepo.findByRole(roleUser);
+    }
+
+    @Override
+    public boolean updateAccountStatus(String id, boolean status) {
+        Optional<User> findByuser = getUserById(id);
+        if(findByuser.isPresent()){
+            User userDtls=findByuser.get();
+            userDtls.setEnabled(status);
+            userRepo.save(userDtls);
+            return true;
+        }
+        return false;
+    }
+
 }
