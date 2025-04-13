@@ -1,12 +1,15 @@
 package co.swaadisht.swaadisht.Controller;
 
 import co.swaadisht.swaadisht.Services.CategoryServices;
+import co.swaadisht.swaadisht.Services.ProductService;
 import co.swaadisht.swaadisht.Services.UserService;
 import co.swaadisht.swaadisht.entities.Category;
+import co.swaadisht.swaadisht.entities.Product;
 import co.swaadisht.swaadisht.entities.User;
 import co.swaadisht.swaadisht.forms.UserFormDto;
 import co.swaadisht.swaadisht.helpers.Message;
 import co.swaadisht.swaadisht.helpers.MessageType;
+import co.swaadisht.swaadisht.helpers.ResourceNotFoundException;
 import co.swaadisht.swaadisht.util.CommonUtil;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -40,6 +43,9 @@ public class HomeController {
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
+
+    @Autowired
+    private ProductService productService;
 
     @ModelAttribute
     public void getUserDetails(Principal p, Model m){
@@ -174,6 +180,37 @@ public class HomeController {
             session.setAttribute("succMsg", "Password Changed successfully");
             redirectAttributes.addFlashAttribute("msg", "Password Changed successfully");
             return "redirect:/signin";
+        }
+
+
+
+    }
+
+    @GetMapping("/products")
+    public String viewProducts(Model model){
+        try {
+            List<Product> products = productService.getAllActiveProducts();
+            if (products.isEmpty()) {
+                model.addAttribute("message", "No products available at the moment");
+            }
+            model.addAttribute("products", products);
+            return "product"; // Thymeleaf template name
+        } catch (Exception e) {
+            model.addAttribute("error", "Error loading products. Please try again later.");
+            return "product"; // Still return the template but with error message
+        }
+    }
+
+    @GetMapping("/product/{id}")
+    public String singleProductView(@PathVariable int id, Model model, RedirectAttributes redirectAttributes){
+        try {
+            Product product = productService.getProductById(id);
+            model.addAttribute("pro", product); // Changed from "pro" to more descriptive "product"
+            return "product_details"; // Thymeleaf template name
+
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Error loading product details");
+            return "redirect:/products"; // Redirect to product listing
         }
     }
 }
