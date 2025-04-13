@@ -52,4 +52,10 @@ public class ProductServiceImpl  implements ProductService {
         return productRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found"));
     }
+
+    @Override
+    public List<Product> getAllActiveProducts() {
+        List<Product> products = productRepository.findByStatusTrue();
+        return products;
+    }
 }
