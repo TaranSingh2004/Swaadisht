@@ -9,6 +9,7 @@ import co.swaadisht.swaadisht.forms.ProductFormDto;
 import com.cloudinary.Cloudinary;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +23,7 @@ import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/admin")
+@RequiredArgsConstructor
 public class ProductController {
 
     @Autowired
@@ -41,6 +43,9 @@ public class ProductController {
 
     @Autowired
     private ToppingService toppingService;
+
+    @Autowired
+    private CartService cartService;
 
     @GetMapping("/products")
     public String loadViewProduct(Model m){
@@ -146,13 +151,29 @@ public class ProductController {
         return "redirect:/admin/loadAddProduct";
     }
 
-    @GetMapping("deleteProduct/{id}")
-    public String deleteProduct(@PathVariable int id, HttpSession session){
+    @GetMapping("/deleteProduct/{id}")
+    public String deleteProduct(@PathVariable int id, HttpSession session) {
+        if (cartService.isProductInCarts(id)) {
+            session.setAttribute("errMsg", "Cannot delete - product exists in active carts");
+            return "redirect:/admin/products";
+        }
+
         boolean deleteProduct = productService.deleteProduct(id);
-        if(deleteProduct){
-            session.setAttribute("succMsg", "product deleted successfully");
+        if (deleteProduct) {
+            session.setAttribute("succMsg", "Product deleted successfully");
         } else {
-            session.setAttribute("errMsg", "something wrong on server");
+            session.setAttribute("errMsg", "Something went wrong on server");
+        }
+        return "redirect:/admin/products";
+    }
+
+    @GetMapping("/forceDeleteProduct/{id}")
+    public String forceDeleteProduct(@PathVariable int id, HttpSession session) {
+        try {
+            productService.deleteProduct(id);
+            session.setAttribute("succMsg", "Product force deleted successfully");
+        } catch (Exception e) {
+            session.setAttribute("errMsg", "Force delete failed: " + e.getMessage());
         }
         return "redirect:/admin/products";
     }

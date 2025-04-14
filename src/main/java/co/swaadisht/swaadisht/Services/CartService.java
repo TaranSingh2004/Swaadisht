@@ -13,4 +13,8 @@ public interface CartService {
     boolean deleteProduct(int id);
 
     boolean deleteCartItem(int id);
+
+    public void updateQuantity(String s, Integer cid);
+
+    boolean isProductInCarts(int id);
 }

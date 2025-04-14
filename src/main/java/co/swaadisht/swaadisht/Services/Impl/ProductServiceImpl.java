@@ -5,6 +5,7 @@ import co.swaadisht.swaadisht.Services.ProductService;
 import co.swaadisht.swaadisht.entities.Product;
 import co.swaadisht.swaadisht.helpers.ResourceNotFoundException;
 
+import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +18,9 @@ public class ProductServiceImpl  implements ProductService {
 
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private EntityManager entityManager;
 
 
     @Transactional
@@ -36,15 +40,26 @@ public class ProductServiceImpl  implements ProductService {
     @Override
     @Transactional
     public boolean deleteProduct(int id) {
-        Product product = productRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("product not found"));
-        if(!ObjectUtils.isEmpty(product)){
-//            productRepository.removeIngredientFromAllProducts(id);
-//            productRepository.removeToppingFromAllProducts(id);
+        try {
+            Product product = productRepository.findById(id)
+                    .orElseThrow(() -> new RuntimeException("Product not found"));
+
+            // Option 1: Manual cleanup (recommended)
+            product.clearCartReferences();
             productRepository.delete(product);
 
+            // Option 2: Using direct queries (alternative)
+            // cartRepository.deleteByProductId(id);
+            // productRepository.deleteById(id);
+
+            // Clear persistence context
+            entityManager.flush();
+            entityManager.clear();
             return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
         }
-        return false;
     }
 
     @Transactional
@@ -58,4 +73,5 @@ public class ProductServiceImpl  implements ProductService {
         List<Product> products = productRepository.findByStatusTrue();
         return products;
     }
+
 }

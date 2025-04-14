@@ -64,7 +64,8 @@ public class UserController {
         if(!Cart.isEmpty()){
             m.addAttribute("totalOrderPrice", Cart.get(Cart.size()-1).getTotalOrderPrice());
         }
-        return "user/cart";
+        return "user/cart1" +
+                "";
     }
 
     @PostMapping("/cart/add")
@@ -109,5 +110,16 @@ public class UserController {
             session.setAttribute("errMsg", "Failed to remove cart item: " + e.getMessage());
         }
         return "redirect:/user/cart";
+    }
+
+    @GetMapping("/cartQuantityUpdate")
+    public String updateQuantity(@RequestParam String s, @RequestParam Integer cid){
+        cartService.updateQuantity(s, cid);
+        return "redirect:/user/cart";
+    }
+
+    @GetMapping("/orders")
+    public String orderPage(){
+        return "/user/order";
     }
 }

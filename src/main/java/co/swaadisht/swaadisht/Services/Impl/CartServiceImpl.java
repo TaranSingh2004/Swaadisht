@@ -121,4 +121,26 @@ public class CartServiceImpl  implements CartService {
             throw new RuntimeException("Failed to delete cart item: " + e.getMessage());
         }
     }
+
+    @Override
+    public void updateQuantity(String s, Integer cid) {
+        Cart cart = cartRepository.findById(cid).get();
+        int updateQuantity;
+        if(s.equalsIgnoreCase("de")){
+            updateQuantity = cart.getQuantity()-1;
+            if(updateQuantity<=0) cartRepository.delete(cart);
+            else{
+                cart.setQuantity(updateQuantity);
+                cartRepository.save(cart);
+            }
+        } else {
+            updateQuantity = cart.getQuantity()+1;
+            cart.setQuantity(updateQuantity);
+            cartRepository.save(cart);
+        }
+    }
+
+    public boolean isProductInCarts(int productId) {
+        return cartRepository.existsByProductId(productId);
+    }
 }
