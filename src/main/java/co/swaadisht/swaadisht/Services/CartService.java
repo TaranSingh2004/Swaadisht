@@ -10,4 +10,7 @@ public interface CartService {
 
     Cart saveCart(Integer productId, Integer userId, boolean isCustomized, List<Integer> selectedIngredients, List<Integer> selectedToppings, Integer quantity);
 
+    boolean deleteProduct(int id);
+
+    boolean deleteCartItem(int id);
 }

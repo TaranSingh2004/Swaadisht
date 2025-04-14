@@ -5,6 +5,7 @@ import co.swaadisht.swaadisht.Services.CategoryServices;
 import co.swaadisht.swaadisht.Services.UserService;
 import co.swaadisht.swaadisht.entities.Cart;
 import co.swaadisht.swaadisht.entities.Category;
+import co.swaadisht.swaadisht.entities.Product;
 import co.swaadisht.swaadisht.entities.User;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,9 +45,26 @@ public class UserController {
         m.addAttribute("categorys", list);
     }
 
+    private User getLoggedInUserDetails(Principal p){
+        String email = p.getName();
+        User userDtls = userService.getUserByEmail(email);
+        return userDtls;
+    }
+
     @GetMapping("/")
     public String home() {
         return "user/home";
+    }
+
+    @GetMapping("/cart")
+    public String cart(Principal p, Model m){
+        User user = getLoggedInUserDetails(p);
+        List<Cart> Cart = cartService.getCartByUser(user.getId());
+        m.addAttribute("carts", Cart);
+        if(!Cart.isEmpty()){
+            m.addAttribute("totalOrderPrice", Cart.get(Cart.size()-1).getTotalOrderPrice());
+        }
+        return "user/cart";
     }
 
     @PostMapping("/cart/add")
@@ -80,5 +98,16 @@ public class UserController {
         }
 
         return "redirect:/product/" + productId;
+    }
+
+    @GetMapping("deleteCart/{id}")
+    public String deleteCartItem(@PathVariable int id, HttpSession session) {
+        try {
+            cartService.deleteCartItem(id);
+            session.setAttribute("succMsg", "Cart item removed successfully");
+        } catch (Exception e) {
+            session.setAttribute("errMsg", "Failed to remove cart item: " + e.getMessage());
+        }
+        return "redirect:/user/cart";
     }
 }

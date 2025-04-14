@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -81,7 +82,43 @@ public class CartServiceImpl  implements CartService {
     }
 
     @Override
+    public boolean deleteProduct(int id) {
+        Cart cart = cartRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Product not deleted"));
+        if(ObjectUtils.isEmpty(cart)){
+            cartRepository.delete(cart);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
     public List<Cart> getCartByUser(Integer userId) {
-        return List.of();
+        List<Cart> cart = cartRepository.findByUserId(userId);
+        Double totalOrderPrice = 0.0;
+        List<Cart> updatedCarts = new ArrayList<>();
+        for(Cart c : cart){
+            Double totalPrice= (double) (c.getProduct().getDiscountPrice()*c.getQuantity());
+            c.setTotalPrice(totalPrice);
+            totalOrderPrice+=totalPrice;
+            c.setTotalOrderPrice(totalOrderPrice);
+            updatedCarts.add(c);
+        }
+        return updatedCarts;
+    }
+
+    public boolean deleteCartItem(int cartId) {
+        try {
+            // First, find the cart item
+            Optional<Cart> cartOptional = cartRepository.findById(cartId);
+            if (cartOptional.isPresent()) {
+                // Delete the cart item
+                cartRepository.delete(cartOptional.get());
+                return true;
+            }
+            return false;
+        } catch (Exception e) {
+            // Log the error if needed
+            throw new RuntimeException("Failed to delete cart item: " + e.getMessage());
+        }
     }
 }
