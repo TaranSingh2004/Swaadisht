@@ -1,7 +1,9 @@
 package co.swaadisht.swaadisht.Services.Impl;
 
+import co.swaadisht.swaadisht.Repository.OrderAddressRepository;
 import co.swaadisht.swaadisht.Repository.UserRepository;
 import co.swaadisht.swaadisht.Services.UserService;
+import co.swaadisht.swaadisht.entities.OrderAddress;
 import co.swaadisht.swaadisht.entities.User;
 import co.swaadisht.swaadisht.helpers.ResourceNotFoundException;
 import org.slf4j.Logger;
@@ -22,6 +24,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private OrderAddressRepository orderAddressRepository;
 
     Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
@@ -125,6 +130,21 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findByEmail(String username) {
         return userRepo.findByEmail(username);
+    }
+
+    @Override
+    public OrderAddress saveAddress(int userId, OrderAddress address) {
+        try {
+            User user = userRepo.findById(userId)
+                    .orElseThrow(() -> new RuntimeException("User not found"));
+
+            address.setUser(user);
+            return orderAddressRepository.save(address);
+        } catch (Exception e) {
+            // Log the error
+            System.err.println("Error saving address: " + e.getMessage());
+            return null;
+        }
     }
 
 }

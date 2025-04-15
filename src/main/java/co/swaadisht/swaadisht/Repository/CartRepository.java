@@ -26,4 +26,22 @@ public interface CartRepository extends JpaRepository<Cart, Integer> {
 
     @Query("SELECT c FROM Cart c WHERE c.product.id = :productId")
     List<Cart> findAllByProductId(@Param("productId") int productId);
+
+    List<Cart> findByUserIdAndOrderedFalse(int id);
+
+    void deleteByUserIdAndOrderedFalse(int id);
+
+    @Query("SELECT c FROM Cart c WHERE c.product.id = :productId AND c.user.id = :userId " +
+            "AND c.isCustomized = :isCustomized")
+    List<Cart> findByProductAndUserAndCustomizationStatus(
+            @Param("productId") Integer productId,
+            @Param("userId") Integer userId,
+            @Param("isCustomized") boolean isCustomized);
+
+//    List<Cart> findByUserAndOrderedFalse(User user);
+//
+//    @Query("SELECT c FROM Cart c LEFT JOIN FETCH c.product LEFT JOIN FETCH c.selectedIngredients LEFT JOIN FETCH c.selectedToppings WHERE c.user.id = :userId AND c.ordered = false")
+//    List<Cart> findUserCartsWithDetails(@Param("userId") Integer userId);
+//
+//    List<Cart> findByUserIdAndOrderedFalse(int id);
 }

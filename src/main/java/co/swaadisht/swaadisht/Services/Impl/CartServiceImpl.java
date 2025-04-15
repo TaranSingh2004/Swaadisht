@@ -12,9 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -36,59 +35,122 @@ public class CartServiceImpl  implements CartService {
     private ToppingRepository toppingRepository;
 
     @Override
-    public Cart saveCart(Integer productId,
-                         Integer userId,
-                         boolean isCustomized,
-                         List<Integer> selectedIngredientIds,
-                         List<Integer> selectedToppingIds,
+    @Transactional
+    public Cart saveCart(Integer productId, Integer userId, boolean isCustomized,
+                         List<Integer> selectedIngredientIds, List<Integer> selectedToppingIds,
                          Integer quantity) {
 
+        // Validate inputs
         if (productId == null || userId == null || quantity == null || quantity <= 0) {
             throw new IllegalArgumentException("Invalid input parameters");
         }
 
-        User userDtls = userRepository.findById(userId)
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found"));
 
-        Cart cart = cartRepository.findByProductAndUser(product, userDtls);
+        // Find existing carts for this product/user combination
+        List<Cart> existingCarts = cartRepository.findByProductAndUserAndCustomizationStatus(
+                productId, userId, isCustomized);
 
-        if (cart == null) {
-            cart = new Cart();
-            cart.setProduct(product);
-            cart.setUser(userDtls);
-            cart.setQuantity(quantity);
-            cart.setCustomized(isCustomized);
+        // Try to find matching cart with same customizations
+        Cart matchingCart = findMatchingCart(existingCarts, selectedIngredientIds, selectedToppingIds);
+
+        if (matchingCart == null) {
+            // Create new cart item
+            matchingCart = new Cart();
+            matchingCart.setProduct(product);
+            matchingCart.setUser(user);
+            matchingCart.setQuantity(quantity);
+            matchingCart.setCustomized(isCustomized);
 
             if (isCustomized) {
+                // Handle ingredients
                 List<CustomizationIngredient> ingredients = ingredientRepository.findAllById(selectedIngredientIds);
                 List<Toppings> toppings = toppingRepository.findAllById(selectedToppingIds);
 
                 // Validate customizations
-                if (!product.getAvailableIngredients().containsAll(ingredients) ||
-                        !product.getAvailableToppings().containsAll(toppings)) {
-                    throw new IllegalArgumentException("Invalid customization selection");
-                }
+                validateCustomizations(product, ingredients, toppings);
 
-                cart.setSelectedIngredients(ingredients);
-                cart.setSelectedToppings(toppings);
+                matchingCart.setSelectedIngredients(ingredients);
+                matchingCart.setSelectedToppings(toppings);
             }
         } else {
-            cart.setQuantity(cart.getQuantity() + quantity);
+            // Update quantity of existing cart item
+            matchingCart.setQuantity(matchingCart.getQuantity() + quantity);
         }
 
-        return cartRepository.save(cart);
+        return cartRepository.save(matchingCart);
+    }
+
+    private Cart findMatchingCart(List<Cart> existingCarts,
+                                  List<Integer> selectedIngredientIds,
+                                  List<Integer> selectedToppingIds) {
+        for (Cart cart : existingCarts) {
+            // For non-customized items, any match is fine
+            if (!cart.isCustomized()) {
+                return cart;
+            }
+
+            // For customized items, check if ingredients and toppings match exactly
+            boolean ingredientsMatch = cart.getSelectedIngredients().stream()
+                    .map(CustomizationIngredient::getId)
+                    .collect(Collectors.toSet())
+                    .equals(new HashSet<>(selectedIngredientIds));
+
+            boolean toppingsMatch = cart.getSelectedToppings().stream()
+                    .map(Toppings::getId)
+                    .collect(Collectors.toSet())
+                    .equals(new HashSet<>(selectedToppingIds));
+
+            if (ingredientsMatch && toppingsMatch) {
+                return cart;
+            }
+        }
+        return null;
+    }
+
+    private void validateCustomizations(Product product,
+                                        List<CustomizationIngredient> ingredients,
+                                        List<Toppings> toppings) {
+        // Check all ingredients are available for this product
+        Set<Integer> availableIngredientIds = product.getAvailableIngredients().stream()
+                .map(CustomizationIngredient::getId)
+                .collect(Collectors.toSet());
+
+        for (CustomizationIngredient ingredient : ingredients) {
+            if (!availableIngredientIds.contains(ingredient.getId())) {
+                throw new IllegalArgumentException("Invalid ingredient selection");
+            }
+        }
+
+        // Check all toppings are available for this product
+        Set<Integer> availableToppingIds = product.getAvailableToppings().stream()
+                .map(Toppings::getId)
+                .collect(Collectors.toSet());
+
+        for (Toppings topping : toppings) {
+            if (!availableToppingIds.contains(topping.getId())) {
+                throw new IllegalArgumentException("Invalid topping selection");
+            }
+        }
     }
 
     @Override
+    @Transactional
     public boolean deleteProduct(int id) {
-        Cart cart = cartRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Product not deleted"));
-        if(ObjectUtils.isEmpty(cart)){
-            cartRepository.delete(cart);
-            return true;
-        }
-        return false;
+        Cart cart = cartRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Cart item not found"));
+
+        // Clear associations first
+        cart.getSelectedIngredients().clear();
+        cart.getSelectedToppings().clear();
+        cartRepository.saveAndFlush(cart); // Ensure changes are flushed
+
+        // Now delete the cart
+        cartRepository.delete(cart);
+        return true;
     }
 
     @Override
@@ -142,5 +204,27 @@ public class CartServiceImpl  implements CartService {
 
     public boolean isProductInCarts(int productId) {
         return cartRepository.existsByProductId(productId);
+    }
+
+    @Override
+    public double calculateTotalOrderPrice(int id) {
+        List<Cart> cartItems = cartRepository.findByUserIdAndOrderedFalse(id);
+
+        if (cartItems == null || cartItems.isEmpty()) {
+            return 0.0;
+        }
+
+        return cartItems.stream()
+                .mapToDouble(cart -> {
+                    double productPrice = cart.getProduct().getDiscountPrice() * cart.getQuantity();
+                    cart.setTotalPrice(productPrice); // Update the cart item's total price
+                    return productPrice;
+                })
+                .sum();
+    }
+
+    @Override
+    public void clearUserCart(int id) {
+        cartRepository.deleteByUserIdAndOrderedFalse(id);
     }
 }

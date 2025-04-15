@@ -17,4 +17,8 @@ public interface CartService {
     public void updateQuantity(String s, Integer cid);
 
     boolean isProductInCarts(int id);
+
+    double calculateTotalOrderPrice(int id);
+
+    void clearUserCart(int id);
 }

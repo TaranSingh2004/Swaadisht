@@ -12,7 +12,7 @@
     <div id="content" class="w-full">
         <a href="/products" class="text-decoration-none"><i class="fa-solid fa-arrow-left"></i> Back</a>
 
-        <div class="bg-gray-100 h-screen py-8">
+        <div class="h-screen py-8">
             <div class=" px-8 py-4">
                 <h1 class="text-2xl font-semibold mb-4">Shopping Cart</h1>
                 <div class="flex justify-center">
@@ -62,21 +62,21 @@
                                             </span>
                                         </div>
                                     </td>
-                                    <td class="py-2">[[${#numbers.formatCurrency(cart.product.discountPrice)}]]</td>
-                                    <td class="py-2">
-                                        <div class="flex items-center">
+                                    <td class="py-2 w-16 text-center">[[${#numbers.formatCurrency(cart.product.discountPrice)}]]</td>
+                                    <td class="py-2 w-16 text-center">
+                                        <div class="items-center">
                                             <a th:href="@{'/user/cartQuantityUpdate?s=de&cid=' + ${cart.id}}">
                                              <i class="fa-solid fa-minus"></i></a> [[${cart.quantity}]]
                                            <a th:href="@{'/user/cartQuantityUpdate?s=in&cid=' + ${cart.id}}">
                                              <i class="fa-solid fa-plus"></i></a>
                                         </div>
                                     </td>
-                                    <td class="py-2">[[${cart.totalPrice}]]</td>
+                                    <td class="py-2 w-16 text-center">[[${cart.totalPrice}]]</td>
                                     <td class="py-2">
-                                        <a th:href="@{'/admin/deleteCart/' + ${cart.id}}"
+                                        <a th:href="@{'/user/deleteCart/' + ${cart.id}}"
                                            class="ml-2 text-red-600 hover:text-red-900"
                                            onclick="return confirm('Are you sure you want to delete this product?')">
-                                            Delete
+                                            <i class="fa-solid fa-trash"></i>
                                         </a>
                                     </td>
                                 </tr>
@@ -85,34 +85,63 @@
                             </table>
                         </div>
                     </div>
-                    <div>
-                        <div class="ml-8 w-96 px-4">
-                            <div class="bg-white rounded-lg shadow-md p-6">
-                                <h2 class="text-lg font-semibold mb-4">Summary</h2>
-                                <div class="flex justify-between mb-2">
-                                    <span>Subtotal</span>
-                                    <span>[[${totalOrderPrice}]]</span>
+                    <div class="mx-4 p4-10 rounded-lg shadow-md">
+                        <div class="max-w-md mx-auto bg-white rounded-lg overflow-hidden md:max-w-xl">
+                            <div class="md:flex">
+
+                                <div class="w-full px-6 py-8 md:p-8">
+                                    <h2 class="text-2xl font-bold text-gray-800">Shipping Details</h2>
+                                    <p class="mt-4 text-gray-600">Please fill out the form below to add your Address</p>
+                                    <th:block th:if="${session.succMsg}">
+                                        <p class="text-success fw-bold">[[${session.succMsg}]]</p>
+                                        <th:block th:text="${@commonServiceImpl.removeSessionMessage()}"></th:block>
+                                    </th:block>
+
+                                    <th:block th:if="${session.errorMsg}">
+                                        <p class="text-danger fw-bold">[[${session.errorMsg}]]</p>
+                                        <th:block th:text="${@commonServiceImpl.removeSessionMessage()}"></th:block>
+                                    </th:block>
+                                    <form th:action="@{/user/save-address}" method="post" class="space-y-4">
+                                        <div>
+                                            <label for="address" class="block text-gray-700 font-medium mb-1">Address</label>
+                                            <input type="text" id="address" name="address"
+                                                   class="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-500 focus:border-blue-500"
+                                                   required>
+                                        </div>
+
+                                        <div>
+                                            <label for="city" class="block text-gray-700 font-medium mb-1">City</label>
+                                            <input type="text" id="city" name="city"
+                                                   class="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-500 focus:border-blue-500"
+                                                   required>
+                                        </div>
+
+                                        <div>
+                                            <label for="state" class="block text-gray-700 font-medium mb-1">State</label>
+                                            <input type="text" id="state" name="state"
+                                                   class="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-500 focus:border-blue-500"
+                                                   required>
+                                        </div>
+
+                                        <div>
+                                            <label for="pincode" class="block text-gray-700 font-medium mb-1">Pincode</label>
+                                            <input type="text" id="pincode" name="pincode"
+                                                   class="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-500 focus:border-blue-500"
+                                                   required>
+                                        </div>
+
+                                        <button type="submit"
+                                                class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition duration-200">
+                                            Save Address & Proceed to Checkout
+                                        </button>
+                                    </form>
                                 </div>
-                                <div class="flex justify-between mb-2">
-                                    <span>Shipping</span>
-                                    <span>$0.00</span>
-                                </div>
-                                <hr class="my-2">
-                                <div class="flex justify-between mb-2">
-                                    <span class="font-semibold">Total</span>
-                                    <span class="font-semibold">[[${totalOrderPrice}]]</span>
-                                </div>
-                                <a href="/user/orders" class="bg-blue-500 text-white py-2 px-4 rounded-lg mt-4 w-full">Checkout</a>
-                            </div>
-                        </div>
-                        <div class="ml-8 w-96 px-4 mt-4">
-                            <div class="bg-white rounded-lg shadow-md p-6">
-                                Note : Free Shipping charges under 7km.
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+<!--            <a href="/user/orders" class="bg-blue-500 text-white py-2 px-4 rounded-lg mt-4 w-full justify-center">Checkout</a>-->
         </div>
     </div>
 </div>

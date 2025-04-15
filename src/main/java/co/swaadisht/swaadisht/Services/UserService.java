@@ -1,5 +1,6 @@
 package co.swaadisht.swaadisht.Services;
 
+import co.swaadisht.swaadisht.entities.OrderAddress;
 import co.swaadisht.swaadisht.entities.User;
 
 import java.util.List;
@@ -36,4 +37,6 @@ public interface UserService {
     public User updateUser(User user);
 
     User findByEmail(String username);
+
+    OrderAddress saveAddress(int id, OrderAddress address);
 }
