@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html
+        lang="en"
+        th:replace="~{base :: parent(~{::#content},~{::title},~{::script})}"
+>
+<head>
+    <title>Home page</title>
+</head>
+<body class="dark:bg-gray-900 dark:text-white">
+
+<div class="p-4 mt-16">
+    <div id="content" class="w-full">
+        <a href="/products" class="text-decoration-none"><i class="fa-solid fa-arrow-left"></i> Back</a>
+
+        <div class="h-screen py-8">
+            <div class=" px-8 py-4">
+                <h1 class="text-2xl font-semibold mb-4">Shopping Cart</h1>
+                <div class="flex justify-center">
+                    <div class="w-full ">
+                        <div class="bg-white rounded-lg shadow-md p-4">
+                            <table class="w-full">
+                                <thead>
+                                <tr>
+                                    <th class="text-left font-semibold">Product</th>
+                                    <th class="text-left font-semibold">Ingredients</th>
+                                    <th class="text-left font-semibold">Toppings</th>
+                                    <th class="text-left font-semibold">Price</th>
+                                    <th class="text-left font-semibold">Quantity</th>
+                                    <th class="text-left font-semibold">Total</th>
+                                    <th class="text-left font-semibold"></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="cart, c:${carts}">
+                                    <td class="py-2 w-52">
+                                        <div class="flex items-center">
+                                            <img class="h-16 w-16 mr-4" th:src="@{${cart.product.productImage}}" alt="Product image">
+                                            <span class="font-semibold px-4">[[${c.count}]]. [[${cart.product.name}]]</span>
+                                        </div>
+                                    </td>
+                                    <td class="py-2 w-44">
+                                        <div class="flex flex-wrap gap-1 max-w-xs">
+                                            <span th:each="ingredient : ${cart.selectedIngredients}"
+                                                  class="px-2 py-1 text-xs font-medium rounded-full bg-blue-100 text-blue-800">
+                                                [[${ingredient.name}]]
+                                            </span>
+                                            <span th:if="${cart.selectedIngredients == null or cart.selectedIngredients.isEmpty()}"
+                                                  class="text-gray-500 text-s">
+                                                No ingredients
+                                            </span>
+                                        </div>
+                                    </td>
+                                    <td class="py-2 w-44">
+                                        <div class="flex flex-wrap gap-1 max-w-xs">
+                                            <span th:each="topping : ${cart.selectedToppings}"
+                                                  class="px-2 py-1 text-xs font-medium rounded-full bg-blue-100 text-blue-800">
+                                                [[${topping.name}]]
+                                            </span>
+                                            <span th:if="${cart.selectedToppings == null or cart.selectedToppings.isEmpty()}"
+                                                  class="text-gray-500 text-sm">
+                                                No toppings
+                                            </span>
+                                        </div>
+                                    </td>
+                                    <td class="py-2 w-16 text-center">[[${#numbers.formatCurrency(cart.price)}]]</td>
+                                    <td class="py-2 w-16 text-center">
+                                        <div class="items-center">
+                                            <a th:href="@{'/user/cartQuantityUpdate?s=de&cid=' + ${cart.id}}">
+                                             <i class="fa-solid fa-minus"></i></a> [[${cart.quantity}]]
+                                           <a th:href="@{'/user/cartQuantityUpdate?s=in&cid=' + ${cart.id}}">
+                                             <i class="fa-solid fa-plus"></i></a>
+                                        </div>
+                                    </td>
+                                    <td class="py-2 w-16 text-center">[[${cart.totalPrice}]]</td>
+                                    <td class="py-2">
+                                        <a th:href="@{'/user/deleteCart/' + ${cart.id}}"
+                                           class="ml-2 text-red-600 hover:text-red-900"
+                                           onclick="return confirm('Are you sure you want to delete this product?')">
+                                            <i class="fa-solid fa-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <!-- More product rows -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="mx-4 p4-10 rounded-lg shadow-md">
+                        <div class="max-w-md mx-auto bg-white rounded-lg overflow-hidden md:max-w-xl">
+                            <div class="md:flex">
+
+                                <div class="w-full px-6 py-8 md:p-8">
+                                    <h2 class="text-2xl font-bold text-gray-800">Shipping Details</h2>
+                                    <p class="mt-4 text-gray-600">Please fill out the form below to add your Address</p>
+                                    <th:block th:if="${session.succMsg}">
+                                        <p class="text-success fw-bold">[[${session.succMsg}]]</p>
+                                        <th:block th:text="${@commonServiceImpl.removeSessionMessage()}"></th:block>
+                                    </th:block>
+
+                                    <th:block th:if="${session.errorMsg}">
+                                        <p class="text-danger fw-bold">[[${session.errorMsg}]]</p>
+                                        <th:block th:text="${@commonServiceImpl.removeSessionMessage()}"></th:block>
+                                    </th:block>
+                                    <form th:action="@{/user/save-address}" method="post" class="space-y-4">
+                                        <div>
+                                            <label for="address" class="block text-gray-700 font-medium mb-1">Address</label>
+                                            <input type="text" id="address" name="address"
+                                                   class="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-500 focus:border-blue-500"
+                                                   required>
+                                        </div>
+
+                                        <div>
+                                            <label for="city" class="block text-gray-700 font-medium mb-1">City</label>
+                                            <input type="text" id="city" name="city"
+                                                   class="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-500 focus:border-blue-500"
+                                                   required>
+                                        </div>
+
+                                        <div>
+                                            <label for="state" class="block text-gray-700 font-medium mb-1">State</label>
+                                            <input type="text" id="state" name="state"
+                                                   class="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-500 focus:border-blue-500"
+                                                   required>
+                                        </div>
+
+                                        <div>
+                                            <label for="pincode" class="block text-gray-700 font-medium mb-1">Pincode</label>
+                                            <input type="text" id="pincode" name="pincode"
+                                                   class="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-500 focus:border-blue-500"
+                                                   required>
+                                        </div>
+
+                                        <button type="submit"
+                                                class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition duration-200">
+                                            Save Address & Proceed to Checkout
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+<!--            <a href="/user/orders" class="bg-blue-500 text-white py-2 px-4 rounded-lg mt-4 w-full justify-center">Checkout</a>-->
+            <a href="/user/orders" type="submit"
+                    class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition duration-200">
+                Proceed to Checkout
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+    console.log("about page");
+</script>
+
+<div id="bbai-shadow-wrapper"></div><div id="chrome-extension-boilerplate-react-vite-content-view-root"></div></body><chatgpt-sidebar data-gpts-theme="light"></chatgpt-sidebar></html>

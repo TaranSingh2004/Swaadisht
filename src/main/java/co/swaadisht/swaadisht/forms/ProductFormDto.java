@@ -1,12 +1,10 @@
 package co.swaadisht.swaadisht.forms;
 
-import co.swaadisht.swaadisht.entities.CustomizationIngredient;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 
 @Getter
@@ -30,4 +28,5 @@ public class ProductFormDto {
     private List<Integer> selectedIngredientIds = new ArrayList<>();
     private List<Integer> selectedToppingIds = new ArrayList<>();
     private boolean customizable;
+    private List<Integer> selectedSizeIds;
 }

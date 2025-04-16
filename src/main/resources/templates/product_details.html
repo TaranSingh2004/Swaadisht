@@ -36,9 +36,23 @@
           <p class="text-gray-600 mb-4">[[${pro.category.name}]]</p>
 
 <!--          price-->
-          <div class="mb-4">
-            <span class="text-2xl font-bold mr-2">[[${#numbers.formatCurrency(pro.discountPrice)}]]</span>
-            <span class="text-gray-500 line-through">[[${#numbers.formatCurrency(pro.price)}]]</span>
+          <!-- Product Sizes -->
+          <div class="mb-6" th:if="${not pro.availableSizes.isEmpty()}">
+            <h3 class="text-lg font-medium mb-3">Available Sizes</h3>
+            <div class="space-y-2">
+              <div th:each="size : ${pro.availableSizes}" class="flex items-center">
+                <input type="radio"
+                       th:id="'size_' + ${size.id}"
+                       th:value="${size.id}"
+                       name="selectedSizeId"
+                       th:checked="${sizeStat.first}"
+                       class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500">
+                <label th:for="'size_' + ${size.id}"
+                       class="ms-2 text-sm font-medium text-gray-900">
+                  <span th:text="${size.name} + ' @ ' + ${#numbers.formatCurrency(size.price)}"></span>
+                </label>
+              </div>
+            </div>
           </div>
 
           <p class="text-gray-700 mb-6">[[${(pro.description)}]]</p>
