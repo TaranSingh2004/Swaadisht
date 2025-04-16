@@ -38,6 +38,14 @@ public interface CartRepository extends JpaRepository<Cart, Integer> {
             @Param("userId") Integer userId,
             @Param("isCustomized") boolean isCustomized);
 
+    @Query("SELECT c FROM Cart c WHERE c.product.id = :productId AND c.user.id = :userId " +
+            "AND c.isCustomized = :isCustomized AND c.selectedSize.id = :sizeId")
+    List<Cart> findByProductAndUserAndCustomizationStatusAndSize(
+            @Param("productId") Integer productId,
+            @Param("userId") Integer userId,
+            @Param("isCustomized") boolean isCustomized,
+            @Param("sizeId") Integer sizeId);
+
 //    List<Cart> findByUserAndOrderedFalse(User user);
 //
 //    @Query("SELECT c FROM Cart c LEFT JOIN FETCH c.product LEFT JOIN FETCH c.selectedIngredients LEFT JOIN FETCH c.selectedToppings WHERE c.user.id = :userId AND c.ordered = false")

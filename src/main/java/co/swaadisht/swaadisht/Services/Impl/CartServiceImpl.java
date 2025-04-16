@@ -34,14 +34,16 @@ public class CartServiceImpl  implements CartService {
     @Autowired
     private ToppingRepository toppingRepository;
 
+    @Autowired
+    private ProductSizeRepository sizeRepository;
+
     @Override
     @Transactional
     public Cart saveCart(Integer productId, Integer userId, boolean isCustomized,
                          List<Integer> selectedIngredientIds, List<Integer> selectedToppingIds,
-                         Integer quantity) {
+                         Integer quantity, Integer selectedSizeId) {
 
-        // Validate inputs
-        if (productId == null || userId == null || quantity == null || quantity <= 0) {
+        if (productId == null || userId == null || quantity == null || quantity <= 0 || selectedSizeId == null) {
             throw new IllegalArgumentException("Invalid input parameters");
         }
 
@@ -50,9 +52,20 @@ public class CartServiceImpl  implements CartService {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found"));
 
-        // Find existing carts for this product/user combination
-        List<Cart> existingCarts = cartRepository.findByProductAndUserAndCustomizationStatus(
-                productId, userId, isCustomized);
+        // Fetch the selected product size
+        ProductSize selectedSize = sizeRepository.findById(selectedSizeId)
+                .orElseThrow(() -> new ResourceNotFoundException("Product size not found"));
+
+// Verify the size belongs to the product
+        if (product.getAvailableSizes().stream()
+                .noneMatch(size -> selectedSizeId.equals(size.getId()))) {
+            throw new IllegalArgumentException("Selected size doesn't belong to this product");
+        }
+
+        // Find existing carts for this product/user/size combination
+        List<Cart> existingCarts = cartRepository.findByProductAndUserAndCustomizationStatusAndSize(
+                productId, userId, isCustomized, selectedSizeId);
+
 
         // Try to find matching cart with same customizations
         Cart matchingCart = findMatchingCart(existingCarts, selectedIngredientIds, selectedToppingIds);
@@ -64,6 +77,8 @@ public class CartServiceImpl  implements CartService {
             matchingCart.setUser(user);
             matchingCart.setQuantity(quantity);
             matchingCart.setCustomized(isCustomized);
+            matchingCart.setSelectedSize(selectedSize);
+            matchingCart.setPrice(selectedSize.getPrice()); // Set the size-specific price
 
             if (isCustomized) {
                 // Handle ingredients
@@ -75,6 +90,9 @@ public class CartServiceImpl  implements CartService {
 
                 matchingCart.setSelectedIngredients(ingredients);
                 matchingCart.setSelectedToppings(toppings);
+
+                // Calculate and set customized price if needed
+                matchingCart.setPrice(calculateCustomizedPrice(selectedSize.getPrice(), ingredients, toppings));
             }
         } else {
             // Update quantity of existing cart item
@@ -82,6 +100,15 @@ public class CartServiceImpl  implements CartService {
         }
 
         return cartRepository.save(matchingCart);
+    }
+
+    private Double calculateCustomizedPrice(Double basePrice,
+                                            List<CustomizationIngredient> ingredients,
+                                            List<Toppings> toppings) {
+        // Implement your custom price calculation logic here
+        double total = basePrice;
+
+        return total;
     }
 
     private Cart findMatchingCart(List<Cart> existingCarts,
@@ -159,7 +186,7 @@ public class CartServiceImpl  implements CartService {
         Double totalOrderPrice = 0.0;
         List<Cart> updatedCarts = new ArrayList<>();
         for(Cart c : cart){
-            Double totalPrice= (double) (c.getProduct().getDiscountPrice()*c.getQuantity());
+            Double totalPrice= (double) (c.getPrice()*c.getQuantity());
             c.setTotalPrice(totalPrice);
             totalOrderPrice+=totalPrice;
             c.setTotalOrderPrice(totalOrderPrice);
@@ -216,7 +243,7 @@ public class CartServiceImpl  implements CartService {
 
         return cartItems.stream()
                 .mapToDouble(cart -> {
-                    double productPrice = cart.getProduct().getDiscountPrice() * cart.getQuantity();
+                    double productPrice = cart.getPrice() * cart.getQuantity();
                     cart.setTotalPrice(productPrice); // Update the cart item's total price
                     return productPrice;
                 })

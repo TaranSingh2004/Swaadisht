@@ -85,6 +85,7 @@ public class UserController {
             @RequestParam String customizationType,
             @RequestParam(required = false) List<Integer> selectedIngredients,
             @RequestParam(required = false) List<Integer> selectedToppings,
+            @RequestParam(required = false) Integer selectedSizeId,
             Principal principal,
             RedirectAttributes redirectAttributes) {
 
@@ -100,8 +101,8 @@ public class UserController {
                 selectedToppings = new ArrayList<>();
             }
 
-            cartService.saveCart(productId, user.getId(), isCustomized,
-                    selectedIngredients, selectedToppings, quantity);
+            Cart cart = cartService.saveCart(productId, user.getId(), isCustomized,
+                    selectedIngredients, selectedToppings, quantity, selectedSizeId);
 
             redirectAttributes.addFlashAttribute("success", "Item added to cart!");
         } catch (Exception e) {
@@ -184,12 +185,14 @@ public class UserController {
 
         if (savedAddress != null) {
             session.setAttribute("succMsg", "Address saved successfully");
-            return "redirect:/user/orders"; // Redirect to orders page
+            return "redirect:/user/cart"; // Redirect to orders page
         } else {
             session.setAttribute("errorMsg", "Failed to save address. Please try again.");
             return "redirect:/user/cart";
         }
     }
+
+
 
     @PostMapping("/apply-coupon")
     public String applyCoupon(@RequestParam("coupon") String coupon, HttpSession session, Principal principal, RedirectAttributes redirectAttributes){

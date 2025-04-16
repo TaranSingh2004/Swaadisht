@@ -74,5 +74,14 @@ public class Product {
         carts.clear();
     }
 
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(
+            name = "product_size_mapping",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "size_id")
+    )
+    private List<ProductSize> availableSizes = new ArrayList<>();
+
+    private boolean hasSizes = false;
 
 }

@@ -118,6 +118,20 @@
                                     <span>Total:</span>
                                     <span>₹[[${#numbers.formatDecimal(total, 1, 2)}]]</span>
                                 </div>
+                                <div class="mt-6">
+                                    <label class="block text-gray-700 font-medium mb-2">Payment Method</label>
+                                    <div class="flex items-center space-x-3">
+                                        <button class="flex-1 bg-gray-100 hover:bg-gray-200 transition p-3 rounded-lg">
+                                            <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard" class="h-6 mx-auto">
+                                        </button>
+                                        <button class="flex-1 bg-gray-100 hover:bg-gray-200 transition p-3 rounded-lg">
+                                            <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Visa.svg" alt="Visa" class="h-6 mx-auto">
+                                        </button>
+                                        <button class="flex-1 bg-gray-100 hover:bg-gray-200 transition p-3 rounded-lg">
+                                            <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal" class="h-6 mx-auto">
+                                        </button>
+                                    </div>
+                                </div>
                                 <form th:action="@{/user/place-order}" method="post">
                                     <input type="hidden" name="addressId" th:value="${selectedAddressId}">
                                     <input type="hidden" name="paymentMethod" value="COD">

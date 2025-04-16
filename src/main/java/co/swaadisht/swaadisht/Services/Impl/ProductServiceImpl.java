@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -72,6 +73,14 @@ public class ProductServiceImpl  implements ProductService {
     public List<Product> getAllActiveProducts() {
         List<Product> products = productRepository.findByStatusTrue();
         return products;
+    }
+
+    @Override
+    public List<Product> getProductsByIds(List<Integer> productIds) {
+        if (productIds == null || productIds.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return productRepository.findAllById(productIds);
     }
 
 }

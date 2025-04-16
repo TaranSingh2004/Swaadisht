@@ -50,6 +50,9 @@
                     Toppings
                 </th>
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Sizes
+                </th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Actions
                 </th>
             </tr>
@@ -120,6 +123,18 @@
                               class="text-gray-500 text-sm">
                         No toppings
                     </span>
+                    </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="flex flex-col gap-1">
+                        <div th:each="size : ${pro.availableSizes}"
+                             class="px-2 py-1 text-xs font-medium rounded-full bg-blue-100 text-blue-800">
+                            [[${size.name}]] : [[${#numbers.formatCurrency(size.price)}]]
+                        </div>
+                        <span th:if="${pro.availableSizes == null or pro.availableSizes.isEmpty()}"
+                              class="text-gray-500 text-sm">
+                            No sizes
+                        </span>
                     </div>
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">

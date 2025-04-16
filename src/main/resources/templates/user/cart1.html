@@ -62,7 +62,7 @@
                                             </span>
                                         </div>
                                     </td>
-                                    <td class="py-2 w-16 text-center">[[${#numbers.formatCurrency(cart.product.discountPrice)}]]</td>
+                                    <td class="py-2 w-16 text-center">[[${#numbers.formatCurrency(cart.price)}]]</td>
                                     <td class="py-2 w-16 text-center">
                                         <div class="items-center">
                                             <a th:href="@{'/user/cartQuantityUpdate?s=de&cid=' + ${cart.id}}">
@@ -142,6 +142,10 @@
                 </div>
             </div>
 <!--            <a href="/user/orders" class="bg-blue-500 text-white py-2 px-4 rounded-lg mt-4 w-full justify-center">Checkout</a>-->
+            <a href="/user/orders" type="submit"
+                    class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition duration-200">
+                Proceed to Checkout
+            </a>
         </div>
     </div>
 </div>

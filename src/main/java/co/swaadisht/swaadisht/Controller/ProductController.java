@@ -1,10 +1,7 @@
 package co.swaadisht.swaadisht.Controller;
 
 import co.swaadisht.swaadisht.Services.*;
-import co.swaadisht.swaadisht.entities.Category;
-import co.swaadisht.swaadisht.entities.CustomizationIngredient;
-import co.swaadisht.swaadisht.entities.Product;
-import co.swaadisht.swaadisht.entities.Toppings;
+import co.swaadisht.swaadisht.entities.*;
 import co.swaadisht.swaadisht.forms.ProductFormDto;
 import com.cloudinary.Cloudinary;
 import jakarta.servlet.http.HttpSession;
@@ -47,6 +44,9 @@ public class ProductController {
     @Autowired
     private CartService cartService;
 
+    @Autowired
+    private ProductSizeService sizeService;
+
     @GetMapping("/products")
     public String loadViewProduct(Model m){
         List<Product> products = productService.getAllProductsWithIngredients();
@@ -60,6 +60,7 @@ public class ProductController {
         model.addAttribute("categories", categoryService.getAllCategory());
         model.addAttribute("allIngredients", ingredientService.getAllActiveIngredients());
         model.addAttribute("allToppings", toppingService.getAllActiveToppings());
+        model.addAttribute("allSizes", sizeService.getAllActiveSizes());
         return "admin/addProduct";
     }
 
@@ -136,6 +137,13 @@ public class ProductController {
                 product.setAvailableToppings(new ArrayList<>());
             }
 
+            if (productDto.getSelectedSizeIds() != null && !productDto.getSelectedSizeIds().isEmpty()) {
+                List<ProductSize> sizes = sizeService.findAllByIds(productDto.getSelectedSizeIds());
+                product.setAvailableSizes(sizes);
+            } else {
+                product.setAvailableSizes(new ArrayList<>());
+            }
+
             Product savedProduct = productService.saveProduct(product);
 
             if (savedProduct != null) {
@@ -187,6 +195,7 @@ public class ProductController {
         m.addAttribute("categories", categoryService.getAllCategory());
         m.addAttribute("allIngredients", ingredientService.getAllActiveIngredients());
         m.addAttribute("allToppings", toppingService.getAllActiveToppings());
+        m.addAttribute("allSizes", sizeService.getAllActiveSizes());
         return "admin/editProduct";
     }
 
@@ -259,6 +268,12 @@ public class ProductController {
             } else {
                 product.setAvailableToppings(new ArrayList<>());
             }
+            if(productFormDto.getSelectedSizeIds() != null){
+                List<ProductSize> productSizes = sizeService.findAllByIds(productFormDto.getSelectedSizeIds());
+                product.setAvailableSizes(productSizes);
+            } else {
+                product.setAvailableSizes(new ArrayList<>());
+            }
             Product updatedProduct = productService.saveProduct(product);
             session.setAttribute("succMsg", " product updated Successfully");
         } catch (Exception e){
@@ -291,6 +306,13 @@ public class ProductController {
             dto.setSelectedToppingIds(
                     product.getAvailableToppings().stream()
                             .map(Toppings::getId)
+                            .collect(Collectors.toList())
+            );
+        }
+        if (product.getAvailableSizes() != null) {
+            dto.setSelectedSizeIds(
+                    product.getAvailableSizes().stream()
+                            .map(ProductSize::getId)
                             .collect(Collectors.toList())
             );
         }

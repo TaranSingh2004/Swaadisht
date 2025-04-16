@@ -57,4 +57,10 @@ public class Cart {
             inverseJoinColumns = @JoinColumn(name = "topping_id")
     )
     private List<Toppings> selectedToppings = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name = "size_id")
+    private ProductSize selectedSize;
+
+    private Double price;
 }
