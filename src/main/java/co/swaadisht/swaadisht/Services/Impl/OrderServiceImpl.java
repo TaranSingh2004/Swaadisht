@@ -6,6 +6,7 @@ import co.swaadisht.swaadisht.Repository.ProductOrderRepository;
 import co.swaadisht.swaadisht.Repository.UserRepository;
 import co.swaadisht.swaadisht.Services.CartService;
 import co.swaadisht.swaadisht.Services.OrderService;
+import co.swaadisht.swaadisht.Services.ShippingCalculatorService;
 import co.swaadisht.swaadisht.entities.*;
 import co.swaadisht.swaadisht.util.CommonUtil;
 import jakarta.mail.MessagingException;
@@ -41,6 +42,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private CartService cartService;
+
+    @Autowired
+    private ShippingCalculatorService shippingService;
 
     @Override
     public void saveOrder(Integer userId, OrderAddress orderAddress) throws MessagingException, UnsupportedEncodingException {
@@ -80,11 +84,16 @@ public class OrderServiceImpl implements OrderService {
     public ProductOrder createOrder(int id, Integer addressId, String paymentMethod, String couponCode, Double discountAmount) {
         User user = userRepository.findById(id).orElseThrow();
         OrderAddress address = addressRepository.findById(addressId).orElseThrow();
+
+        String originPincode = "121004"; // Your warehouse/store pincode
+        String destinationPincode = address.getPincode();
+
+        double shippingCharge = shippingService.calculateShippingCharge(originPincode, destinationPincode);
+
         List<Cart> cartItems = cartService.getCartByUser(id);
 
         // Calculate order total
         double subtotal = cartService.calculateTotalOrderPrice(id);
-        double total = subtotal - (discountAmount != null ? discountAmount : 0);
 
         // Create and save order
         ProductOrder order = new ProductOrder();
@@ -94,7 +103,8 @@ public class OrderServiceImpl implements OrderService {
         order.setCouponCode(couponCode);
         order.setDiscountAmount(discountAmount);
         order.setOriginalPrice(subtotal);
-        order.setPrice(total);
+        order.setShippingCharges(shippingCharge);
+        order.setPrice(subtotal + shippingCharge - (discountAmount != null ? discountAmount : 0.0));
         order.setOrderDate(LocalDate.now());
         order.setStatus("Pending");
 

@@ -147,4 +147,9 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @Override
+    public OrderAddress getAddressById(Integer addressId) {
+        return orderAddressRepository.findById(addressId).orElseThrow(()-> new ResourceNotFoundException("Address not found with id : " + addressId));
+    }
+
 }

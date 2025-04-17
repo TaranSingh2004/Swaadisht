@@ -32,6 +32,8 @@ public class ProductOrder {
     private Double discountAmount;
     private String couponCode;
 
+    private double shippingCharges;
+
     private Integer quantity;
 
     @ManyToOne

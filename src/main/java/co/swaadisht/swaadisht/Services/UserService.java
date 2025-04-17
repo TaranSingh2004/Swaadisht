@@ -39,4 +39,6 @@ public interface UserService {
     User findByEmail(String username);
 
     OrderAddress saveAddress(int id, OrderAddress address);
+
+    OrderAddress getAddressById(Integer addressId);
 }
