@@ -1,5 +1,6 @@
 package co.swaadisht.swaadisht.Services;
 
+import co.swaadisht.swaadisht.entities.OrderAddress;
 import co.swaadisht.swaadisht.entities.User;
 
 import java.util.List;
@@ -11,9 +12,7 @@ public interface UserService {
 
     Optional<User> getUserById(String id);
 
-    Optional<User> updateUser(User user);
-
-    Optional<User> upadteUser(User user);
+//    Optional<User> upadteUser(User user);
 
     void deleteUser(String id);
 
@@ -24,4 +23,22 @@ public interface UserService {
     List<User> getAllUser();
 
     User getUserByEmail(String email);
+
+    boolean emailExists(String email);
+
+    List<User> getUsers(String roleUser);
+
+    boolean updateAccountStatus(String id, boolean status);
+
+    public void updateUserResetToken(String email, String resetToken);
+
+    public User getUserByToken(String token);
+
+    public User updateUser(User user);
+
+    User findByEmail(String username);
+
+    OrderAddress saveAddress(int id, OrderAddress address);
+
+    OrderAddress getAddressById(Integer addressId);
 }

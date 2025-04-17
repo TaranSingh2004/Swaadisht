@@ -44,7 +44,9 @@ public class Product {
 
     private String productImage;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    private boolean customizable;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "product_available_ingredients",
             joinColumns = @JoinColumn(name = "product_id"),
@@ -52,5 +54,34 @@ public class Product {
     )
     private List<CustomizationIngredient> availableIngredients = new ArrayList<>();
 
-    private boolean customizable;
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(
+            name = "product_toppings",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "topping_id")
+    )
+    private List<Toppings> availableToppings = new ArrayList<>();
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Cart> carts = new ArrayList<>();
+
+    public void clearCartReferences() {
+        for (Cart cart : carts) {
+            cart.setProduct(null);
+            cart.getSelectedIngredients().clear();
+            cart.getSelectedToppings().clear();
+        }
+        carts.clear();
+    }
+
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(
+            name = "product_size_mapping",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "size_id")
+    )
+    private List<ProductSize> availableSizes = new ArrayList<>();
+
+    private boolean hasSizes = false;
+
 }

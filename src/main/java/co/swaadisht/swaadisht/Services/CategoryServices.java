@@ -18,4 +18,6 @@ public interface CategoryServices {
     public Category getCategoryById(int id);
 
     Optional<Category> findById(int id);
+
+    public List<Category> getAllActiveCategory();
 }

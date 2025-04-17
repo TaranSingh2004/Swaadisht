@@ -1,11 +1,14 @@
 package co.swaadisht.swaadisht.Services.Impl;
 
 import co.swaadisht.swaadisht.Repository.CustomizationIngredientRepository;
+import co.swaadisht.swaadisht.Repository.ProductRepository;
 import co.swaadisht.swaadisht.Services.CustomizationIngredientService;
 import co.swaadisht.swaadisht.entities.CustomizationIngredient;
+import co.swaadisht.swaadisht.entities.Product;
 import co.swaadisht.swaadisht.helpers.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
 import java.util.ArrayList;
@@ -16,6 +19,9 @@ import java.util.List;
 public class CustomizationIngredientServiceImpl implements CustomizationIngredientService {
     @Autowired
     private CustomizationIngredientRepository ingredientRepository;
+
+    @Autowired
+    private ProductRepository productRepository;
 
     @Override
     public List<CustomizationIngredient> getAllActiveIngredients() {
@@ -34,14 +40,29 @@ public class CustomizationIngredientServiceImpl implements CustomizationIngredie
     }
 
     @Override
+    @Transactional
     public boolean deleteIngredient(int id) {
-        CustomizationIngredient category=ingredientRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Ingredient not found"));
-//        Category category=categoryRepository.findById(id).orElse(null);
-        if(!ObjectUtils.isEmpty(category)){
-            ingredientRepository.delete(category);
+        try {
+            CustomizationIngredient ingredient = ingredientRepository.findById(id)
+                    .orElseThrow(() -> new ResourceNotFoundException("Ingredient not found with id: " + id));
+
+            // Remove this ingredient from all products first
+            for (Product product : new ArrayList<>(ingredient.getProducts())) {
+                product.getAvailableIngredients().remove(ingredient);
+                productRepository.save(product);
+            }
+
+            // Clear the products list to maintain bidirectional relationship
+            ingredient.getProducts().clear();
+
+            // Now delete the ingredient
+            ingredientRepository.delete(ingredient);
+
             return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
         }
-        return false;
     }
 
     @Override

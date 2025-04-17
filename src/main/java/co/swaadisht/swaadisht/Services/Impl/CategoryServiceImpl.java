@@ -6,6 +6,7 @@ import co.swaadisht.swaadisht.entities.Category;
 import co.swaadisht.swaadisht.helpers.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
 import java.util.List;
@@ -28,6 +29,7 @@ public class CategoryServiceImpl implements CategoryServices {
     }
 
     @Override
+    @Transactional
     public boolean deleteCategory(int id) {
         Category category=categoryRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Category not found"));
 //        Category category=categoryRepository.findById(id).orElse(null);
@@ -52,6 +54,12 @@ public class CategoryServiceImpl implements CategoryServices {
     @Override
     public Optional<Category> findById(int id) {
         return categoryRepository.findById(id);
+    }
+
+    @Override
+    public List<Category> getAllActiveCategory() {
+        List<Category> categories = categoryRepository.findByIsActiveTrue();
+        return categories;
     }
 
 }

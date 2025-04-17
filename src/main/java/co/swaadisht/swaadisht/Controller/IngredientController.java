@@ -1,7 +1,9 @@
 package co.swaadisht.swaadisht.Controller;
 
 import co.swaadisht.swaadisht.Services.CustomizationIngredientService;
+import co.swaadisht.swaadisht.Services.Impl.IngredientToppingService;
 import co.swaadisht.swaadisht.entities.CustomizationIngredient;
+import co.swaadisht.swaadisht.helpers.ResourceNotFoundException;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,6 +16,9 @@ public class IngredientController {
 
     @Autowired
     private CustomizationIngredientService ingredientService;
+
+    @Autowired
+    private IngredientToppingService ingredientToppingService;
 
     @GetMapping("/ingredients")
     public String listIngredients(Model model) {
@@ -43,11 +48,17 @@ public class IngredientController {
 
     @GetMapping("/deleteIngredient/{id}")
     public String deleteIngredient(@PathVariable int id, HttpSession session) {
-        boolean deleteIngredient = ingredientService.deleteIngredient(id);
-        if(deleteIngredient){
-            session.setAttribute("succMsg", "Ingredient deleted succesfully");
-        } else {
-            session.setAttribute("errMsg", "something wrong on server");
+        try {
+            boolean deleteIngredient = ingredientService.deleteIngredient(id);
+            if(deleteIngredient){
+                session.setAttribute("succMsg", "Ingredient deleted successfully");
+            } else {
+                session.setAttribute("errMsg", "Failed to delete ingredient");
+            }
+        } catch (ResourceNotFoundException e) {
+            session.setAttribute("errMsg", "Ingredient not found");
+        } catch (Exception e) {
+            session.setAttribute("errMsg", "Server error: " + e.getMessage());
         }
         return "redirect:/admin/ingredients";
     }

@@ -8,7 +8,7 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 @ToString
-public class UserForm {
+public class UserFormDto {
 
     private String name;
     private String email;

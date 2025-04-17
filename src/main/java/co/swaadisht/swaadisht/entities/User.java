@@ -4,9 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Entity(name = "user")
 @Table(name = "users")
@@ -17,7 +15,9 @@ import java.util.stream.Collectors;
 @Builder
 public class User {
     @Id
-    private String userId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id", nullable = false)
+    private int id;
 
     @Column(name = "user_name", nullable = false)
     private String name;
@@ -34,7 +34,7 @@ public class User {
     private String phoneNumber;
 
 //    @Getter(value = AccessLevel.NONE)
-    private boolean enabled=false;
+    private Boolean enabled;
 
     private boolean emailVerified=false;
     private boolean phoneVerified = false;
@@ -48,5 +48,12 @@ public class User {
     private List<String> roleList = new ArrayList<>();
 
     private String emailToken;
+
+    private String role;
+
+    private String resetToken;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private List<OrderAddress> addresses = new ArrayList<>();
 
 }

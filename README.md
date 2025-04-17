@@ -11,3 +11,12 @@ add "./src/main/resources/**/*.{html,js}" on content in tailwind.config.js
 see the second commit
 
 npx tailwindcss -i ./src/main/resources/static/css/input.css -o ./src/main/resources/static/css/output.css --watch
+
+**spring security implementation**
+
+1. Add Spring Security Dependency
+2. Add role in user model
+3. create custom user and implement user detials --- set role, email, password
+4. create userDetialServiceImpl and implement UserDetailsService
+5. create security config
+6. create AuthSuccessHandler

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en"
+      th:replace="~{base :: parent(~{::#content},~{::title},~{::script})}" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="content" class="border">
+    <a href="/admin/toppings" class="text-blue-600 hover:text-blue-800 mb-4 inline-block">
+        <i class="fas fa-arrow-left mr-1"></i> Back to Toppings
+    </a>
+    <h1 class="text-2xl font-semibold mb-4 text-gray-800">Edit Topping</h1>
+    <div class="flex items-center justify-center min-h-screen ">
+        <div class="bg-white p-6 rounded-2xl shadow-lg max-w-md w-full">
+            <h1 class="text-2xl font-semibold mb-4 text-gray-800">Add Category</h1>
+            <th:block th:if="${session.succMsg}">
+                <p class="text-success fw-bold">[[${session.succMsg}]]</p>
+                <th:block th:text="${@commonServiceImpl.removeSessionMessage()}"></th:block>
+            </th:block>
+
+            <th:block th:if="${session.errorMsg}">
+                <p class="text-danger fw-bold">[[${session.errorMsg}]]</p>
+                <th:block th:text="${@commonServiceImpl.removeSessionMessage()}"></th:block>
+            </th:block>
+            <form th:action="@{/admin/updateTopping}" th:object="${topping}" method="post">
+                <input type="hidden" th:field="*{id}">
+                <!-- Topping Name -->
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Topping Name</label>
+                    <input type="text" th:field="*{name}"
+                           class="mt-1 block w-full p-2 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 shadow-sm"
+                           required>
+                </div>
+
+                <!-- Topping Status -->
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Status</label>
+                    <div class="flex items-center space-x-4">
+                        <label class="inline-flex items-center">
+                            <input type="radio" th:field="*{active}" th:value="true"
+                                   class="h-4 w-4 text-blue-600 focus:ring-blue-500">
+                            <span class="ml-2">Active</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input type="radio" th:field="*{active}" th:value="false"
+                                   class="h-4 w-4 text-blue-600 focus:ring-blue-500">
+                            <span class="ml-2">Inactive</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <div>
+                    <button type="submit"
+                            class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg shadow hover:bg-blue-700 transition">
+                        Update Topping
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    // Clear session messages after display
+    document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(function() {
+            const messages = document.querySelectorAll('[th\\:if="${session.succMsg}"], [th\\:if="${session.errorMsg}"]');
+            messages.forEach(function(message) {
+                message.style.display = 'none';
+            });
+        }, 5000);
+    });
+</script>
+</body>
+</html>
