@@ -57,7 +57,7 @@
                             <div th:if="${not #lists.isEmpty(user.addresses)}" class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div th:each="address, stat : ${user.addresses}"
                                      class="address-card border rounded-lg p-4"
-                                     th:classappend="${stat.first} ? 'border-blue-500 border-2' : ''">
+                                     th:classappend="${address.id == selectedAddressId} ? 'border-blue-500 border-2' : ''">
                                     <div>
                                         <div class="flex items-start">
                                             <input type="radio"
@@ -65,8 +65,8 @@
                                                    name="selectedAddressId"
                                                    th:value="${address.id}"
                                                    class="mt-1 mr-2"
-                                                   th:checked="${stat.first}"
-                                                   required>
+                                                   th:checked="${address.id == selectedAddressId}"
+                                                   onchange="updateAddress(this.value)">
                                             <div>
                                                 <div class="font-medium">Address [[${stat.count}]]</div>
                                                 <div class="text-gray-600 mt-1">
@@ -110,7 +110,7 @@
                                     <span class="text-green-500">-₹[[${#numbers.formatDecimal(discountAmount, 1, 2)}]]</span>
                                 </div>
                                 <div class="flex justify-between">
-                                    <span>Shipping:</span>
+                                    <span id="shipping-info">Shipping:</span>
                                     <span>₹[[${#numbers.formatDecimal(shipping, 1, 2)}]]</span>
                                 </div>
                                 <hr class="my-2">
@@ -143,7 +143,12 @@
                         </div>
                         <div class="ml-8 w-96 px-4 mt-4">
                             <div class="bg-white rounded-lg shadow-md p-6">
-                                Note : Free Shipping charges under 7km.
+                                <h3 class="font-semibold mb-2">Shipping Policy</h3>
+                                <ul class="list-disc pl-5">
+                                    <li>Free shipping for orders within 7km</li>
+                                    <li>Delivery within 2-3 business days</li>
+                                    <li>Shipping charges calculated based on distance</li>
+                                </ul>
                             </div>
                         </div>
                         <div class="ml-8 w-96 px-4 mt-4">
@@ -200,6 +205,69 @@
             form.submit();
         }
     }
+</script>
+<script th:inline="javascript">
+    // Handle address selection
+    document.querySelectorAll('input[name="selectedAddressId"]').forEach(radio => {
+        radio.addEventListener('change', function() {
+            const addressId = this.value;
+            fetch('/user/select-address', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `addressId=${addressId}`
+            })
+            .then(response => {
+                if (response.ok) {
+                    window.location.reload();
+                } else {
+                    alert('Failed to update address');
+                }
+            });
+        });
+    });
+
+    // Display shipping information
+    function updateShippingInfo() {
+        const shippingElement = document.getElementById('shipping-info');
+        const shippingCharge = [[${shipping}]];
+
+        if (shippingCharge > 0) {
+            shippingElement.innerHTML = `Shipping: ₹${shippingCharge.toFixed(2)}`;
+        } else {
+            shippingElement.innerHTML = 'Free Shipping';
+        }
+    }
+
+    // Call on page load
+    document.addEventListener('DOMContentLoaded', updateShippingInfo);
+
+    function updateAddress(addressId) {
+    // Show loading state if needed
+    document.body.classList.add('loading');
+
+    fetch('/user/select-address', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: `addressId=${addressId}`
+    })
+    .then(response => {
+        if (response.ok) {
+            // Force a hard reload to ensure fresh data
+            window.location.href = '/user/orders?t=' + new Date().getTime();
+        } else {
+            alert('Failed to update address');
+            document.body.classList.remove('loading');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        document.body.classList.remove('loading');
+    });
+}
 </script>
 
 <div id="bbai-shadow-wrapper"></div><div id="chrome-extension-boilerplate-react-vite-content-view-root"></div></body><chatgpt-sidebar data-gpts-theme="light"></chatgpt-sidebar></html>

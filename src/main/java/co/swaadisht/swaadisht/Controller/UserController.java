@@ -44,6 +44,9 @@ public class UserController {
     @Autowired
     private AddressService addressService;
 
+    @Autowired
+    private ShippingCalculatorService shippingService;
+
 
     @ModelAttribute
     public void getUserDetails(Principal p, Model m){
@@ -145,28 +148,52 @@ public class UserController {
     }
 
     @GetMapping("/orders")
-    public String orderPage(Principal p, Model m, HttpSession session){
+    public String orderPage(Principal p, Model m, HttpSession session) {
         User user = getLoggedInUserDetails(p);
         List<Cart> carts = cartService.getCartByUser(user.getId());
 
+        // Clear any existing shipping charge to force recalculation
+        session.removeAttribute("shippingCharge");
+
         if (!user.getAddresses().isEmpty()) {
-            m.addAttribute("selectedAddressId", user.getAddresses().get(0).getId());
+            // Get selected address (either from session or first address)
+            Integer selectedAddressId = (Integer) session.getAttribute("selectedAddressId");
+            OrderAddress selectedAddress = selectedAddressId != null ?
+                    user.getAddresses().stream()
+                            .filter(a -> a.getId().equals(selectedAddressId))
+                            .findFirst()
+                            .orElse(user.getAddresses().get(0)) :
+                    user.getAddresses().get(0);
+
+            m.addAttribute("selectedAddressId", selectedAddress.getId());
+
+            // Always recalculate shipping for the selected address
+            String originPincode = "121004";
+            double shippingCharge = shippingService.calculateShippingCharge(
+                    originPincode,
+                    selectedAddress.getPincode()
+            );
+            session.setAttribute("shippingCharge", shippingCharge);
         }
 
+        // Calculate order totals
         double subtotal = cartService.calculateTotalOrderPrice(user.getId());
-        double shipping = 250; // Fixed shipping cost
-        Double discountAmount = (Double) session.getAttribute("discountAmount");
-        double total = subtotal + shipping - (discountAmount != null ? discountAmount : 0);
+        Double shippingCharge = (Double) session.getAttribute("shippingCharge");
+        if (shippingCharge == null) shippingCharge = 0.0;
 
+        Double discountAmount = (Double) session.getAttribute("discountAmount");
+        double total = subtotal + shippingCharge - (discountAmount != null ? discountAmount : 0);
+
+        // Add attributes to model
         m.addAttribute("carts", carts);
         m.addAttribute("subtotal", subtotal);
-        m.addAttribute("shipping", shipping);
+        m.addAttribute("shipping", shippingCharge);
         m.addAttribute("discountAmount", discountAmount);
         m.addAttribute("total", total);
         m.addAttribute("couponCode", session.getAttribute("couponCode"));
         m.addAttribute("user", user);
 
-        return "/user/order";
+        return "user/order";
     }
 
     @PostMapping("/save-address")
@@ -192,7 +219,26 @@ public class UserController {
         }
     }
 
+    @PostMapping("/select-address")
+    public String selectAddress(@RequestParam Integer addressId,
+                                HttpSession session,
+                                Principal principal) {
+        try {
+            User user = getLoggedInUserDetails(principal);
+            OrderAddress address = userService.getAddressById(addressId);
 
+            // Store selected address in session
+            session.setAttribute("selectedAddressId", addressId);
+
+            // Clear shipping charge to force recalculation
+            session.removeAttribute("shippingCharge");
+
+            return "redirect:/user/orders";
+        } catch (Exception e) {
+            // Handle error
+            return "redirect:/user/orders";
+        }
+    }
 
     @PostMapping("/apply-coupon")
     public String applyCoupon(@RequestParam("coupon") String coupon, HttpSession session, Principal principal, RedirectAttributes redirectAttributes){
