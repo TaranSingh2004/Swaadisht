@@ -50,6 +50,9 @@
                     Toppings
                 </th>
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Sizes
+                </th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Actions
                 </th>
             </tr>
@@ -96,7 +99,7 @@
                 </span>
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    <img th:src="@{'/img/product_img/'+${pro.productImage}}" width="50px" height="50px">
+                    <img th:src="@{${pro.productImage}}" width="50px" height="50px">
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap">
                     <div class="flex flex-wrap gap-1 max-w-xs">
@@ -122,12 +125,29 @@
                     </span>
                     </div>
                 </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="flex flex-col gap-1">
+                        <div th:each="size : ${pro.availableSizes}"
+                             class="px-2 py-1 text-xs font-medium rounded-full bg-blue-100 text-blue-800">
+                            [[${size.name}]] : [[${#numbers.formatCurrency(size.price)}]]
+                        </div>
+                        <span th:if="${pro.availableSizes == null or pro.availableSizes.isEmpty()}"
+                              class="text-gray-500 text-sm">
+                            No sizes
+                        </span>
+                    </div>
+                </td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                     <a th:href="@{'/admin/editProduct/' + ${pro.id}}" class="text-indigo-600 hover:text-indigo-900">Edit</a>
                     <a th:href="@{'/admin/deleteProduct/' + ${pro.id}}"
                        class="ml-2 text-red-600 hover:text-red-900"
                        onclick="return confirm('Are you sure you want to delete this product?')">
                         Delete
+                    </a>
+                    <a th:href="@{'/admin/forceDeleteProduct/' + ${pro.id}}"
+                       class="ml-2 text-red-600 hover:text-red-900"
+                       onclick="return confirm('Are you sure you want to delete this product as it is in users cart?')">
+                        Force Delete
                     </a>
                 </td>
             </tr>

@@ -4,7 +4,7 @@ import co.swaadisht.swaadisht.entities.Toppings;
 
 import java.util.List;
 
-public interface ToppingService {
+public interface  ToppingService {
     List<Toppings> getAllToppings();
 
     boolean existTopping(String name);

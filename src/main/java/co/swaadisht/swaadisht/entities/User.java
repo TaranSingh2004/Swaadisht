@@ -53,4 +53,7 @@ public class User {
 
     private String resetToken;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private List<OrderAddress> addresses = new ArrayList<>();
+
 }

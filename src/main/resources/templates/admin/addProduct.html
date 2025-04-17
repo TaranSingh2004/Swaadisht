@@ -131,6 +131,19 @@
             </div>
         </div>
 
+        <div class="mb-4">
+            <label class="block text-sm font-medium text-gray-700 mb-1">Available Sizes</label>
+            <select name="selectedSizeIds" multiple
+                    class="mt-1 block w-full p-2 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 shadow-sm">
+                <option th:each="size : ${allSizes}"
+                        th:value="${size.id}"
+                        th:text="${size.name + ' (' + #numbers.formatCurrency(size.price) + ')'}"
+                        th:selected="${product.selectedSizeIds != null and product.selectedSizeIds.contains(size.id)}">
+                </option>
+            </select>
+            <p class="text-xs text-gray-500 mt-1">Hold Ctrl/Cmd to select multiple sizes</p>
+        </div>
+
         <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
     </form>
 

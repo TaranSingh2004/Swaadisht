@@ -14,4 +14,9 @@ public interface ProductService {
     boolean deleteProduct(int id);
 
     public Product getProductById(int id);
+
+    List<Product> getAllActiveProducts();
+
+    List<Product> getProductsByIds(List<Integer> productIds);
+
 }
