@@ -120,16 +120,30 @@ public class CartServiceImpl  implements CartService {
                 return cart;
             }
 
-            // For customized items, check if ingredients and toppings match exactly
-            boolean ingredientsMatch = cart.getSelectedIngredients().stream()
+            // Safely handle nulls for cart ingredients and toppings
+            Set<Integer> cartIngredientIds = cart.getSelectedIngredients() != null
+                    ? cart.getSelectedIngredients().stream()
                     .map(CustomizationIngredient::getId)
                     .collect(Collectors.toSet())
-                    .equals(new HashSet<>(selectedIngredientIds));
+                    : Collections.emptySet();
 
-            boolean toppingsMatch = cart.getSelectedToppings().stream()
+            Set<Integer> cartToppingIds = cart.getSelectedToppings() != null
+                    ? cart.getSelectedToppings().stream()
                     .map(Toppings::getId)
                     .collect(Collectors.toSet())
-                    .equals(new HashSet<>(selectedToppingIds));
+                    : Collections.emptySet();
+
+            // Safely handle nulls for selectedIngredientIds and selectedToppingIds
+            Set<Integer> selectedIngredientSet = selectedIngredientIds != null
+                    ? new HashSet<>(selectedIngredientIds)
+                    : Collections.emptySet();
+
+            Set<Integer> selectedToppingSet = selectedToppingIds != null
+                    ? new HashSet<>(selectedToppingIds)
+                    : Collections.emptySet();
+
+            boolean ingredientsMatch = cartIngredientIds.equals(selectedIngredientSet);
+            boolean toppingsMatch = cartToppingIds.equals(selectedToppingSet);
 
             if (ingredientsMatch && toppingsMatch) {
                 return cart;
