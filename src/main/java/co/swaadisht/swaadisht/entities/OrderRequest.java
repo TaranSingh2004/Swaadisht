@@ -6,13 +6,8 @@ import lombok.ToString;
 @Data
 @ToString
 public class OrderRequest {
-    private String address;
 
-    private String city;
-
-    private String state;
-
-    private String pincode;
-
+    private OrderAddress orderAddress;
+    private String couponCode;
     private String paymentType;
 }

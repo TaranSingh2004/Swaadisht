@@ -85,7 +85,7 @@ public class UserController {
     public String addToCart(
             @RequestParam Integer productId,
             @RequestParam(defaultValue = "1") Integer quantity,
-            @RequestParam String customizationType,
+            @RequestParam(defaultValue = "standard") String customizationType,
             @RequestParam(required = false) List<Integer> selectedIngredients,
             @RequestParam(required = false) List<Integer> selectedToppings,
             @RequestParam(required = false) Integer selectedSizeId,
@@ -279,7 +279,7 @@ public class UserController {
             String couponCode = (String) session.getAttribute("couponCode");
             Double discountAmount = (Double) session.getAttribute("discountAmount");
 
-            ProductOrder order = orderService.createOrder(
+            orderService.createOrder(
                     user.getId(),
                     addressId,
                     paymentMethod,
@@ -292,19 +292,19 @@ public class UserController {
             session.removeAttribute("discountAmount");
 
             // Redirect to order success page with order ID
-            return "redirect:/user/order-success?orderId=" + order.getOrderId();
+            return "redirect:/user/order-success";
 
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", "Failed to place order: " + e.getMessage());
             return "redirect:/user/orders";
         }
+
     }
 
     @GetMapping("/order-success")
-    public String orderSuccess(@RequestParam String orderId, Principal principal, Model model) {
+    public String orderSuccess(Principal principal, Model model) {
         User user = getLoggedInUserDetails(principal);
-        ProductOrder order = orderService.getOrderByOrderIdAndUser(orderId, user);
-        model.addAttribute("order", order);
+
         return "user/order-success";
     }
 

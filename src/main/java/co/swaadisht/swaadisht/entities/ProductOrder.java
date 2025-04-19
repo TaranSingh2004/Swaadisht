@@ -7,42 +7,48 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 @Entity
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class ProductOrder {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @Column(columnDefinition = "BIGINT")
+    private Long id;
 
-    private String orderId;
+    @Column(unique = true)
+    private String orderId; // Unique order reference
 
     private LocalDate orderDate;
-
-    @ManyToOne
-    private Product product;
-
     private Double price;
-    private Double originalPrice;
+    private Double totalPrice;
     private Double discountAmount;
     private String couponCode;
-
     private double shippingCharges;
-
-    private Integer quantity;
+    private String status;
+    private String paymentType;
 
     @ManyToOne
     private User user;
 
-    private String status;
-
-    private String paymentType;
-
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "order_address_id") // No unique constraint here
     private OrderAddress orderAddress;
+
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    private List<OrderItem> orderItems = new ArrayList<>();
+
+    @PrePersist
+    public void generateOrderId() {
+        if (this.orderId == null) {
+            this.orderId = "ORD-" + System.currentTimeMillis() + "-" +
+                    ThreadLocalRandom.current().nextInt(1000, 9999);
+        }
+    }
 }

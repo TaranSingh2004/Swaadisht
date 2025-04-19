@@ -11,13 +11,15 @@ import java.util.List;
 
 public interface OrderService {
 
-    public void saveOrder(Integer userId, OrderAddress orderAddress) throws MessagingException, UnsupportedEncodingException;
+    public void saveOrder(Integer userId, OrderRequest orderAddress) throws MessagingException, UnsupportedEncodingException;
 
     public List<ProductOrder> getOrdersByUsers(int userId);
 
-    ProductOrder createOrder(int id, Integer addressId, String paymentMethod, String couponCode, Double discountAmount);
+    void createOrder(int id, Integer addressId, String paymentMethod, String couponCode, Double discountAmount);
 
     ProductOrder getOrderByOrderIdAndUser(String orderId, User user);
+
+    double calculateTotalOrderPrice(int id);
 
 
 //    ProductOrder createOrder(int id, Integer addressId, String paymentMethod, String couponCode, Double discountAmount);

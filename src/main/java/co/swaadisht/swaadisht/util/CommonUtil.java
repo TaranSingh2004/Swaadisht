@@ -70,10 +70,10 @@ public class CommonUtil {
 
         msg = msg.replace("[[name]]", order.getUser().getName());
         msg = msg.replace("[[orderStatus]]", status);
-        msg=msg.replace("[[productName]]", order.getProduct().getName());
-        msg=msg.replace("[[category]]", order.getProduct().getCategory().getName());
-        msg=msg.replace("[[qauntity]]", order.getQuantity().toString());
-        msg=msg.replace("[[price]]", order.getPrice().toString());
+//        msg=msg.replace("[[productName]]", order.getProduct().getName());
+//        msg=msg.replace("[[category]]", order.getProduct().getCategory().getName());
+//        msg=msg.replace("[[qauntity]]", order.getQuantity().toString());
+//        msg=msg.replace("[[price]]", order.getPrice().toString());
         msg=msg.replace("[[paymentType]]", order.getPaymentType());
 
         helper.setSubject("Password order status");

@@ -7,17 +7,19 @@ import co.swaadisht.swaadisht.Repository.UserRepository;
 import co.swaadisht.swaadisht.Services.CartService;
 import co.swaadisht.swaadisht.Services.OrderService;
 import co.swaadisht.swaadisht.Services.ShippingCalculatorService;
+import co.swaadisht.swaadisht.Services.UserService;
 import co.swaadisht.swaadisht.entities.*;
 import co.swaadisht.swaadisht.util.CommonUtil;
+import co.swaadisht.swaadisht.util.OrderStatus;
 import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.UnsupportedEncodingException;
+import java.security.Principal;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
@@ -46,31 +48,38 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private ShippingCalculatorService shippingService;
 
+    @Autowired
+    private UserService userService;
+
+    private User getLoggedInUserDetails(Principal p){
+        String email = p.getName();
+        User userDtls = userService.getUserByEmail(email);
+        return userDtls;
+    }
+
     @Override
-    public void saveOrder(Integer userId, OrderAddress orderAddress) throws MessagingException, UnsupportedEncodingException {
+    @Transactional
+    public void saveOrder(Integer userId, OrderRequest orderRequest) throws MessagingException, UnsupportedEncodingException {
+        // Get user carts
+        OrderAddress address = addressRepository.findById(orderRequest.getOrderAddress().getId()).orElseThrow();
 
+        String originPincode = "121004"; // Your warehouse/store pincode
+        String destinationPincode = address.getPincode();
+
+        double shippingCharge = shippingService.calculateShippingCharge(originPincode, destinationPincode);
         List<Cart> carts = cartRepository.findByUserId(userId);
-
         for(Cart cart : carts){
             ProductOrder order = new ProductOrder();
             order.setOrderId(UUID.randomUUID().toString());
             order.setOrderDate(LocalDate.now());
-            order.setProduct(cart.getProduct());
-            order.setPrice((double) cart.getProduct().getDiscountPrice());
-            order.setQuantity(cart.getQuantity());
+//            order.setProduct(cart.getProduct());
+//            order.setPrice((double) cart.getProduct().getDiscountPrice());
+//            order.setQuantity(cart.getQuantity());
             order.setUser(cart.getUser());
-
-            OrderAddress address = new OrderAddress();
-            address.setAddress(orderAddress.getAddress());
-            address.setState(orderAddress.getState());
-            address.setCity(orderAddress.getCity());
-            address.setPincode(orderAddress.getPincode());
-
-            order.setOrderAddress(address);
-
-            ProductOrder saveOrder = orderRepository.save(order);
-
-            commonUtil.sendMailForProductOrder(saveOrder, "success");
+            order.setStatus(OrderStatus.IN_PROGRESS.getName());
+            order.setPaymentType(orderRequest.getPaymentType());
+            order.setOrderAddress(orderRequest.getOrderAddress());
+            ProductOrder savedOrder = orderRepository.save(order);
         }
     }
 
@@ -81,39 +90,88 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public ProductOrder createOrder(int id, Integer addressId, String paymentMethod, String couponCode, Double discountAmount) {
-        User user = userRepository.findById(id).orElseThrow();
+    public void createOrder(int userId, Integer addressId, String paymentMethod,
+                            String couponCode, Double discountAmount) {
+
+        User user = userRepository.findById(userId).orElseThrow();
         OrderAddress address = addressRepository.findById(addressId).orElseThrow();
 
-        String originPincode = "121004"; // Your warehouse/store pincode
+        // Calculate shipping
+        String originPincode = "121004";
         String destinationPincode = address.getPincode();
-
         double shippingCharge = shippingService.calculateShippingCharge(originPincode, destinationPincode);
 
-        List<Cart> cartItems = cartService.getCartByUser(id);
+        // Get all cart items
+        List<Cart> cartItems = cartRepository.findByUserId(userId);
 
-        // Calculate order total
-        double subtotal = cartService.calculateTotalOrderPrice(id);
+        if (cartItems.isEmpty()) {
+            throw new IllegalStateException("Cart is empty. Cannot place order.");
+        }
 
-        // Create and save order
+        // Create a single ProductOrder
         ProductOrder order = new ProductOrder();
-        order.setUser(user);
-        order.setOrderAddress(address);
-        order.setPaymentType(paymentMethod);
-        order.setCouponCode(couponCode);
-        order.setDiscountAmount(discountAmount);
-        order.setOriginalPrice(subtotal);
-        order.setShippingCharges(shippingCharge);
-        order.setPrice(subtotal + shippingCharge - (discountAmount != null ? discountAmount : 0.0));
+//        order.setOrderId(UUID.randomUUID().toString());
         order.setOrderDate(LocalDate.now());
-        order.setStatus("Pending");
+        order.setUser(user);
+        order.setStatus(OrderStatus.IN_PROGRESS.getName());
+        order.setPaymentType(paymentMethod);
+        order.setOrderAddress(address);
+        order.setCouponCode(couponCode);
+        order.setShippingCharges(shippingCharge);
+        order.setDiscountAmount(discountAmount);
 
-        return orderRepository.save(order);
+        double totalOrderPrice = 0.0;
+        double totalDiscount = 0.0;
+
+        for (Cart cartItem : cartItems) {
+            OrderItem orderItem = new OrderItem();
+            orderItem.setProduct(cartItem.getProduct());
+            orderItem.setQuantity(cartItem.getQuantity());
+            orderItem.setUnitPrice((double) cartItem.getProduct().getDiscountPrice());
+            orderItem.setTotalPrice((double) (cartItem.getProduct().getDiscountPrice() * cartItem.getQuantity()));
+            orderItem.setCustomised(cartItem.getProduct().isCustomizable());
+
+            if (cartItem.getSelectedIngredients() != null) {
+                orderItem.setSelectedIngredients(new ArrayList<>(cartItem.getSelectedIngredients()));
+            }
+            if (cartItem.getSelectedToppings() != null) {
+                orderItem.setSelectedToppings(new ArrayList<>(cartItem.getSelectedToppings()));
+            }
+            if (cartItem.getSelectedSize() != null) {
+                orderItem.setSelectedSize(cartItem.getSelectedSize());
+            }
+            orderItem.setTotalPrice(orderItem.getSelectedSize().getPrice() * orderItem.getQuantity());
+
+            orderItem.setOrder(order);
+            order.getOrderItems().add(orderItem);
+            totalOrderPrice += orderItem.getTotalPrice();
+
+//            discountAmount += orderItem.getProduct().getDiscountPrice() - orderItem.getProduct().getDiscountPrice() * orderItem.getProduct().getDiscount();
+
+            // Mark cart item as ordered
+            cartItem.setOrdered(true);
+            cartRepository.save(cartItem);
+        }
+        order.setPrice(totalOrderPrice);
+
+        order.setTotalPrice(totalOrderPrice + shippingCharge);
+
+        // Save the entire order with all order items
+        orderRepository.save(order);
+
+        // Clear the cart after all items are processed
+        cartService.clearUserCart(userId);
     }
+
 
     @Override
     public ProductOrder getOrderByOrderIdAndUser(String orderId, User user) {
         return orderRepository.findByOrderIdAndUser(orderId, user);
+    }
+
+    @Override
+    public double calculateTotalOrderPrice(int id) {
+        return 0;
     }
 
 }

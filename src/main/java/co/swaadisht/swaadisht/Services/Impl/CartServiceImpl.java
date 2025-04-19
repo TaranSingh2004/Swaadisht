@@ -6,6 +6,8 @@ import co.swaadisht.swaadisht.Services.CustomizationIngredientService;
 import co.swaadisht.swaadisht.Services.ToppingService;
 import co.swaadisht.swaadisht.entities.*;
 import co.swaadisht.swaadisht.helpers.ResourceNotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,6 +38,8 @@ public class CartServiceImpl  implements CartService {
 
     @Autowired
     private ProductSizeRepository sizeRepository;
+
+    Logger log = LoggerFactory.getLogger(CartServiceImpl.class);
 
     @Override
     @Transactional
@@ -82,8 +86,14 @@ public class CartServiceImpl  implements CartService {
 
             if (isCustomized) {
                 // Handle ingredients
-                List<CustomizationIngredient> ingredients = ingredientRepository.findAllById(selectedIngredientIds);
-                List<Toppings> toppings = toppingRepository.findAllById(selectedToppingIds);
+                List<CustomizationIngredient> ingredients = new ArrayList<>();
+                if(selectedIngredientIds!=null){
+                    ingredients = ingredientRepository.findAllById(selectedIngredientIds);
+                }
+                List<Toppings> toppings = new ArrayList<>();
+                if(selectedToppingIds!=null){
+                    toppings = toppingRepository.findAllById(selectedToppingIds);
+                }
 
                 // Validate customizations
                 validateCustomizations(product, ingredients, toppings);
@@ -196,7 +206,7 @@ public class CartServiceImpl  implements CartService {
 
     @Override
     public List<Cart> getCartByUser(Integer userId) {
-        List<Cart> cart = cartRepository.findByUserId(userId);
+        List<Cart> cart = cartRepository.findByUserIdAndOrderedFalse(userId);
         Double totalOrderPrice = 0.0;
         List<Cart> updatedCarts = new ArrayList<>();
         for(Cart c : cart){
@@ -248,20 +258,47 @@ public class CartServiceImpl  implements CartService {
     }
 
     @Override
-    public double calculateTotalOrderPrice(int id) {
-        List<Cart> cartItems = cartRepository.findByUserIdAndOrderedFalse(id);
+    @Transactional(readOnly = true)
+    public double calculateTotalOrderPrice(int userId) {
+        try {
+            List<Cart> cartItems = cartRepository.findByUserIdAndOrderedFalse(userId);
 
-        if (cartItems == null || cartItems.isEmpty()) {
+            if (cartItems.isEmpty()) {
+                log.warn("No unprocessed cart items found for user {}", userId);
+                return 0.0;
+            }
+
+            double total = 0.0;
+
+            for (Cart cart : cartItems) {
+                if (cart.getProduct() == null) {
+                    log.error("Cart {} has no product associated", cart.getId());
+                    continue;
+                }
+
+                if (cart.getSelectedSize() == null) {
+                    log.error("Cart {} has no size selected for product {}",
+                            cart.getId(), cart.getProduct().getName());
+                    continue;
+                }
+
+                if (cart.getQuantity() <= 0) {
+                    log.error("Invalid quantity {} for cart {}", cart.getQuantity(), cart.getId());
+                    continue;
+                }
+
+                double itemPrice = cart.getSelectedSize().getPrice() * cart.getQuantity();
+                cart.setTotalPrice(itemPrice);
+                total += itemPrice;
+            }
+
+            log.info("Calculated total price {} for user {}", total, userId);
+            return total;
+
+        } catch (Exception e) {
+            log.error("Error calculating cart total for user {}: {}", userId, e.getMessage());
             return 0.0;
         }
-
-        return cartItems.stream()
-                .mapToDouble(cart -> {
-                    double productPrice = cart.getPrice() * cart.getQuantity();
-                    cart.setTotalPrice(productPrice); // Update the cart item's total price
-                    return productPrice;
-                })
-                .sum();
     }
 
     @Override
