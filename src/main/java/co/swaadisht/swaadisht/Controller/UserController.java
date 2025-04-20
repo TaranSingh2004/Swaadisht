@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.Principal;
 import java.time.LocalDate;
@@ -322,4 +323,54 @@ public class UserController {
         return "redirect:/user/orders";
     }
 
+    @GetMapping("/my-orders")
+    public String viewUserOrders(Principal principal, Model model) {
+        User user = userService.findByEmail(principal.getName());
+        List<ProductOrder> orders = orderService.getUserOrders(user.getId());
+        model.addAttribute("orders", orders);
+        return "user/my-orders"; // matches your HTML template name
+    }
+
+    @GetMapping("/cancel-order/{orderId}")
+    public String cancelOrder(@PathVariable Long orderId,
+                              Principal principal,
+                              RedirectAttributes redirectAttributes) {
+        try {
+            User user = userService.findByEmail(principal.getName());
+            ProductOrder order = orderService.findById(orderId);
+            if(order.getStatus().equals("CANCELLED") || order.getStatus().equals("OUT FOR DELIVERY") || order.getStatus().equals("DELIVERED")){
+                return "redirect:/user/my-orders";
+            }
+            orderService.cancelOrder(orderId, user.getId());
+            redirectAttributes.addFlashAttribute("success", "Order cancelled successfully");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Failed to cancel order: " + e.getMessage());
+        }
+        return "redirect:/user/my-orders";
+    }
+
+    @GetMapping("/profile")
+    public String profile(Principal principal, Model model) {
+        User user = userService.findByEmail(principal.getName());
+        model.addAttribute("user", user);
+        return "user/profile";
+    }
+
+    @PostMapping("/update-profile")
+    public String updateProfile(@ModelAttribute User user,
+                                Principal principal,
+                                HttpSession session) {
+        try {
+            User currentUser = userService.findByEmail(principal.getName());
+            // Update only allowed fields
+            currentUser.setName(user.getName());
+            currentUser.setPhoneNumber(user.getPhoneNumber());
+
+            User updatedUser = userService.updateUserProfile(currentUser);
+            session.setAttribute("succMsg", "Profile updated successfully");
+        } catch (Exception e) {
+            session.setAttribute("errorMsg", "Profile update failed: " + e.getMessage());
+        }
+        return "redirect:/user/profile";
+    }
 }

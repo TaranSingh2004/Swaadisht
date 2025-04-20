@@ -41,4 +41,6 @@ public interface UserService {
     OrderAddress saveAddress(int id, OrderAddress address);
 
     OrderAddress getAddressById(Integer addressId);
+
+    User updateUserProfile(User user);
 }

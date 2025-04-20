@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 import java.util.List;
 import java.util.Optional;
@@ -150,6 +151,17 @@ public class UserServiceImpl implements UserService {
     @Override
     public OrderAddress getAddressById(Integer addressId) {
         return orderAddressRepository.findById(addressId).orElseThrow(()-> new ResourceNotFoundException("Address not found with id : " + addressId));
+    }
+
+    @Override
+    public User updateUserProfile(User user) {
+        User existingUser = userRepo.findById(user.getId())
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        existingUser.setName(user.getName());
+        existingUser.setPhoneNumber(user.getPhoneNumber());
+
+        return userRepo.save(existingUser);
     }
 
 }

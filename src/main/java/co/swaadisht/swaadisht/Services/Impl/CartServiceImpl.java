@@ -303,6 +303,7 @@ public class CartServiceImpl  implements CartService {
 
     @Override
     public void clearUserCart(int id) {
-        cartRepository.deleteByUserIdAndOrderedFalse(id);
+        int deletedCount = cartRepository.deleteByUserIdAndOrderedTrue(id);
+        log.info("Cleared {} ordered items from cart for user {}", deletedCount, id);
     }
 }

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" th:replace="~{base :: parent(~{::#content},~{::title},~{::script})}">
+<head>
+  <title>My Orders</title>
+</head>
+<body>
+<div id="content">
+  <a href="/user/cart" class="text-decoration-none"><i class="fa-solid fa-arrow-left"></i> Back to cart</a>
+  <div class="pl-8px" style="overflow-x: auto; width: 100%;">
+    <table class="min-w-full divide-y divide-gray-200 overflow-x-auto border ml-20px">
+      <thead class="bg-gray-50">
+      <tr>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+          Order Id
+        </th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+          Order Date
+        </th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+          Product Details
+        </th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+          Price
+        </th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+          Order Status
+        </th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+          Payment Status
+        </th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+          Actions
+        </th>
+      </tr>
+      </thead>
+      <tbody class="bg-white divide-y divide-gray-200">
+      <tr th:each="order : ${orders}">
+        <td class="px-6 py-4 whitespace-nowrap">
+          <div class="text-sm text-gray-900">[[${order.orderId}]]</div>
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap">
+          <div class="text-sm text-gray-900">[[${#temporals.format(order.orderDate, 'dd-MM-yyyy')}]]</div>
+        </td>
+        <td class="px-6 py-4">
+          <div class="flex flex-col gap-2">
+            <div th:each="item : ${order.orderItems}" class="ml-1 px-1 py-0.5 text-xm rounded bg-pink-100 text-pink-800">
+              <div class="font-medium">[[${item.product.name}]]</div>
+              <div th:if="${item.customised}" class="text-sm text-gray-600">
+                <div th:if="${not #lists.isEmpty(item.selectedIngredients)}">
+                  <span class="font-semibold">Ingredients:</span>
+                  <span th:each="ingredient : ${item.selectedIngredients}"
+                        class="ml-1 px-1 py-0.5 text-xs rounded bg-blue-100 text-blue-800">
+                    [[${ingredient.name}]]
+                  </span>
+                </div>
+                <div th:if="${not #lists.isEmpty(item.selectedToppings)}">
+                  <span class="font-semibold">Toppings:</span>
+                  <span th:each="topping : ${item.selectedToppings}"
+                        class="ml-1 px-1 py-0.5 text-xs rounded bg-green-100 text-green-800">
+                    [[${topping.name}]]
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap">
+          <div class="flex flex-col gap-2">
+            <div th:each="item : ${order.orderItems}">
+              <div class="text-sm">
+                [[${item.quantity}]] x [[${#numbers.formatCurrency(item.unitPrice)}]]
+                <span th:if="${item.selectedSize != null}">
+                  ([[${item.selectedSize.name}]])
+                </span>
+              </div>
+            </div>
+            <div class="font-medium">
+              Total: [[${#numbers.formatCurrency(order.totalPrice)}]]
+            </div>
+          </div>
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap">
+          <span th:switch="${order.status}" class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full">
+            <span class="bg-gray-100 text-gray-800">[[${order.status}]]</span>
+          </span>
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap">
+          <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full">
+            <span class="bg-gray-100 text-gray-800">[[${order.paymentType}]]</span>
+          </span>
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+          <a th:href="@{'/user/cancel-order/' + ${order.id}}"
+             class="text-red-600 hover:text-red-900"
+             onclick="return confirm('Are you sure you want to cancel this order?')">
+            Cancel Order
+          </a>
+<!--          <span th:if="${order.status != 'IN_PROGRESS'}" class="text-gray-500">-->
+<!--            N/A-->
+<!--          </span>-->
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<script>
+  console.log("orders page");
+</script>
+</body>
+</html>

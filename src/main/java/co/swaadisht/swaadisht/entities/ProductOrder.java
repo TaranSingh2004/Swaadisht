@@ -33,6 +33,7 @@ public class ProductOrder {
     private double shippingCharges;
     private String status;
     private String paymentType;
+    private boolean cancelled= false;
 
     @ManyToOne
     private User user;

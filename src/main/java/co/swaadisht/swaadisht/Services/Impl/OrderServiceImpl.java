@@ -13,15 +13,16 @@ import co.swaadisht.swaadisht.util.CommonUtil;
 import co.swaadisht.swaadisht.util.OrderStatus;
 import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.UnsupportedEncodingException;
 import java.security.Principal;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @Transactional
@@ -102,7 +103,7 @@ public class OrderServiceImpl implements OrderService {
         double shippingCharge = shippingService.calculateShippingCharge(originPincode, destinationPincode);
 
         // Get all cart items
-        List<Cart> cartItems = cartRepository.findByUserId(userId);
+        List<Cart> cartItems = cartRepository.findByUserIdAndOrderedFalse(userId);
 
         if (cartItems.isEmpty()) {
             throw new IllegalStateException("Cart is empty. Cannot place order.");
@@ -172,6 +173,53 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public double calculateTotalOrderPrice(int id) {
         return 0;
+    }
+
+    @Override
+    public List<ProductOrder> getUserOrders(int id) {
+        return orderRepository.findByUserIdAndCancelledFalseOrderByOrderDateDesc(id);
+    }
+
+    @Override
+    public void cancelOrder(Long orderId, int userId) {
+        ProductOrder order = orderRepository.findByIdAndUserId(orderId, userId)
+                .orElseThrow(() -> new IllegalArgumentException("Order not found"));
+
+//        if (!Arrays.asList(OrderStatus.OUT_FOR_DELIVERY.getName(),OrderStatus.ORDER_RECIEVED.getName(), OrderStatus.DELIVERED.getName()).contains(order.getStatus())) {
+//            throw new IllegalStateException("Order cannot be cancelled in its current status");
+//        }
+
+        order.setStatus(OrderStatus.CANCEL.getName());
+        order.setCancelled(true);
+        orderRepository.save(order);
+    }
+
+    @Override
+    public Page<ProductOrder> getAllOrdersPagination(Integer pageNo, Integer pageSize) {
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        return orderRepository.findAll(pageable);
+    }
+
+    @Override
+    public ProductOrder updateOrderStatus(Integer id, String status) {
+        Optional<ProductOrder> orderId = orderRepository.findById(id);
+        if(orderId.isPresent()){
+            ProductOrder productOrder = orderId.get();
+            productOrder.setStatus(status);
+            ProductOrder updatedOrder = orderRepository.save(productOrder);
+            return updatedOrder;
+        }
+        return null;
+    }
+
+    @Override
+    public ProductOrder getOrdersByOrderId(String orderId) {
+        return orderRepository.findByOrderId(orderId);
+    }
+
+    @Override
+    public ProductOrder findById(Long orderId) {
+        return orderRepository.findById(orderId);
     }
 
 }

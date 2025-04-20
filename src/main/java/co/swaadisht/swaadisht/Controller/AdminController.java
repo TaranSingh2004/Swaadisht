@@ -2,15 +2,22 @@ package co.swaadisht.swaadisht.Controller;
 
 import co.swaadisht.swaadisht.Services.CategoryServices;
 import co.swaadisht.swaadisht.Services.ImageService;
+import co.swaadisht.swaadisht.Services.OrderService;
 import co.swaadisht.swaadisht.Services.UserService;
 import co.swaadisht.swaadisht.entities.Category;
+import co.swaadisht.swaadisht.entities.ProductOrder;
 import co.swaadisht.swaadisht.entities.User;
+import co.swaadisht.swaadisht.util.CommonUtil;
+import co.swaadisht.swaadisht.util.OrderStatus;
 import com.cloudinary.Cloudinary;
+import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpSession;
+import org.apache.hc.client5.http.psl.PublicSuffixList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.ObjectUtils;
@@ -19,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -44,6 +52,11 @@ public class AdminController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private OrderService orderService;
+
+    @Autowired
+    private CommonUtil commonUtil;
 
     @ModelAttribute
     public void getUserDetails(Principal p, Model m){
@@ -189,7 +202,81 @@ public class AdminController {
         return fileName.substring(0, fileName.lastIndexOf('.'));
     }
 
+    @GetMapping("/orders")
+    public String getAllOrders(Model m, @RequestParam(name = "pageNo", defaultValue = "0") Integer pageNo,
+                               @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize){
+        Page<ProductOrder> page = orderService.getAllOrdersPagination(pageNo, pageSize);
+        m.addAttribute("orders", page.getContent());
 
+        m.addAttribute("pageNo", page.getNumber());
+        m.addAttribute("pageSize", pageSize);
+        m.addAttribute("totalElements", page.getTotalElements());
+        m.addAttribute("totalPages", page.getTotalPages());
+        m.addAttribute("isFirst", page.isFirst());
+        m.addAttribute("isLast", page.isLast());
+
+        m.addAttribute("srch", false);
+        return "/admin/orders";
+    }
+
+    @PostMapping("/update-order-status")
+    public String updateOrderStatus(@RequestParam Integer id, @RequestParam Integer st, HttpSession session) throws MessagingException, UnsupportedEncodingException {
+        String status = null;
+        for(OrderStatus orderStatus : OrderStatus.values()){
+            if(orderStatus.getId().equals(st)){  // Compare with getId() instead of direct enum comparison
+                status = orderStatus.getName();
+                break;
+            }
+        }
+
+        if(status == null) {
+            session.setAttribute("errorMsg", "Invalid status value");
+            return "redirect:/admin/orders";
+        }
+
+        ProductOrder updatedOrder = orderService.updateOrderStatus(id, status);
+
+        try {
+            if(updatedOrder != null){
+                commonUtil.sendMailForProductOrder(updatedOrder, status);
+                session.setAttribute("succMsg", "Status Updated");
+            } else {
+                session.setAttribute("errorMsg", "Status not updated");
+            }
+        } catch (Exception e) {
+            session.setAttribute("errorMsg", "Status updated but email failed to send");
+            logger.error("Error sending email notification", e);
+        }
+
+        return "redirect:/admin/orders";
+    }
+
+    @GetMapping("/search-order")
+    public String searchProduct(@RequestParam String orderId, Model m, HttpSession session,
+                                @RequestParam(name = "pageNo", defaultValue = "0") Integer pageNo,
+                                @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize){
+        if(orderId.length()>0 && orderId!=null) {
+            ProductOrder order = orderService.getOrdersByOrderId(orderId.trim());
+            if (ObjectUtils.isEmpty(order)) {
+                session.setAttribute("errorMsg", "Incorrect orderId");
+                m.addAttribute("orderDtls", null);
+            } else {
+                m.addAttribute("orderDtls", order);
+            }
+            m.addAttribute("srch", true);
+        } else {
+            Page<ProductOrder> page = orderService.getAllOrdersPagination(pageNo, pageSize);
+            m.addAttribute("orders", page);
+            m.addAttribute("srch", false);
+            m.addAttribute("pageNo", page.getNumber());
+            m.addAttribute("pageSize", pageSize);
+            m.addAttribute("totalElements", page.getTotalElements());
+            m.addAttribute("totalPages", page.getTotalPages());
+            m.addAttribute("isFirst", page.isFirst());
+            m.addAttribute("isLast", page.isLast());
+        }
+        return "/admin/orders";
+    }
 
 
 }
