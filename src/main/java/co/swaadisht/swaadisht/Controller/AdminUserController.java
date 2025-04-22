@@ -4,12 +4,19 @@ import co.swaadisht.swaadisht.Services.UserService;
 import co.swaadisht.swaadisht.entities.User;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.util.ObjectUtils;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 
 
@@ -28,14 +35,41 @@ public class AdminUserController {
     }
 
     @GetMapping("/updateSts")
-    public String updateAccountStatus(@RequestParam String id, @RequestParam Boolean status, HttpSession session){
+    public String updateAccountStatus(@RequestParam String id,
+                                      @RequestParam Boolean status,
+                                      HttpSession session,
+                                      @RequestParam(required = false, defaultValue = "cart") String source){
         boolean f = userService.updateAccountStatus(id, status);
         if(f){
             session.setAttribute("succMsg", "Account Ststus updated");
         }else {
             session.setAttribute("errorMsg", "Something wrong on server");
         }
-        return "redirect:/admin/users";
+        return "redirect:/admin/" + source;
+    }
+
+    @GetMapping("/admins")
+    public String viewAllAdmins(Model m){
+        List<User> admins = userService.getAdmins("ROLE_ADMIN");
+        m.addAttribute("admins", admins);
+        return "/admin/view_admin";
+    }
+
+    @GetMapping("/add-admin")
+    public String loadAdminAdd(){
+        return "/admin/add_admin";
+    }
+
+    @PostMapping("/save-admin")
+    public String saveUser(@ModelAttribute User user, HttpSession session) throws IOException {
+
+        User saveUser = userService.saveAdmin(user);
+        if(!ObjectUtils.isEmpty(saveUser)){
+            session.setAttribute("succMsg", "Registered successfully");
+        } else {
+            session.setAttribute("errorMsg", "something wrong on server");
+        }
+        return "redirect:/admin/add-admin";
     }
 
 }

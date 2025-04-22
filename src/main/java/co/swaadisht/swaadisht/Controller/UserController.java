@@ -201,11 +201,12 @@ public class UserController {
     public String saveAddress(@Valid @ModelAttribute OrderAddress address,
                               BindingResult result,
                               Principal principal,
-                              HttpSession session) {
+                              HttpSession session,
+                              @RequestParam(required = false, defaultValue = "cart") String source) {
 
         if (result.hasErrors()) {
             session.setAttribute("errorMsg", "Please fill all address fields correctly");
-            return "redirect:/user/cart";
+            return "redirect:/user/" + source;
         }
 
         User user = getLoggedInUserDetails(principal);
@@ -213,10 +214,10 @@ public class UserController {
 
         if (savedAddress != null) {
             session.setAttribute("succMsg", "Address saved successfully");
-            return "redirect:/user/cart"; // Redirect to orders page
+            return "redirect:/user/" + source; // Redirect to orders page
         } else {
             session.setAttribute("errorMsg", "Failed to save address. Please try again.");
-            return "redirect:/user/cart";
+            return "redirect:/user/" + source;
         }
     }
 
@@ -312,7 +313,8 @@ public class UserController {
     @PostMapping("/delete-address/{addressId}")
     public String deleteAddress(@PathVariable Integer addressId,
                                 Principal principal,
-                                RedirectAttributes redirectAttributes) {
+                                RedirectAttributes redirectAttributes,
+                                @RequestParam(required = false, defaultValue = "cart") String source) {
         try {
             User user = getLoggedInUserDetails(principal);
             addressService.deleteAddress(user.getId(), addressId);
@@ -320,7 +322,7 @@ public class UserController {
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", e.getMessage());
         }
-        return "redirect:/user/orders";
+        return "redirect:/user/" + source;
     }
 
     @GetMapping("/my-orders")

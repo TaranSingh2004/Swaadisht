@@ -164,4 +164,15 @@ public class UserServiceImpl implements UserService {
         return userRepo.save(existingUser);
     }
 
+    @Override
+    public List<User> getAdmins(String roleAdmin) {
+        return userRepo.findByRole(roleAdmin);
+    }
+
+    @Override
+    public User saveAdmin(User user) {
+        user.setRole("ROLE_ADMIN");
+        return userRepo.save(user);
+    }
+
 }

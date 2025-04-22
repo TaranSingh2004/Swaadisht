@@ -48,7 +48,7 @@
                 </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
-                <tr th:each="user, u:${users}">
+                <tr th:each="user, u:${admins}">
                     <td class="px-6 py-4 whitespace-nowrap">
                         <div class="flex items-center">
                             [[${u.count}]]
@@ -76,8 +76,8 @@
                     </span>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                        <a th:href="@{'/admin/updateSts?status=true&source=users&id='+${user.id}}" class="btn btn-sm btn-primary">Active</a>
-                        <a th:href="@{'/admin/updateSts?status=false&source=users&id='+${user.id}}" class="btn btn-sm btn-danger">Inactive</a>
+                        <a th:href="@{'/admin/updateSts?status=true&source=admins&id='+${user.id}}" class="btn btn-sm btn-primary">Active</a>
+                        <a th:href="@{'/admin/updateSts?status=false&source=admins&id='+${user.id}}" class="btn btn-sm btn-danger">Inactive</a>
                     </td>
                 </tr>
                 </tbody>

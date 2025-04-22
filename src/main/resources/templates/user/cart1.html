@@ -101,7 +101,7 @@
                                         <p class="text-danger fw-bold">[[${session.errorMsg}]]</p>
                                         <th:block th:text="${@commonServiceImpl.removeSessionMessage()}"></th:block>
                                     </th:block>
-                                    <form th:action="@{/user/save-address}" method="post" class="space-y-4">
+                                    <form th:action="@{/user/save-address?source=cart}" method="post" class="space-y-4">
                                         <div>
                                             <label for="address" class="block text-gray-700 font-medium mb-1">Address</label>
                                             <input type="text" id="address" name="address"

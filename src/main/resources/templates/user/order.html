@@ -76,7 +76,7 @@
                                             </div>
                                         </div>
                                         <div>
-                                            <form th:action="@{'/user/delete-address/' + ${address.id}}" method="post"
+                                            <form th:action="@{'/user/delete-address/' + ${address.id} + '?source=cart'}" method="post"
                                                   th:data-address-id="${address.id}" class="delete-address-form">
                                                 <button type="button"
                                                         onclick="confirmDeleteAddress(this)"

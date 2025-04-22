@@ -43,4 +43,8 @@ public interface UserService {
     OrderAddress getAddressById(Integer addressId);
 
     User updateUserProfile(User user);
+
+    List<User> getAdmins(String roleAdmin);
+
+    User saveAdmin(User user);
 }
