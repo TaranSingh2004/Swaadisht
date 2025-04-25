@@ -1,134 +1,177 @@
 <!DOCTYPE html>
-<html
-        lang="en"
-        th:replace="~{base :: parent(~{::#content},~{::title},~{::script})}"
->
+<html lang="en" th:replace="~{base :: parent(~{::#content},~{::title},~{::script})}">
 <head>
-  <title>Home page</title>
+  <title>Product Details</title>
 </head>
 <body>
 <div id="content">
-  <div class="bg-gray-100">
-    <div class="container mx-auto px-4 py-8">
-      <th:block th:if="${session.succMsg}">
-        <p class="text-success fw-bold">[[${session.succMsg}]]</p>
-        <th:block th:text="${@commonServiceImpl.removeSessionMessage()}"></th:block>
-      </th:block>
-
-      <th:block th:if="${session.errorMsg}">
-        <p class="text-danger fw-bold">[[${session.errorMsg}]]</p>
-        <th:block th:text="${@commonServiceImpl.removeSessionMessage()}"></th:block>
-      </th:block>
-
-
-  <form id="add-to-cart-form" th:action="@{/user/cart/add}" method="post">
-    <input type="hidden" name="productId" th:value="${pro.id}">
-      <div class="flex -mx-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-        <!-- Product Images -->
-        <div class="w-full md:w-1/2 px-4 mb-8">
-          <img th:src="@{${pro.productImage}}" alt="Product"
-               class="w-full h-auto rounded-lg shadow-md mb-4" id="mainImage">
-        </div>
-
-        <!-- Product Details -->
-        <div class="w-full md:w-1/2 px-4">
-          <h2 class="text-3xl font-bold mb-2">[[${pro.name}]]</h2>
-          <p class="text-gray-600 mb-4">[[${pro.category.name}]]</p>
-
-<!--          price-->
-          <!-- Product Sizes -->
-          <div class="mb-6" th:if="${not pro.availableSizes.isEmpty()}">
-            <h3 class="text-lg font-medium mb-3">Available Sizes</h3>
-            <div class="space-y-2">
-              <div th:each="size : ${pro.availableSizes}" class="flex items-center">
-                <input type="radio"
-                       th:id="'size_' + ${size.id}"
-                       th:value="${size.id}"
-                       name="selectedSizeId"
-                       th:checked="${sizeStat.first}"
-                       class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500">
-                <label th:for="'size_' + ${size.id}"
-                       class="ms-2 text-sm font-medium text-gray-900">
-                  <span th:text="${size.name} + ' @ ' + ${#numbers.formatCurrency(size.price)}"></span>
-                </label>
-              </div>
-            </div>
+  <div class="">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <!-- Success/Error Messages -->
+      <div class="mb-6">
+        <th:block th:if="${session.succMsg}">
+          <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded" role="alert">
+            <p class="font-bold">[[${session.succMsg}]]</p>
+            <th:block th:text="${@commonServiceImpl.removeSessionMessage()}"></th:block>
           </div>
+        </th:block>
 
-          <p class="text-gray-700 mb-6">[[${(pro.description)}]]</p>
-
-          <!-- Customization Toggle -->
-          <div th:if="${pro.customizable}" class="w-[300px] mx-auto px-4 py-5 bg-white flex flex-col gap-3 rounded-md shadow-[0px_0px_15px_rgba(0,0,0,0.09)] mb-6">
-            <legend class="text-xl font-semibold mb-3 select-none">Choose One</legend>
-            <label for="standard-option" class="font-medium h-14 relative hover:bg-zinc-100 flex items-center px-3 gap-3 rounded-lg has-[:checked]:text-blue-500 has-[:checked]:bg-blue-50 has-[:checked]:ring-blue-300 has-[:checked]:ring-1 select-none">
-              <div class="w-5 fill-blue-500"></div>
-              Standard
-              <input checked type="radio" name="customizationType" value="standard" class="peer/html w-4 h-4 absolute accent-current right-3" id="standard-option"/>
-            </label>
-            <label for="customized-option" class="font-medium h-14 relative hover:bg-zinc-100 flex items-center px-3 gap-3 rounded-lg has-[:checked]:text-blue-500 has-[:checked]:bg-blue-50 has-[:checked]:ring-blue-300 has-[:checked]:ring-1 select-none">
-              <div class="w-5"></div>
-              Customized
-              <input type="radio" name="customizationType" value="customized" class="w-4 h-4 absolute accent-current right-3" id="customized-option"/>
-            </label>
+        <th:block th:if="${session.errorMsg}">
+          <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded" role="alert">
+            <p class="font-bold">[[${session.errorMsg}]]</p>
+            <th:block th:text="${@commonServiceImpl.removeSessionMessage()}"></th:block>
           </div>
-
-          <!-- Customization Options -->
-          <div id="customization-options" class="hidden">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div class="mb-6">
-                <h3 class="text-lg font-medium mb-3">Ingredients</h3>
-                <div th:each="ingredient : ${pro.availableIngredients}" class="flex items-center mb-2">
-                  <input type="checkbox"
-                         th:id="'ingredient_' + ${ingredient.id}"
-                         th:value="${ingredient.id}"
-                         name="selectedIngredients"
-                         class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500">
-                  <label th:for="'ingredient_' + ${ingredient.id}"
-                         class="ms-2 text-sm font-medium text-gray-900">
-                    <span th:text="${ingredient.name}"></span>
-                  </label>
-                </div>
-              </div>
-
-              <div class="mb-6">
-                <h3 class="text-lg font-medium mb-3">Toppings</h3>
-                <div th:each="topping : ${pro.availableToppings}" class="flex items-center mb-2">
-                  <input type="checkbox"
-                         th:id="'topping_' + ${topping.id}"
-                         th:value="${topping.id}"
-                         name="selectedToppings"
-                         class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500">
-                  <label th:for="'topping_' + ${topping.id}"
-                         class="ms-2 text-sm font-medium text-gray-900">
-                    <span th:text="${topping.name}"></span>
-                  </label>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Quantity -->
-          <div class="mb-6">
-            <label for="quantity" class="block text-sm font-medium text-gray-700 mb-1">Quantity:</label>
-            <input type="number" id="quantity" name="quantity" min="1" value="1"
-                   class="w-12 text-center rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-          </div>
-
-          <!-- Add to Cart Button -->
-          <div class="flex space-x-4 mb-6">
-            <button type="submit"
-                    class="bg-indigo-600 flex gap-2 items-center text-white px-6 py-2 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                   stroke-width="1.5" stroke="currentColor" class="size-6">
-                <path stroke-linecap="round" stroke-linejoin="round"
-                      d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
-              </svg>
-              Add to Cart
-            </button>
-          </div>
-        </div>
+        </th:block>
       </div>
-  </form>
+
+      <form id="add-to-cart-form" th:action="@{/user/cart/add}" method="post" class="m-4 p-4">
+        <input type="hidden" name="productId" th:value="${pro.id}">
+
+        <!-- Main Grid Layout -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <!-- Product Image Column -->
+          <div class="flex flex-col p-4">
+            <div class="bg-gray-50 rounded-xl overflow-hidden shadow-lg aspect-square">
+              <img th:src="@{${pro.productImage}}" alt="Product"
+                   class="w-full h-full object-cover" id="mainImage">
+            </div>
+          </div>
+
+          <!-- Product Details Column -->
+          <div class="flex flex-col p-8 m-4 bg-white bg-gray-50 rounded-xl overflow-hidden shadow-lg aspect-square">
+            <div class="space-y-6">
+              <!-- Product Title -->
+              <div>
+                <h1 class="text-3xl font-bold text-gray-900">[[${pro.name}]]</h1>
+                <p class="text-indigo-600 font-medium mt-1">[[${pro.category.name}]]</p>
+              </div>
+
+              <!-- Description -->
+              <p class="text-gray-600 leading-relaxed">[[${pro.description}]]</p>
+
+              <div th:if="${not pro.availableSizes.isEmpty()}" class="pt-4 border-t border-gray-200">
+                <h3 class="text-lg font-semibold text-gray-900 mb-3 text-center">Select Size</h3>
+                <div class="grid grid-cols-2 sm:grid-cols-3 gap-3" id="sizeContainer">
+                  <div th:each="size : ${pro.availableSizes}">
+                    <input type="radio"
+                           th:id="'size_' + ${size.id}"
+                           th:value="${size.id}"
+                           name="selectedSizeId"
+                           th:checked="${size.id == selectedSizeId}"
+                           class="hidden size-radio">
+                    <label th:for="'size_' + ${size.id}"
+                           th:attr="data-size-id=${size.id}"
+                           class="size-label block p-3 border-2 border-gray-200 rounded-lg cursor-pointer
+                    hover:bg-[#f0e8e8] hover:border-[#650c04]
+                    transition-colors duration-200">
+                      <span class="block text-center font-medium" th:text="${size.name}"></span>
+                      <span class="block text-center text-[#650c04] font-semibold mt-1"
+                            th:text="${#numbers.formatCurrency(size.price)}"></span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Customization Toggle -->
+              <div th:if="${pro.customizable}" class="pt-4 border-t border-gray-200">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4 text-center">Customization Options</h3>
+                <div class="grid grid-cols-2 gap-2">
+                  <label>
+                    <input type="radio" name="customizationType" value="standard"
+                           class="sr-only peer" checked id="standard-option">
+                    <div class="text-center py-3 px-4 rounded-lg border-2 border-gray-200 cursor-pointer transition-all
+                               peer-checked:border-indigo-500 peer-checked:bg-indigo-50 peer-checked:font-medium">
+                      Standard
+                    </div>
+                  </label>
+                  <label>
+                    <input type="radio" name="customizationType" value="customized"
+                           class="sr-only peer" id="customized-option">
+                    <div class="text-center py-3 px-4 rounded-lg border-2 border-gray-200 cursor-pointer transition-all
+                               peer-checked:border-indigo-500 peer-checked:bg-indigo-50 peer-checked:font-medium">
+                      Customized
+                    </div>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Customization Options -->
+              <div id="customization-options" class="hidden space-y-6 pt-4 border-t border-gray-200">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <!-- Ingredients -->
+                  <div>
+                    <h4 class="text-lg font-semibold text-gray-900 mb-3">Ingredients</h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      <div th:each="ingredient : ${pro.availableIngredients}" class="flex items-center">
+                        <input type="checkbox"
+                               th:id="'ingredient_' + ${ingredient.id}"
+                               th:value="${ingredient.id}"
+                               name="selectedIngredients"
+                               class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                        <label th:for="'ingredient_' + ${ingredient.id}"
+                               class="ml-3 text-gray-700">
+                          [[${ingredient.name}]]
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Toppings -->
+                  <div>
+                    <h4 class="text-lg font-semibold text-gray-900 mb-3">Toppings</h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      <div th:each="topping : ${pro.availableToppings}" class="flex items-center">
+                        <input type="checkbox"
+                               th:id="'topping_' + ${topping.id}"
+                               th:value="${topping.id}"
+                               name="selectedToppings"
+                               class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                        <label th:for="'topping_' + ${topping.id}"
+                               class="ml-3 text-gray-700">
+                          [[${topping.name}]]
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Quantity Selector -->
+              <div class="pt-4 border-t border-gray-200 align-center">
+                <label for="quantity" class="block text-sm font-medium text-gray-700 mb-2 text-center">Quantity</label>
+                <div class="flex items-center w-32 mx-auto">
+                  <button type="button" onclick="decrementQuantity()"
+                          class="bg-gray-200 px-3 py-2 rounded-l-lg hover:bg-gray-300 transition">
+                    -
+                  </button>
+                  <input type="number" id="quantity" name="quantity" min="1" value="1"
+                         class="w-full text-center border-t border-b border-gray-200 py-2 focus:outline-none">
+                  <button type="button" onclick="incrementQuantity()"
+                          class="bg-gray-200 px-3 py-2 rounded-r-lg hover:bg-gray-300 transition">
+                    +
+                  </button>
+                </div>
+              </div>
+
+              <!-- Add to Cart Button -->
+              <div class="pt-6 border-t border-gray-200">
+                <button type="submit"
+                        class="w-full bg-indigo-600 text-white py-3 px-6 rounded-lg hover:bg-indigo-700
+                               transition duration-200 flex items-center justify-center gap-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                       stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                          d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
+                  </svg>
+                  Add to Cart
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -139,15 +182,15 @@
     const customizationOptions = document.getElementById('customization-options');
 
     function toggleCustomizationOptions() {
-        if (customizedOption.checked) {
-            customizationOptions.classList.remove('hidden');
-        } else {
-            customizationOptions.classList.add('hidden');
-            // Uncheck all customization options when switching to standard
-            document.querySelectorAll('#customization-options input[type="checkbox"]').forEach(checkbox => {
-                checkbox.checked = false;
-            });
-        }
+      if (customizedOption.checked) {
+        customizationOptions.classList.remove('hidden');
+      } else {
+        customizationOptions.classList.add('hidden');
+        // Uncheck all customization options when switching to standard
+        document.querySelectorAll('#customization-options input[type="checkbox"]').forEach(checkbox => {
+          checkbox.checked = false;
+        });
+      }
     }
 
     // Initial check
@@ -159,21 +202,56 @@
 
     // Form submission handler
     form.addEventListener('submit', function(e) {
-        if (customizedOption.checked) {
-            // Validate at least one customization is selected
-            const checkedIngredients = document.querySelectorAll('input[name="selectedIngredients"]:checked');
-            const checkedToppings = document.querySelectorAll('input[name="selectedToppings"]:checked');
+      if (customizedOption.checked) {
+        // Validate at least one customization is selected
+        const checkedIngredients = document.querySelectorAll('input[name="selectedIngredients"]:checked');
+        const checkedToppings = document.querySelectorAll('input[name="selectedToppings"]:checked');
 
-            if (checkedIngredients.length === 0 && checkedToppings.length === 0) {
-                e.preventDefault();
-                alert('Please select at least one ingredient or topping for customization');
-            }
+        if (checkedIngredients.length === 0 && checkedToppings.length === 0) {
+          e.preventDefault();
+          alert('Please select at least one ingredient or topping for customization');
         }
+      }
     });
-});
+  });
+
+  function incrementQuantity() {
+    const quantityInput = document.getElementById('quantity');
+    quantityInput.value = parseInt(quantityInput.value) + 1;
+  }
+
+  function decrementQuantity() {
+    const quantityInput = document.getElementById('quantity');
+    if (parseInt(quantityInput.value) > 1) {
+      quantityInput.value = parseInt(quantityInput.value) - 1;
+    }
+  }
 </script>
 <script>
-  console.log("product page");
+  document.addEventListener('DOMContentLoaded', function() {
+    const sizeLabels = document.querySelectorAll('.size-label');
+
+    // Initialize selected state
+    sizeLabels.forEach(label => {
+      const radio = document.getElementById(label.getAttribute('for'));
+      if (radio.checked) {
+        label.classList.add('bg-[#d9d2d2]', 'border-[#650c04]');
+      }
+    });
+
+    // Handle selection changes
+    sizeLabels.forEach(label => {
+      label.addEventListener('click', function() {
+        // Remove previous selection
+        sizeLabels.forEach(l => {
+          l.classList.remove('bg-[#d9d2d2]', 'border-[#650c04]');
+        });
+
+        // Add new selection
+        label.classList.add('bg-[#d9d2d2]', 'border-[#650c04]');
+      });
+    });
+  });
 </script>
 </body>
 </html>

@@ -1,5 +1,5 @@
 .custom-bg {
-  background-color: #F1E8D9; /* Light Gray */
+  background-color: #ebe8e1; /* Light Gray */
 }
 /* Please ❤ this if you like it! */
 
@@ -15,13 +15,16 @@ body{
 	line-height: 24px;
 	font-weight: 400;
 	color: #212112;
-	background-image: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/1462889/pat-back.svg');
+	background-image: url('/img/bg3.jpg');
 	background-position: center;
 	background-repeat: repeat;
-	background-size: 7%;
+	background-size: 100%;
 	background-color: #fff;
 	overflow-x: hidden;
     transition: all 200ms linear;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 ::selection {
 	color: #fff;
@@ -536,4 +539,217 @@ body.dark .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
 }
 body.dark .logo img {
   filter: brightness(100%);
+}
+
+/* Custom styles for Swaadisht */
+
+/* General Styles */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+.container {
+  max-width: 1280px;
+}
+
+/* Background Pattern */
+.bg-pattern {
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23654321' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* Header Styles */
+.header-scrolled {
+  background-color: rgba(250, 247, 240, 0.98) !important;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1) !important;
+  padding-top: 0.5rem !important;
+  padding-bottom: 0.5rem !important;
+}
+
+/* Custom Button Animation */
+.btn-hover-effect:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 7px 14px rgba(50, 50, 93, 0.1), 0 3px 6px rgba(0, 0, 0, 0.08);
+}
+
+/* Custom Image Hover Effects */
+.product-card:hover img {
+  transform: scale(1.05);
+  transition: transform 0.5s ease;
+}
+
+.product-card img {
+  transition: transform 0.5s ease;
+}
+
+/* Custom Badge Animation */
+.customize-badge {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Custom Option Selected Styles */
+.custom-option-selected {
+  border-color: #D4AF37 !important;
+  background-color: rgba(212, 175, 55, 0.1) !important;
+}
+
+/* Back to Top Button */
+#back-to-top.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .hero-text-1,
+  .hero-text-2,
+  .hero-text-3 {
+    font-size: 2.5rem;
+  }
+
+  .hero-desc {
+    font-size: 1rem;
+  }
+}
+
+/* Custom Animation Classes */
+.animate-fade-in {
+  animation: fadeIn 1s ease forwards;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.8s ease forwards;
+}
+
+.animate-slide-right {
+  animation: slideRight 0.8s ease forwards;
+}
+
+.animate-slide-left {
+  animation: slideLeft 0.8s ease forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideRight {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideLeft {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Range input styling */
+input[type=range] {
+  -webkit-appearance: none;
+  height: 8px;
+  border-radius: 4px;
+  background: rgba(140, 115, 86, 0.3);
+  outline: none;
+}
+
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #D4AF37;
+  cursor: pointer;
+  border: 2px solid white;
+}
+
+input[type=range]::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #D4AF37;
+  cursor: pointer;
+  border: 2px solid white;
+}
+
+/* Target ALL buttons aggressively (higher specificity) */
+button,
+.custom-color,
+input[type="button"],
+input[type="submit"],
+[class*="button"],
+[class*="btn"] {
+  background-color: #650c04 !important; /* Force override */
+  color: white !important;
+  border: none;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+/* Hover state */
+button:hover,
+.custom-color-hover,
+input[type="button"]:hover,
+input[type="submit"]:hover,
+[class*="button"]:hover,
+[class*="btn"]:hover {
+  background-color: #8a1007 !important;
+}
+
+.text-primary {
+  color: #650c04;
+}
+
+.size-radio:checked + .size-label {
+  background-color: #d9d2d2 !important;
+  border-color: #650c04 !important;
+}
+
+main {
+    flex: 1;
+}
+
+footer {
+    margin-top: auto;
 }

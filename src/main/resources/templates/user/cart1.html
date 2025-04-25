@@ -8,13 +8,13 @@
 </head>
 <body class="dark:bg-gray-900 dark:text-white">
 
-<div class="p-4 mt-16">
-    <div id="content" class="w-full">
+<div id="content" class="p-4 mt-16">
+    <div  class="w-full">
         <a href="/products" class="text-decoration-none"><i class="fa-solid fa-arrow-left"></i> Back</a>
 
         <div class="h-screen py-8">
             <div class=" px-8 py-4">
-                <h1 class="text-2xl font-semibold mb-4">Shopping Cart</h1>
+                <h1 class="text-3xl font-semibold mb-4">Shopping Cart</h1>
                 <div class="flex justify-center">
                     <div class="w-full ">
                         <div class="bg-white rounded-lg shadow-md p-4">
@@ -80,10 +80,15 @@
                                         </a>
                                     </td>
                                 </tr>
-                                <!-- More product rows -->
+
                                 </tbody>
                             </table>
+
                         </div>
+                        <a href="/user/orders" type="submit" th:if="${!NoProduct}"
+                           class="custom-color w-42 mt-8 ml-8 text-white font-bold py-2 px-4 rounded-lg transition duration-200">
+                            Proceed to Checkout
+                        </a>
                     </div>
                     <div class="mx-4 p4-10 rounded-lg shadow-md">
                         <div class="max-w-md mx-auto bg-white rounded-lg overflow-hidden md:max-w-xl">
@@ -132,7 +137,7 @@
 
                                         <button type="submit"
                                                 class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition duration-200">
-                                            Save Address & Proceed to Checkout
+                                            Save Address
                                         </button>
                                     </form>
                                 </div>
@@ -140,12 +145,10 @@
                         </div>
                     </div>
                 </div>
+
             </div>
 <!--            <a href="/user/orders" class="bg-blue-500 text-white py-2 px-4 rounded-lg mt-4 w-full justify-center">Checkout</a>-->
-            <a href="/user/orders" type="submit"
-                    class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition duration-200">
-                Proceed to Checkout
-            </a>
+
         </div>
     </div>
 </div>

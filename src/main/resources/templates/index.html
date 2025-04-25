@@ -1,23 +1,833 @@
-<!-- templates/index.html -->
-
 <!DOCTYPE html>
-<html lang="en"
-      th:replace="~{base :: parent(~{::#content}, ~{::title}, ~{::script})}">
+<html lang="en">
 <head>
-    <title>Home page</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Swaadisht - Premium Date Laddoos</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/loader.css">
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <script>
+        tailwind.config = {
+          theme: {
+            extend: {
+              colors: {
+                gold: '#D4AF37',
+                brown: {
+                  light: '#8C7356',
+                  DEFAULT: '#654321',
+                  dark: '#3D2817',
+                },
+                cream: '#FAF7F0',
+                offwhite: '#F5F1E4',
+              },
+              fontFamily: {
+                sans: ['Poppins', 'sans-serif'],
+                playfair: ['"Playfair Display"', 'serif'],
+                dancing: ['"Dancing Script"', 'cursive'],
+              },
+            }
+          }
+        }
+    </script>
 </head>
-<body>
-<div id="content">
-    <h1>Welcome to home page</h1>
-    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur, ratione!
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur,
-        ratione!
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga laborum alias dignissimos ratione tempora, aliquid quisquam sunt, nemo, obcaecati aliquam sapiente! Ipsa voluptas cupiditate autem asperiores assumenda blanditiis nulla. Eum incidunt dolorem alias voluptatem eveniet? Exercitationem quidem dignissimos fugiat corporis provident quia adipisci suscipit omnis! Voluptatem, veritatis beatae. Quam sit quae exercitationem nulla iusto consequatur asperiores assumenda beatae, quia quasi laudantium odit inventore nostrum. Esse sed laboriosam rem similique, ducimus minus consequuntur nesciunt, id voluptatem repellat error vitae distinctio odit eveniet est explicabo dolor facere rerum animi magnam dicta cumque incidunt vero. Quisquam, libero velit. Omnis et quam distinctio iure quisquam eaque nemo itaque tempore id enim ullam similique, provident asperiores nam! Esse corrupti quasi nesciunt assumenda numquam blanditiis exercitationem fuga et consectetur veniam laudantium alias eligendi in totam, ipsam commodi id! Autem hic tempore odit. Enim, illum minima? Iusto minima, hic maxime autem est quis maiores ullam officiis praesentium exercitationem earum culpa, distinctio sequi a, reprehenderit quod mollitia corporis laboriosam. Vero velit quisquam pariatur! Possimus quod vel amet placeat maxime. Deserunt quae eaque impedit ea molestiae. Quas, neque temporibus sequi nam fugit perspiciatis! Tempora omnis, ipsa dolor qui possimus optio amet odit vero modi provident quisquam excepturi illum molestiae, sed hic minus quos nobis illo sunt pariatur molestias velit ea incidunt. Accusamus, ipsam itaque. Sed impedit et rem, similique odio doloribus excepturi optio ut nisi esse, maiores enim officia repudiandae! Ipsum eum quae tenetur obcaecati fugit totam repellat delectus reiciendis et dolor pariatur, ut minima iste, ullam rerum enim quibusdam aut temporibus neque ratione. Eum assumenda sapiente excepturi! Nostrum veniam nam expedita doloribus, repellat nobis delectus non nihil, adipisci, assumenda voluptate amet porro asperiores odio? Necessitatibus dolorem deleniti laudantium a libero repudiandae impedit perspiciatis inventore tempora numquam facere ex, molestiae ad? Quaerat, corrupti fugiat, tempore culpa saepe porro reiciendis aliquam alias id laudantium perferendis deserunt, veniam esse quo quibusdam explicabo architecto recusandae dignissimos similique ipsum nihil iure? Ullam doloremque quasi omnis commodi sapiente soluta, aperiam earum id cumque possimus nesciunt, ratione totam ex eligendi laboriosam voluptate? Molestiae nihil corporis voluptatibus magni maxime provident incidunt distinctio fugit quaerat, magnam vel a architecto! Voluptatum temporibus quo enim sit, aliquid, incidunt placeat ea exercitationem eveniet hic autem fuga quae dolorem sint quasi saepe molestias maiores maxime odit suscipit tenetur praesentium architecto facere neque. Iusto, eius illum. Necessitatibus sequi consequuntur nobis? Fugiat officia fugit nemo consectetur commodi non laborum, porro nam assumenda? Amet sed consequuntur soluta similique, dignissimos iusto officia enim! Hic quisquam, eligendi enim, dignissimos cumque animi assumenda sint sed quasi deleniti totam ducimus tenetur quaerat quos, ratione laborum delectus unde impedit quam nesciunt dolore error! Consequuntur non itaque quaerat harum labore officia sint in dignissimos unde error atque minima exercitationem maiores, magni et, illum accusamus. Maxime praesentium eius amet soluta minima fugiat explicabo tenetur error cum deserunt ex a totam aliquam nulla, molestias consequatur, laudantium autem voluptas ipsa, officiis sed dolores? Tempore quam accusantium dolorum eaque. Facilis iure nam dolor? Placeat molestiae in est magnam beatae error optio nobis at nesciunt sint. Enim quaerat molestiae aspernatur magnam accusantium modi vitae, doloribus illum ducimus a qui dicta libero mollitia recusandae deserunt nostrum? Quam enim eveniet fuga quod! Minus earum iste atque corrupti, explicabo mollitia doloribus reiciendis adipisci eum labore porro facilis. Sunt quod minus explicabo veritatis, itaque error voluptatibus saepe consequuntur perferendis aliquam esse ratione nam accusantium corporis temporibus! Distinctio dicta et voluptates aliquam provident ipsam ducimus ab cumque molestias maiores, rem quo atque nisi eligendi dolores impedit dolore vel obcaecati odio dolorum? Aspernatur, vitae eius iste animi ea tenetur reprehenderit id quibusdam molestiae placeat nesciunt, saepe illo et qui nihil. Dicta, doloribus ut. Deleniti reiciendis autem numquam corrupti, esse aliquam sit culpa! Alias asperiores deleniti doloremque dicta, maxime pariatur voluptas ipsum! Officiis minima repellat doloremque libero rem molestiae dolore error, laudantium id blanditiis, aut adipisci voluptatum autem iusto odit assumenda necessitatibus veritatis saepe aspernatur obcaecati consectetur sit quisquam magnam? Dicta quae commodi accusantium asperiores, autem sed aspernatur hic tenetur velit natus possimus repudiandae ratione nihil minus sunt ad quia in maiores perspiciatis aliquid nam consequuntur tempora. Modi vero natus odit at labore? Voluptates molestiae facere, vel quae atque illum aperiam qui nisi maxime, numquam quam officia dolore possimus accusantium corporis. Vero accusamus consectetur odit cumque laudantium nulla sint nobis quo sed nisi suscipit magni illum, nesciunt mollitia id temporibus doloribus eligendi tenetur, eos architecto quisquam voluptas libero. Earum maiores nisi laborum quos error culpa repellat qui ipsa ex commodi vel explicabo dolores velit repellendus, repudiandae, a sunt beatae expedita cupiditate ipsam omnis sed hic mollitia impedit! Aspernatur similique aliquid libero iste voluptate facilis, quasi porro mollitia, maiores reprehenderit, id vitae voluptatum. Cumque culpa incidunt magni necessitatibus neque repudiandae, architecto esse temporibus placeat, eos quis dolor accusantium harum est perferendis, veritatis sapiente explicabo. Quidem vitae nam natus deleniti, reprehenderit hic perspiciatis veniam omnis voluptates neque quod quo magnam ab recusandae amet corporis suscipit cum dolorem iste doloremque odio praesentium fuga! Eveniet animi ullam, incidunt nam maxime dolore blanditiis pariatur esse. Possimus mollitia minima, autem consequatur harum, quas corporis natus aut magni eum veritatis ab magnam minus quisquam tempora officia nisi voluptatum sapiente nemo, aperiam velit optio. Veritatis soluta repellendus deserunt! Libero beatae rem, totam sed at eos commodi molestias nobis aspernatur repudiandae optio aliquam quibusdam dolorum alias itaque voluptates dolor ducimus consectetur deserunt distinctio unde ullam dicta numquam et? Tempora distinctio mollitia facere necessitatibus, vel cumque earum suscipit facilis error, qui dicta est libero natus eligendi illo rerum, porro enim voluptate magni! Suscipit eligendi ducimus mollitia deserunt porro ratione assumenda eius, repellat placeat! Odio aperiam ex culpa laborum repudiandae animi laudantium blanditiis nostrum nulla facilis eos non dolore, quam eligendi qui eius repellat rerum atque ut harum dolorum est? Eveniet eum nemo cumque unde, beatae doloremque. Possimus delectus voluptatum unde doloremque ad corporis ullam beatae esse explicabo molestias assumenda, quaerat quia excepturi adipisci labore similique, non eaque quod cupiditate? Perspiciatis, quae? Vero provident illum minus tempore non, numquam architecto sequi nemo asperiores, accusamus ullam debitis. Consequatur corporis ab veniam laboriosam sapiente dignissimos dolore at aut aliquid totam. Dolores alias esse tempore asperiores fuga nemo quos quidem maiores in. Tenetur deleniti repellendus, animi error, tempore aspernatur unde nemo molestiae architecto, omnis quaerat vel repudiandae. Amet, quia! Quibusdam rem aperiam asperiores consectetur eaque sed. Aspernatur nisi exercitationem voluptatem enim totam velit nostrum libero sed corrupti qui quia sapiente a obcaecati, laudantium repellat, facere ipsa commodi beatae hic deleniti iure eius fugit? Quasi laboriosam maxime perspiciatis ea, id error, ab unde reiciendis totam dolor provident recusandae, nobis corporis tenetur dolore repellendus? Amet facere neque consequatur quos, doloremque nobis distinctio labore ipsa, laudantium quia eaque quisquam ut voluptatibus dolor officiis sapiente quis natus tempora commodi ipsam quibusdam quod nemo ab. Id nulla deserunt cupiditate magnam, consectetur dolorum minima aut non. Ea sed necessitatibus commodi odio tenetur iure nihil nobis debitis quas aperiam, esse asperiores voluptate quidem quos magni, provident soluta quaerat delectus fugiat numquam. Aut, magnam molestias, ex ipsa autem quam deleniti sapiente laborum explicabo, nobis eveniet eaque! Possimus dignissimos provident quia qui quis alias harum minima labore a sequi! Nihil minus, totam iste officiis obcaecati eligendi excepturi repudiandae, ducimus dolore consequatur tenetur quisquam error laboriosam, facilis quas! Iure sequi numquam eveniet doloribus, aliquam, consequatur explicabo nihil quo vel dolore praesentium reprehenderit debitis deserunt eum ipsam. Ullam velit reiciendis laudantium ut soluta vel quae a, porro quisquam quaerat voluptas provident cupiditate nobis distinctio blanditiis. Maxime ab delectus tempore commodi quia autem sequi. Asperiores, hic magnam? Eaque facilis inventore perferendis sed velit tenetur nesciunt adipisci rem ipsam repudiandae alias recusandae porro nihil reiciendis laborum asperiores officiis, possimus quod delectus. Eius at natus assumenda, vero quaerat perspiciatis? Consequatur explicabo alias quis perferendis laborum tenetur assumenda aliquid odit praesentium quasi labore impedit deleniti eos consectetur rem, iste quam cumque, saepe veritatis. Reprehenderit doloremque neque nobis praesentium autem, eligendi, mollitia consequatur sint sapiente natus ea atque fugiat perspiciatis! Accusantium aliquam dolorem nemo nostrum earum temporibus necessitatibus dolor quis sint quaerat ratione praesentium in eos voluptatem consequatur non unde officia similique ullam consequuntur, esse voluptate dolore. Deserunt quidem tempora nihil laborum ipsa velit pariatur quibusdam magnam corporis, impedit saepe eos commodi delectus voluptatum dolore excepturi asperiores ex totam? Quasi amet porro recusandae illo numquam non aperiam nobis inventore accusamus distinctio repellat cumque molestiae, possimus dicta repellendus blanditiis maxime tempora iusto quam laborum quidem consequatur totam facere! Corrupti totam quibusdam tempore, laborum iure error, sed exercitationem cupiditate odit necessitatibus, ipsam similique qui voluptatem libero possimus dolore nostrum reprehenderit perferendis non quisquam maiores amet voluptatibus repudiandae. Expedita repudiandae iure temporibus provident modi necessitatibus vero quo molestias dicta sapiente est quod, corporis fugit. Totam voluptatum dicta quo dolorem harum facilis beatae velit, illum minima dolorum impedit culpa! Voluptates nisi sequi nobis doloremque alias tenetur animi aliquid aperiam placeat! Ipsam cum porro blanditiis mollitia quia. Asperiores repellat nemo est pariatur deserunt a excepturi reiciendis mollitia incidunt aperiam doloremque quia dolores obcaecati, debitis sapiente. Quidem dolore placeat quaerat reiciendis, earum esse aliquam natus in atque, voluptates voluptas sapiente architecto optio consequuntur at quis aliquid? Accusantium delectus dolores repellat numquam exercitationem? Odio iusto pariatur delectus omnis in dicta ducimus quae ipsam voluptatibus molestiae illo aspernatur obcaecati optio, vero itaque sapiente ab error fugit beatae asperiores. Dolore facere quod, a enim deleniti delectus suscipit nemo? Deleniti ratione labore, quia beatae, velit ipsam aut et, voluptate modi eum placeat ea inventore commodi reiciendis nulla perspiciatis deserunt similique minima iure quae assumenda alias magni. Esse voluptates reprehenderit tempora omnis nisi asperiores! Voluptatibus quaerat laudantium atque aut recusandae eveniet! Officiis enim voluptatum perferendis, asperiores, debitis ad libero omnis, animi necessitatibus alias tenetur? Quod maxime quibusdam harum? Alias perferendis nihil delectus deserunt excepturi, inventore commodi assumenda architecto, consectetur esse, voluptatibus cupiditate facilis in corporis pariatur incidunt dignissimos vel. Dolore, voluptatibus! At, iure dicta blanditiis eum necessitatibus reiciendis eos eaque esse non modi amet ipsam molestiae assumenda qui nesciunt alias illo eveniet harum omnis nisi aperiam expedita delectus? Nobis optio sint commodi sapiente possimus repellendus quasi atque doloribus minima, expedita corrupti esse? Repudiandae, aperiam neque assumenda eaque eveniet praesentium suscipit delectus culpa sunt dolores reprehenderit, consequuntur aliquam perspiciatis reiciendis soluta dolor officiis beatae nulla quod laboriosam, tempora natus itaque. Tempore sunt quo iure veritatis consectetur necessitatibus animi vel nisi dolor dignissimos iusto nesciunt aliquam, modi reiciendis beatae exercitationem debitis alias dolorem maiores! Molestias inventore officia amet dolorem non. Odit ipsam molestias, error unde doloribus itaque, debitis minus necessitatibus voluptates incidunt eum at neque libero? Saepe distinctio ipsa quisquam neque sit! Eius possimus voluptatibus distinctio tenetur rerum sequi eos. Animi fugiat voluptatum accusamus corrupti facere quibusdam similique dolorum iste atque, non perferendis quia eum alias amet excepturi delectus. Omnis voluptatem ipsa totam, nobis cum reprehenderit aliquam officiis, doloremque voluptas officia itaque odit tenetur accusantium, ad eos obcaecati aspernatur recusandae quo debitis quisquam iste in facilis sit! Commodi eveniet debitis vitae. Eligendi fuga, iusto eos maiores est exercitationem dolor culpa expedita id blanditiis, totam repudiandae, numquam corporis minus. Vitae eveniet veniam dolorem commodi et, magnam rerum laborum accusamus animi at placeat aliquam molestiae provident ut corporis dolor voluptas nesciunt earum eligendi aut, sint aspernatur quasi magni. Dolore optio fuga iste quibusdam, doloremque corrupti sint nihil exercitationem aliquid quo, architecto, harum eveniet iusto voluptate dolores! Tempore, voluptas harum? Voluptas beatae accusantium recusandae, reprehenderit totam ex cumque pariatur eos, iste sapiente nihil, numquam quam repudiandae! Quia laboriosam animi dignissimos, ducimus nisi incidunt earum tempora iure a ut atque aliquam corrupti. Provident facilis quae adipisci aspernatur asperiores cupiditate eos, veritatis, aliquam dolorum itaque totam hic sint fugiat! Temporibus, distinctio. Sed maxime possimus, iusto sint nam placeat tempore nulla facere praesentium commodi aliquam neque eaque natus sit quidem quasi esse laborum nobis soluta repudiandae libero exercitationem animi? Praesentium reiciendis voluptate adipisci ut nisi. Doloremque maxime delectus blanditiis, rem ipsum eum illo neque culpa fuga, in amet dolores perferendis? Perferendis deleniti nemo illo tempora, eaque dolore, cumque recusandae nesciunt dolorum odio magnam iusto, consequuntur sit? Soluta quo distinctio eius. Deserunt voluptas recusandae molestias rerum sequi, eum, exercitationem porro fugit magni expedita dolores, nulla suscipit amet nostrum tempore laboriosam? Expedita iure explicabo quia deserunt commodi nesciunt quasi laboriosam, asperiores beatae illo corrupti harum at itaque obcaecati. Nemo porro nostrum quod tenetur excepturi alias similique eum. Eos optio inventore quidem quam, ab doloribus dolores architecto accusamus minus placeat? Veniam, soluta, ipsa laboriosam accusamus magnam repellat error libero, ullam assumenda sint minima sit unde neque maxime! Architecto minus repudiandae voluptate atque, saepe ducimus quod debitis beatae laboriosam maxime dicta aperiam nesciunt perferendis quasi commodi laudantium assumenda vitae quae accusantium voluptatem? Quisquam, numquam! Illo, ipsam voluptates magni nesciunt animi fuga, ullam nisi ipsum illum eveniet reprehenderit quasi doloremque error explicabo a eos veritatis eaque, commodi labore! Rem laborum vitae quos cumque. Nesciunt temporibus incidunt iste deleniti voluptas porro hic quod at. Laboriosam adipisci ex architecto a veritatis nesciunt similique totam! Commodi quas non impedit velit est pariatur, modi repellat minus vero tenetur odio. Delectus, nihil ipsa velit, dolore ea odio voluptatibus ipsum omnis magni iste recusandae id ratione officiis perferendis numquam earum itaque rerum voluptate voluptas? Vero id rerum accusamus voluptates! Eius cupiditate rem saepe accusantium alias qui iste ad. Velit earum nulla adipisci, iure tenetur quam tempora tempore enim at quae atque, in provident nisi corporis. Voluptatem illum laudantium asperiores harum optio numquam temporibus nostrum magnam corporis culpa. Laborum minima unde repudiandae eos facilis dolorum temporibus ex iure ratione veritatis non quaerat labore, accusamus rem recusandae beatae quidem aut repellat nesciunt, magni consequatur ad? Veritatis reprehenderit vel natus sapiente molestias, provident officia soluta! Voluptas enim, provident quasi quidem mollitia quisquam, laborum dignissimos blanditiis earum vel itaque inventore! Similique rem, neque amet doloremque aliquam, nisi necessitatibus ut sapiente itaque laudantium, consequuntur veritatis natus dolore deleniti corrupti eveniet mollitia aspernatur eligendi? Nisi fuga asperiores similique quos perferendis saepe ut, eaque officiis atque exercitationem pariatur, unde, eum assumenda sunt deserunt expedita enim dolores alias. Modi voluptatibus perspiciatis quaerat labore inventore dicta, similique ab laborum laboriosam tempora tempore totam ullam unde quae alias velit rem aut harum cupiditate nam atque! Non corrupti quidem ab, maxime at, blanditiis fugiat corporis officia alias, consequuntur aut laboriosam tenetur quae doloribus aperiam enim atque. Tenetur, reprehenderit porro. Numquam accusamus similique est ab iste iure deleniti, explicabo animi et quisquam veniam autem blanditiis recusandae veritatis impedit molestiae porro rem quibusdam neque minima rerum id magnam totam. Sequi perspiciatis, mollitia sed et itaque nostrum illum harum repellat libero quam maiores facilis culpa hic quibusdam numquam consectetur. Nam iure voluptatibus necessitatibus magni incidunt sequi cum beatae eaque esse ipsa odit, iusto animi ab accusantium explicabo aut sed ullam molestias. Natus corporis, corrupti quisquam consectetur ipsa debitis distinctio cum dignissimos neque impedit cupiditate at unde ut aperiam. Asperiores natus numquam animi! Magni pariatur nisi incidunt obcaecati illo provident, vero modi officiis odit accusamus beatae consequuntur blanditiis officia quia dolorum quos? Voluptatibus, tempore reiciendis maxime dolore, aut ducimus ex quae distinctio ullam incidunt magni quia quas modi dignissimos architecto consectetur cumque minima ea deleniti doloremque dicta libero hic saepe tempora? Sunt quas nobis earum repellat velit unde reprehenderit facere architecto dolores sint eveniet ratione nisi eum voluptates facilis cupiditate aliquam, animi similique veritatis tempora nulla laboriosam commodi delectus! Obcaecati soluta voluptatem quas provident aut fuga cumque tempora accusantium numquam explicabo ipsa illum debitis delectus corrupti, vero et eos libero officiis alias quidem beatae reprehenderit molestias! Sunt laboriosam, esse nihil sit, aliquam iusto ratione necessitatibus ad, exercitationem aut cumque ducimus recusandae sed accusantium perspiciatis repellat! Sequi, voluptas est eum rem adipisci impedit enim nam, debitis neque labore blanditiis? Aspernatur eligendi at vel facilis eum non pariatur in possimus explicabo odit numquam eos magni ea, aperiam quo repudiandae nam sequi laboriosam excepturi quasi. Numquam, unde nesciunt reiciendis laborum voluptatibus sapiente, delectus eveniet ea aut porro repellat asperiores accusantium praesentium. Fuga asperiores aperiam natus. Dicta numquam velit quos ex molestias quo culpa mollitia corrupti alias cupiditate hic, inventore deleniti est rerum omnis dolorum sapiente repellendus, quasi voluptate tempore quisquam sint. Molestiae ipsum neque fugiat quae doloribus delectus libero quisquam dolorem consequuntur. Quia vero veniam molestias magni ad sequi est soluta iste culpa quam, illo sed obcaecati fugit tenetur! Voluptates omnis qui pariatur maiores! Ut explicabo obcaecati ipsum ducimus sit est rem! Magnam accusantium quos maiores ipsa ut doloremque, repellat culpa adipisci modi placeat id totam. Vitae inventore corporis, dolores delectus officia minima ratione iure voluptatibus possimus veniam. Officia rem et quidem pariatur neque omnis accusamus soluta vel quos adipisci voluptates at quibusdam dolores modi quae officiis esse ab quisquam laboriosam temporibus, distinctio unde! Reiciendis ut debitis, dolorum blanditiis iusto rerum est reprehenderit dolores unde accusamus dolorem error, nulla odio temporibus perspiciatis. Totam necessitatibus commodi, enim reprehenderit recusandae voluptatem aspernatur. Dicta, sapiente esse nobis ullam dolor facilis facere neque, illo nulla minus consectetur. Dolores dignissimos voluptatibus fugiat veritatis corrupti sunt ipsam laudantium provident asperiores minus consequuntur ullam accusantium, illum facilis saepe nostrum rem minima iste beatae voluptates mollitia eos necessitatibus? Fugit cum vitae quibusdam fuga culpa, nulla autem enim perferendis quam laborum officiis saepe soluta porro corrupti, nemo tempore. Eveniet quisquam voluptas mollitia, atque aut, provident porro amet doloremque adipisci error deleniti nam! Labore, atque eveniet assumenda numquam earum modi dolores iure iusto, consequuntur eaque odio sit, corrupti hic nihil. Minima pariatur fugiat in harum sapiente ullam sint placeat tenetur autem laborum quisquam temporibus nesciunt, nihil alias consequuntur, dicta recusandae exercitationem iusto numquam unde ex libero voluptates debitis. Quibusdam quas, natus sed nobis suscipit deserunt libero nihil amet iste atque porro unde! Corrupti velit quas quae rem, architecto dolore quis quia magnam nemo veritatis facere dolor nam laboriosam sapiente, optio sit error doloribus dolorum ea veniam ad dicta repudiandae! Voluptate, perferendis deleniti. Magnam debitis facilis ipsum provident molestias nobis id quidem unde corporis? Earum molestiae nostrum, recusandae doloremque adipisci ullam, repellendus odit magni rerum fuga atque architecto corrupti, suscipit facere aliquam perspiciatis? Minima ab non nemo cupiditate dignissimos tempora inventore cumque natus dolorem magni, neque a! Consequatur, cum praesentium. Ipsam itaque asperiores voluptate id? Libero pariatur nemo molestiae accusamus tenetur earum voluptatum, vero at assumenda harum, mollitia nobis. Doloribus officiis neque voluptates illo vitae. Quia ex accusamus id veniam pariatur maiores modi laborum corporis voluptatibus, laudantium eligendi ducimus similique expedita earum nam molestiae, labore exercitationem adipisci doloremque quo culpa tenetur minima beatae. Iure repellendus facilis praesentium, id veniam aliquid error porro nam libero quod atque perferendis fuga animi aliquam doloribus nobis doloremque iste asperiores non sit qui soluta neque. Placeat fugiat officia pariatur debitis ab veritatis culpa sint aliquam! Nisi accusamus dolore a ab est ipsam, aperiam obcaecati animi ipsum reprehenderit quia optio blanditiis, voluptatibus quam consequuntur temporibus, quod accusantium veritatis similique! Fugiat officia inventore laboriosam facere corrupti dignissimos hic quibusdam quos animi repellat quisquam neque tempore delectus quis molestias laborum, tenetur consequuntur explicabo voluptatem. Deleniti eos, in laboriosam, error nostrum amet quis accusamus mollitia dolor aliquam eius ad eaque quisquam magnam ea ducimus corporis quam libero. Laborum, quia maiores distinctio voluptatibus nostrum similique officia quas, at harum saepe perspiciatis ex! Possimus qui nostrum eveniet nam corporis voluptatem minima perspiciatis iure veritatis, dolorum aperiam ad architecto! Similique laborum et sint voluptatem sunt ea, culpa itaque! Laborum possimus nesciunt perspiciatis excepturi consequatur porro, saepe quod facilis voluptatum nihil sequi placeat vel dolorum, nam reiciendis eaque molestias atque. Facere officia at hic accusamus quam eos itaque neque architecto incidunt, corrupti velit debitis corporis aut. Commodi odio esse asperiores, illum fuga tenetur distinctio ducimus. Ut ratione deserunt officia aliquam beatae est necessitatibus, fuga exercitationem, enim, ea rerum. Deleniti, assumenda velit ratione quasi possimus alias ea quo voluptatum ipsa nisi sed aliquam, quibusdam saepe fugit doloremque necessitatibus iure amet delectus facilis ipsum distinctio harum veritatis vitae! Impedit id porro, veritatis magni aperiam architecto cumque sit ratione aliquid excepturi, voluptatibus, officiis eveniet? Tempore fugit quaerat temporibus deserunt asperiores commodi tenetur quas magni, sapiente vitae minima provident voluptate doloremque exercitationem facilis voluptates mollitia iusto! Ea tenetur, voluptatem commodi, doloribus sapiente qui voluptatum, voluptatibus atque laudantium alias minima libero unde molestiae dolorum neque culpa odio. Doloribus, dolores. Officiis illum consectetur porro et alias consequatur, aspernatur dignissimos eius cupiditate minima culpa eaque, voluptatem doloribus sapiente rem soluta quo unde? Voluptatem ex similique dolor autem molestias. Magni, sapiente. Quisquam minus accusantium dolore officiis sed enim aperiam minima dolorum illum similique aut quibusdam optio non, maxime totam est eveniet consequatur provident! Enim natus nulla laboriosam placeat! Aliquid a porro dolores, eveniet in suscipit, necessitatibus voluptas deserunt nemo blanditiis optio dignissimos, quod et ullam quae eligendi deleniti dicta incidunt fugiat amet illum culpa? Et officiis repellendus debitis molestiae atque in sit. Eaque voluptatibus sit, quidem repudiandae eos aut corrupti similique commodi. Non cumque, voluptatibus exercitationem provident accusamus sequi ipsum! Ab, aliquid. Accusantium quia amet hic commodi consequatur ipsam vel natus facilis numquam odio quibusdam aspernatur velit consequuntur assumenda placeat tempore magnam, cum architecto quis at eos. Debitis aperiam dolore ducimus aspernatur autem ratione quisquam, alias harum. Itaque omnis repellendus beatae ipsa quos quasi et repudiandae recusandae quibusdam eveniet maiores consequatur animi, amet dolorum, obcaecati saepe praesentium ea excepturi. Facere rem eos itaque? Voluptatem dolorum culpa, quasi corporis, aperiam soluta, libero eius nihil commodi excepturi necessitatibus vero recusandae consectetur voluptatum deleniti nulla totam sed. Est voluptatum, quibusdam culpa aspernatur et fugiat blanditiis laborum explicabo officia maiores perferendis deleniti quod tenetur accusantium illo dolorum sed minima? Eligendi veniam eos illum, corrupti commodi, quidem magnam maiores facere nihil esse iusto dolore in delectus ducimus. Officiis dolorum aut, illo, autem tempore perspiciatis veniam, obcaecati voluptates accusantium inventore sint! Sint sed optio mollitia odio molestiae magnam cum commodi saepe nisi, doloremque laborum, fuga ipsum temporibus voluptate reprehenderit distinctio blanditiis fugiat eum expedita eveniet, numquam at! Voluptate maiores, voluptatum nostrum nulla iusto voluptates nihil porro earum adipisci non minima sit, reprehenderit, quod rem nam dicta. Impedit, ab velit quam voluptatem harum perspiciatis non consequatur nam odio itaque rem expedita officia, quas eaque dicta sequi assumenda repudiandae aut cupiditate quidem provident dolores optio fugiat et. Qui fuga deleniti nam incidunt quia non repellendus ducimus assumenda reprehenderit consectetur sed enim laboriosam ipsa ut adipisci, id officia deserunt ipsam recusandae minus dicta. Deleniti cumque quos facilis saepe recusandae, molestiae iure, assumenda hic laboriosam facere ex corporis nam harum. Laudantium, optio. Id, veniam eos atque quia autem impedit perspiciatis explicabo rem doloribus numquam dolor quos architecto cumque ut nostrum doloremque adipisci nobis, commodi ab nulla ipsam placeat, sint consectetur! Modi provident consequatu
-    </p>
+<body class="bg-cream font-sans text-brown-dark">
+<!-- Loader -->
+<div class="loader-wrapper">
+    <div class="loader">
+        <div class="loader-logo">
+            <svg width="150" height="50" viewBox="0 0 240 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M40.54 58.36c-1.28 1.2-2.68 2.1-4.2 2.68-1.52.58-3.08.88-4.68.88-1.52 0-2.94-.26-4.24-.76-1.3-.5-2.42-1.24-3.36-2.2-.94-.96-1.68-2.14-2.2-3.52-.52-1.38-.78-2.94-.78-4.68 0-1.68.26-3.22.78-4.6.52-1.38 1.26-2.56 2.2-3.52.94-.96 2.06-1.7 3.36-2.2 1.3-.5 2.74-.76 4.32-.76 1.44 0 2.88.24 4.32.72 1.44.48 2.76 1.26 3.96 2.32l-2.72 3.28c-.8-.72-1.68-1.28-2.64-1.68-.96-.4-1.96-.6-3-.6-.88 0-1.7.16-2.44.48-.74.32-1.4.78-1.96 1.36-.56.58-1 1.28-1.32 2.12-.32.84-.48 1.76-.48 2.76 0 1 .16 1.92.48 2.76.32.84.76 1.56 1.32 2.16.56.6 1.22 1.06 1.96 1.38.74.32 1.56.48 2.44.48 1.12 0 2.16-.22 3.12-.68.96-.44 1.82-1.08 2.56-1.88l2.2 3.6z" fill="#D4AF37"/>
+                <path d="M90.06 53.2c0 1.16-.22 2.22-.68 3.16-.44.94-1.08 1.74-1.88 2.4-.8.66-1.76 1.16-2.88 1.52-1.12.36-2.34.54-3.68.54h-8.68V39.76h8.76c1.3 0 2.48.18 3.56.56 1.08.38 2 .9 2.8 1.56.8.66 1.42 1.46 1.84 2.4.44.94.64 1.98.64 3.12 0 1.36-.32 2.54-.96 3.52-.64.98-1.5 1.72-2.6 2.24 1.16.48 2.12 1.2 2.88 2.16.76.96 1.12 2.14 1.12 3.52v-.12zm-5.6-10.04c0-.96-.32-1.7-.96-2.2-.64-.5-1.54-.76-2.68-.76h-3.6v5.92h3.68c1.12 0 2-.26 2.64-.76.64-.5.96-1.26.96-2.24l-.04.04zm.68 9.8c0-.96-.36-1.74-1.08-2.32-.72-.58-1.68-.88-2.88-.88h-3.96v6.48h3.96c1.2 0 2.18-.28 2.92-.84.74-.56 1.1-1.36 1.1-2.4l-.06-.04z" fill="#D4AF37"/>
+                <path d="M97.97 39.76h13.8v4.08h-8.84v3.68h8.28v4.08h-8.28v4.2h9.16v4.08h-14.12V39.76z" fill="#D4AF37"/>
+                <path d="M139.87 53.2c0 1.16-.22 2.22-.66 3.16-.44.94-1.08 1.74-1.88 2.4-.8.66-1.76 1.16-2.88 1.52-1.12.36-2.36.54-3.68.54h-8.68V39.76h8.76c1.28 0 2.48.18 3.56.56 1.08.38 2 .9 2.8 1.56.8.66 1.42 1.46 1.84 2.4.44.94.66 1.98.66 3.12 0 1.36-.32 2.54-.96 3.52-.64.98-1.5 1.72-2.6 2.24 1.16.48 2.12 1.2 2.88 2.16.76.96 1.14 2.14 1.14 3.52v-.12zm-5.6-10.04c0-.96-.32-1.7-.96-2.2-.64-.5-1.54-.76-2.68-.76h-3.6v5.92h3.68c1.12 0 2-.26 2.64-.76.64-.5.96-1.26.96-2.24l-.04.04zm.68 9.8c0-.96-.36-1.74-1.08-2.32-.72-.58-1.68-.88-2.88-.88h-3.96v6.48h3.96c1.2 0 2.18-.28 2.92-.84.74-.56 1.1-1.36 1.1-2.4l-.06-.04z" fill="#D4AF37"/>
+                <path d="M151.07 39.76h5v20.12h-5V39.76z" fill="#D4AF37"/>
+                <path d="M170.69 60.28c-1.6 0-3.06-.28-4.36-.84-1.3-.56-2.42-1.32-3.36-2.28-.94-.96-1.66-2.12-2.16-3.48-.5-1.36-.76-2.84-.76-4.44 0-1.6.26-3.08.76-4.44.5-1.36 1.22-2.52 2.16-3.48.94-.96 2.06-1.72 3.36-2.28 1.3-.56 2.76-.84 4.36-.84 1.6 0 3.06.28 4.36.84 1.3.56 2.42 1.32 3.36 2.28.94.96 1.66 2.12 2.16 3.48.5 1.36.76 2.84.76 4.44 0 1.6-.26 3.08-.76 4.44-.5 1.36-1.22 2.52-2.16 3.48-.94.96-2.06 1.72-3.36 2.28-1.3.56-2.76.84-4.36.84zm0-4.2c.88 0 1.68-.16 2.4-.48.72-.32 1.34-.78 1.84-1.36.5-.58.9-1.28 1.16-2.12.28-.84.42-1.76.42-2.76 0-1-.14-1.92-.42-2.76-.28-.84-.66-1.54-1.16-2.12-.5-.58-1.12-1.02-1.84-1.32-.72-.3-1.52-.46-2.4-.46-.88 0-1.68.16-2.4.46-.72.3-1.34.74-1.84 1.32-.5.58-.9 1.28-1.16 2.12-.28.84-.42 1.76-.42 2.76 0 1 .14 1.92.42 2.76.28.84.66 1.54 1.16 2.12.5.58 1.12 1.04 1.84 1.36.72.32 1.52.48 2.4.48z" fill="#D4AF37"/>
+                <path d="M194.9 60.28c-1.6 0-3.06-.28-4.36-.84-1.3-.56-2.42-1.32-3.36-2.28-.94-.96-1.66-2.12-2.16-3.48-.5-1.36-.76-2.84-.76-4.44 0-1.6.26-3.08.76-4.44.5-1.36 1.22-2.52 2.16-3.48.94-.96 2.06-1.72 3.36-2.28 1.3-.56 2.76-.84 4.36-.84 1.6 0 3.06.28 4.36.84 1.3.56 2.42 1.32 3.36 2.28.94.96 1.66 2.12 2.16 3.48.5 1.36.76 2.84.76 4.44 0 1.6-.26 3.08-.76 4.44-.5 1.36-1.22 2.52-2.16 3.48-.94.96-2.06 1.72-3.36 2.28-1.3.56-2.76.84-4.36.84zm0-4.2c.88 0 1.68-.16 2.4-.48.72-.32 1.34-.78 1.84-1.36.5-.58.9-1.28 1.16-2.12.28-.84.42-1.76.42-2.76 0-1-.14-1.92-.42-2.76-.28-.84-.66-1.54-1.16-2.12-.5-.58-1.12-1.02-1.84-1.32-.72-.3-1.52-.46-2.4-.46-.88 0-1.68.16-2.4.46-.72.3-1.34.74-1.84 1.32-.5.58-.9 1.28-1.16 2.12-.28.84-.42 1.76-.42 2.76 0 1 .14 1.92.42 2.76.28.84.66 1.54 1.16 2.12.5.58 1.12 1.04 1.84 1.36.72.32 1.52.48 2.4.48z" fill="#D4AF37"/>
+                <path d="M43.26 25.68H7.71L5.83 31H1l14.59-36h19.8L50 31h-4.83l-1.9-5.32zm-2.03-5.5l-15.75-1.33-15.75 1.34 7.87-19.68h15.77l7.86 19.68z" fill="#D4AF37"/>
+                <path d="M89.34 31l-11.09-14.9L66.95 31h-5.4l14.88-18.43L62.59 0h5.4l10.27 13.9L88.75 0h5.14L80.04 12.56 94.74 31h-5.4z" fill="#D4AF37"/>
+                <path d="M103.66 31V0h4.34v27.01h19.13V31h-23.47z" fill="#D4AF37"/>
+                <path d="M165.99 31l-5.05-9.05h-20.1L135.97 31h-4.51L149.23 0h3.52l17.71 31h-4.5v.01zm-6.46-12.83l-8.5-14.87-8.62 14.87h17.12z" fill="#D4AF37"/>
+                <path d="M186.6 31V4.1h-13.1V0h30.57v4.1h-13.13V31H186.6z" fill="#D4AF37"/>
+                <path d="M210.63 31V0h25.79v3.99h-21.45v9.63h19.51v3.98h-19.51v9.42h21.72V31h-26.06z" fill="#D4AF37"/>
+            </svg>
+        </div>
+        <div class="loader-icon"></div>
+        <div class="loader-text">Loading delicious treats...</div>
+    </div>
 </div>
 
-<script>
-    console.log("Home page");
-</script>
+<!-- Header -->
+<header class="fixed top-0 left-0 right-0 bg-cream bg-opacity-95 shadow-md z-50 transition-all duration-300" id="header">
+    <div class="container mx-auto px-4 py-3">
+        <div class="flex justify-between items-center">
+            <a href="#" class="flex items-center">
+                <svg width="120" height="40" viewBox="0 0 240 80" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-32">
+                    <path d="M40.54 58.36c-1.28 1.2-2.68 2.1-4.2 2.68-1.52.58-3.08.88-4.68.88-1.52 0-2.94-.26-4.24-.76-1.3-.5-2.42-1.24-3.36-2.2-.94-.96-1.68-2.14-2.2-3.52-.52-1.38-.78-2.94-.78-4.68 0-1.68.26-3.22.78-4.6.52-1.38 1.26-2.56 2.2-3.52.94-.96 2.06-1.7 3.36-2.2 1.3-.5 2.74-.76 4.32-.76 1.44 0 2.88.24 4.32.72 1.44.48 2.76 1.26 3.96 2.32l-2.72 3.28c-.8-.72-1.68-1.28-2.64-1.68-.96-.4-1.96-.6-3-.6-.88 0-1.7.16-2.44.48-.74.32-1.4.78-1.96 1.36-.56.58-1 1.28-1.32 2.12-.32.84-.48 1.76-.48 2.76 0 1 .16 1.92.48 2.76.32.84.76 1.56 1.32 2.16.56.6 1.22 1.06 1.96 1.38.74.32 1.56.48 2.44.48 1.12 0 2.16-.22 3.12-.68.96-.44 1.82-1.08 2.56-1.88l2.2 3.6z" fill="#D4AF37"/>
+                    <path d="M90.06 53.2c0 1.16-.22 2.22-.68 3.16-.44.94-1.08 1.74-1.88 2.4-.8.66-1.76 1.16-2.88 1.52-1.12.36-2.34.54-3.68.54h-8.68V39.76h8.76c1.3 0 2.48.18 3.56.56 1.08.38 2 .9 2.8 1.56.8.66 1.42 1.46 1.84 2.4.44.94.64 1.98.64 3.12 0 1.36-.32 2.54-.96 3.52-.64.98-1.5 1.72-2.6 2.24 1.16.48 2.12 1.2 2.88 2.16.76.96 1.12 2.14 1.12 3.52v-.12zm-5.6-10.04c0-.96-.32-1.7-.96-2.2-.64-.5-1.54-.76-2.68-.76h-3.6v5.92h3.68c1.12 0 2-.26 2.64-.76.64-.5.96-1.26.96-2.24l-.04.04zm.68 9.8c0-.96-.36-1.74-1.08-2.32-.72-.58-1.68-.88-2.88-.88h-3.96v6.48h3.96c1.2 0 2.18-.28 2.92-.84.74-.56 1.1-1.36 1.1-2.4l-.06-.04z" fill="#D4AF37"/>
+                    <path d="M97.97 39.76h13.8v4.08h-8.84v3.68h8.28v4.08h-8.28v4.2h9.16v4.08h-14.12V39.76z" fill="#D4AF37"/>
+                    <path d="M139.87 53.2c0 1.16-.22 2.22-.66 3.16-.44.94-1.08 1.74-1.88 2.4-.8.66-1.76 1.16-2.88 1.52-1.12.36-2.36.54-3.68.54h-8.68V39.76h8.76c1.28 0 2.48.18 3.56.56 1.08.38 2 .9 2.8 1.56.8.66 1.42 1.46 1.84 2.4.44.94.66 1.98.66 3.12 0 1.36-.32 2.54-.96 3.52-.64.98-1.5 1.72-2.6 2.24 1.16.48 2.12 1.2 2.88 2.16.76.96 1.14 2.14 1.14 3.52v-.12zm-5.6-10.04c0-.96-.32-1.7-.96-2.2-.64-.5-1.54-.76-2.68-.76h-3.6v5.92h3.68c1.12 0 2-.26 2.64-.76.64-.5.96-1.26.96-2.24l-.04.04zm.68 9.8c0-.96-.36-1.74-1.08-2.32-.72-.58-1.68-.88-2.88-.88h-3.96v6.48h3.96c1.2 0 2.18-.28 2.92-.84.74-.56 1.1-1.36 1.1-2.4l-.06-.04z" fill="#D4AF37"/>
+                    <path d="M151.07 39.76h5v20.12h-5V39.76z" fill="#D4AF37"/>
+                    <path d="M170.69 60.28c-1.6 0-3.06-.28-4.36-.84-1.3-.56-2.42-1.32-3.36-2.28-.94-.96-1.66-2.12-2.16-3.48-.5-1.36-.76-2.84-.76-4.44 0-1.6.26-3.08.76-4.44.5-1.36 1.22-2.52 2.16-3.48.94-.96 2.06-1.72 3.36-2.28 1.3-.56 2.76-.84 4.36-.84 1.6 0 3.06.28 4.36.84 1.3.56 2.42 1.32 3.36 2.28.94.96 1.66 2.12 2.16 3.48.5 1.36.76 2.84.76 4.44 0 1.6-.26 3.08-.76 4.44-.5 1.36-1.22 2.52-2.16 3.48-.94.96-2.06 1.72-3.36 2.28-1.3.56-2.76.84-4.36.84zm0-4.2c.88 0 1.68-.16 2.4-.48.72-.32 1.34-.78 1.84-1.36.5-.58.9-1.28 1.16-2.12.28-.84.42-1.76.42-2.76 0-1-.14-1.92-.42-2.76-.28-.84-.66-1.54-1.16-2.12-.5-.58-1.12-1.02-1.84-1.32-.72-.3-1.52-.46-2.4-.46-.88 0-1.68.16-2.4.46-.72.3-1.34.74-1.84 1.32-.5.58-.9 1.28-1.16 2.12-.28.84-.42 1.76-.42 2.76 0 1 .14 1.92.42 2.76.28.84.66 1.54 1.16 2.12.5.58 1.12 1.04 1.84 1.36.72.32 1.52.48 2.4.48z" fill="#D4AF37"/>
+                    <path d="M194.9 60.28c-1.6 0-3.06-.28-4.36-.84-1.3-.56-2.42-1.32-3.36-2.28-.94-.96-1.66-2.12-2.16-3.48-.5-1.36-.76-2.84-.76-4.44 0-1.6.26-3.08.76-4.44.5-1.36 1.22-2.52 2.16-3.48.94-.96 2.06-1.72 3.36-2.28 1.3-.56 2.76-.84 4.36-.84 1.6 0 3.06.28 4.36.84 1.3.56 2.42 1.32 3.36 2.28.94.96 1.66 2.12 2.16 3.48.5 1.36.76 2.84.76 4.44 0 1.6-.26 3.08-.76 4.44-.5 1.36-1.22 2.52-2.16 3.48-.94.96-2.06 1.72-3.36 2.28-1.3.56-2.76.84-4.36.84zm0-4.2c.88 0 1.68-.16 2.4-.48.72-.32 1.34-.78 1.84-1.36.5-.58.9-1.28 1.16-2.12.28-.84.42-1.76.42-2.76 0-1-.14-1.92-.42-2.76-.28-.84-.66-1.54-1.16-2.12-.5-.58-1.12-1.02-1.84-1.32-.72-.3-1.52-.46-2.4-.46-.88 0-1.68.16-2.4.46-.72.3-1.34.74-1.84 1.32-.5.58-.9 1.28-1.16 2.12-.28.84-.42 1.76-.42 2.76 0 1 .14 1.92.42 2.76.28.84.66 1.54 1.16 2.12.5.58 1.12 1.04 1.84 1.36.72.32 1.52.48 2.4.48z" fill="#D4AF37"/>
+                    <path d="M43.26 25.68H7.71L5.83 31H1l14.59-36h19.8L50 31h-4.83l-1.9-5.32zm-2.03-5.5l-15.75-1.33-15.75 1.34 7.87-19.68h15.77l7.86 19.68z" fill="#D4AF37"/>
+                    <path d="M89.34 31l-11.09-14.9L66.95 31h-5.4l14.88-18.43L62.59 0h5.4l10.27 13.9L88.75 0h5.14L80.04 12.56 94.74 31h-5.4z" fill="#D4AF37"/>
+                    <path d="M103.66 31V0h4.34v27.01h19.13V31h-23.47z" fill="#D4AF37"/>
+                    <path d="M165.99 31l-5.05-9.05h-20.1L135.97 31h-4.51L149.23 0h3.52l17.71 31h-4.5v.01zm-6.46-12.83l-8.5-14.87-8.62 14.87h17.12z" fill="#D4AF37"/>
+                    <path d="M186.6 31V4.1h-13.1V0h30.57v4.1h-13.13V31H186.6z" fill="#D4AF37"/>
+                    <path d="M210.63 31V0h25.79v3.99h-21.45v9.63h19.51v3.98h-19.51v9.42h21.72V31h-26.06z" fill="#D4AF37"/>
+                </svg>
+            </a>
+            <nav class="hidden md:flex items-center space-x-8">
+                <a href="#hero" class="text-brown hover:text-gold transition-colors">Home</a>
+                <a href="#products" class="text-brown hover:text-gold transition-colors">Products</a>
+                <a href="#customize" class="text-brown hover:text-gold transition-colors">Customize</a>
+                <a href="#process" class="text-brown hover:text-gold transition-colors">Our Process</a>
+                <a href="#testimonials" class="text-brown hover:text-gold transition-colors">Testimonials</a>
+            </nav>
+            <div class="flex items-center space-x-4">
+                <a href="#" class="bg-gold text-white px-6 py-2 rounded-full hidden md:block hover:bg-opacity-90 transition-all transform hover:-translate-y-1">Order Now</a>
+                <button id="mobile-menu-button" class="md:hidden text-brown-dark text-2xl">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="md:hidden bg-cream hidden">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex flex-col space-y-4">
+                <a href="#hero" class="text-brown hover:text-gold transition-colors py-2">Home</a>
+                <a href="#products" class="text-brown hover:text-gold transition-colors py-2">Products</a>
+                <a href="#customize" class="text-brown hover:text-gold transition-colors py-2">Customize</a>
+                <a href="#process" class="text-brown hover:text-gold transition-colors py-2">Our Process</a>
+                <a href="#testimonials" class="text-brown hover:text-gold transition-colors py-2">Testimonials</a>
+                <a href="#" class="bg-gold text-white px-6 py-2 rounded-full text-center hover:bg-opacity-90 transition-all">Order Now</a>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Hero Section -->
+<section class="min-h-screen pt-20 relative overflow-hidden" id="hero">
+    <div class="absolute inset-0 bg-pattern opacity-5"></div>
+    <div class="container mx-auto px-4 py-12 md:py-20 relative z-10">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center min-h-[80vh]">
+            <div class="order-2 md:order-1">
+                <h1 class="font-playfair text-4xl md:text-5xl lg:text-6xl font-bold text-brown-dark leading-tight">
+                    <span class="block hero-text-1">Indulge in</span>
+                    <span class="block text-gold hero-text-2">Premium Date</span>
+                    <span class="block hero-text-3">Laddoos</span>
+                </h1>
+                <p class="mt-6 text-lg text-brown-light max-w-lg hero-desc">
+                    Handcrafted with love, our artisanal date laddoos blend traditional recipes with modern flavors for a truly unforgettable sweet experience.
+                </p>
+                <div class="mt-8 flex flex-wrap gap-4 hero-cta">
+                    <a href="#products" class="px-8 py-3 bg-gold text-white font-medium rounded-full shadow-lg hover:bg-opacity-90 transition-all transform hover:-translate-y-1">
+                        Shop Now
+                    </a>
+                    <a href="#customize" class="px-8 py-3 border-2 border-brown text-brown font-medium rounded-full hover:bg-brown hover:text-white transition-all transform hover:-translate-y-1">
+                        Customize
+                    </a>
+                </div>
+                <div class="mt-12 flex items-center gap-6 hero-features">
+                    <div class="text-center">
+                        <i class="fas fa-leaf text-gold text-2xl mb-2"></i>
+                        <p class="text-brown-dark text-sm">Natural</p>
+                    </div>
+                    <div class="text-center">
+                        <i class="fas fa-shipping-fast text-gold text-2xl mb-2"></i>
+                        <p class="text-brown-dark text-sm">Fast Delivery</p>
+                    </div>
+                    <div class="text-center">
+                        <i class="fas fa-medal text-gold text-2xl mb-2"></i>
+                        <p class="text-brown-dark text-sm">Premium</p>
+                    </div>
+                    <div class="text-center">
+                        <i class="fas fa-gift text-gold text-2xl mb-2"></i>
+                        <p class="text-brown-dark text-sm">Gift Ready</p>
+                    </div>
+                </div>
+            </div>
+            <div class="order-1 md:order-2 hero-image relative">
+                <div class="relative">
+                    <img
+                            src="https://images.unsplash.com/photo-1516714435131-44d6b64dc6a2?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+                            alt="Delicious Date Laddoos"
+                            class="rounded-2xl shadow-2xl w-full object-cover object-center hero-img-main"
+                    />
+                    <div class="absolute -bottom-10 -left-10 md:-left-20 w-40 h-40 md:w-56 md:h-56 rounded-full overflow-hidden border-4 border-cream shadow-lg hero-img-accent-1 hidden md:block">
+                        <img
+                                src="https://images.unsplash.com/photo-1505253716362-afaea1d3d1af?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80"
+                                alt="Dates used in our recipes"
+                                class="w-full h-full object-cover"
+                        />
+                    </div>
+                    <div class="absolute -top-8 -right-8 md:-right-16 w-32 h-32 md:w-44 md:h-44 rounded-full overflow-hidden border-4 border-cream shadow-lg hero-img-accent-2">
+                        <img
+                                src="https://images.unsplash.com/photo-1583736902935-4746dbc96b13?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80"
+                                alt="Traditional sweet making"
+                                class="w-full h-full object-cover"
+                        />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-cream to-transparent"></div>
+</section>
+
+<!-- Products Section -->
+<section id="products" class="py-16 md:py-24 bg-offwhite">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+            <h2 class="font-playfair text-3xl md:text-4xl font-bold text-brown-dark mb-4 product-title">Our Delicious Collection</h2>
+            <p class="text-brown-light max-w-2xl mx-auto product-desc">Discover our range of premium date laddoos, each crafted with the finest ingredients to delight your taste buds.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Product 1 -->
+            <div class="bg-white rounded-2xl overflow-hidden shadow-lg transition-transform hover:-translate-y-2 product-card">
+                <div class="relative">
+                    <img
+                            src="https://images.unsplash.com/photo-1558326218-dc3b1dc94ba9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1500&q=80"
+                            alt="Classic Date Laddoo"
+                            class="w-full h-48 object-cover"
+                    />
+                    <div class="absolute top-4 right-4 bg-gold text-white text-xs py-1 px-2 rounded-full">Bestseller</div>
+                </div>
+                <div class="p-6">
+                    <h3 class="font-playfair text-xl font-bold text-brown-dark mb-2">Classic Date Laddoo</h3>
+                    <div class="flex items-center mb-2">
+                        <div class="flex text-gold">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <span class="text-sm text-brown-light ml-2">4.8 (120 reviews)</span>
+                    </div>
+                    <p class="text-brown-light mb-4">Our signature date laddoos made with premium dates, nuts, and a hint of cardamom.</p>
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <span class="text-brown-dark font-bold text-lg">₹499</span>
+                            <span class="text-brown-light text-sm line-through ml-2">₹599</span>
+                        </div>
+                        <button class="bg-brown text-white px-4 py-2 rounded-full hover:bg-opacity-90 transition-colors">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 2 -->
+            <div class="bg-white rounded-2xl overflow-hidden shadow-lg transition-transform hover:-translate-y-2 product-card">
+                <div class="relative">
+                    <img
+                            src="https://images.unsplash.com/photo-1599599810769-bcde5a160d32?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1500&q=80"
+                            alt="Luxury Saffron Date Laddoo"
+                            class="w-full h-48 object-cover"
+                    />
+                    <div class="absolute top-4 right-4 bg-[#E86C00] text-white text-xs py-1 px-2 rounded-full">Premium</div>
+                </div>
+                <div class="p-6">
+                    <h3 class="font-playfair text-xl font-bold text-brown-dark mb-2">Luxury Saffron Date Laddoo</h3>
+                    <div class="flex items-center mb-2">
+                        <div class="flex text-gold">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <span class="text-sm text-brown-light ml-2">5.0 (87 reviews)</span>
+                    </div>
+                    <p class="text-brown-light mb-4">Indulgent date laddoos infused with premium saffron and topped with gold flakes.</p>
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <span class="text-brown-dark font-bold text-lg">₹799</span>
+                        </div>
+                        <button class="bg-brown text-white px-4 py-2 rounded-full hover:bg-opacity-90 transition-colors">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 3 -->
+            <div class="bg-white rounded-2xl overflow-hidden shadow-lg transition-transform hover:-translate-y-2 product-card">
+                <div class="relative">
+                    <img
+                            src="https://images.unsplash.com/photo-1593235218024-9a3e658e750d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1500&q=80"
+                            alt="Rose & Pistachio Date Laddoo"
+                            class="w-full h-48 object-cover"
+                    />
+                    <div class="absolute top-4 right-4 bg-[#5C913B] text-white text-xs py-1 px-2 rounded-full">New</div>
+                </div>
+                <div class="p-6">
+                    <h3 class="font-playfair text-xl font-bold text-brown-dark mb-2">Rose & Pistachio Date Laddoo</h3>
+                    <div class="flex items-center mb-2">
+                        <div class="flex text-gold">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                        </div>
+                        <span class="text-sm text-brown-light ml-2">4.2 (45 reviews)</span>
+                    </div>
+                    <p class="text-brown-light mb-4">Fragrant date laddoos with rose essence and crushed pistachios for a royal treat.</p>
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <span class="text-brown-dark font-bold text-lg">₹599</span>
+                        </div>
+                        <button class="bg-brown text-white px-4 py-2 rounded-full hover:bg-opacity-90 transition-colors">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-12">
+            <a href="#" class="inline-flex items-center text-brown hover:text-gold transition-colors">
+                <span>View All Products</span>
+                <i class="fas fa-arrow-right ml-2"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Customize Section -->
+<section id="customize" class="py-16 md:py-24 bg-gradient-to-b from-offwhite to-cream relative">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+            <h2 class="font-playfair text-3xl md:text-4xl font-bold text-brown-dark mb-4 customize-title">Create Your Perfect Laddoo</h2>
+            <p class="text-brown-light max-w-xl mx-auto customize-desc">Design your own unique date laddoo with our customization options. Choose ingredients, sweetness, and packaging.</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            <div class="lg:col-span-5 customize-preview">
+                <div class="relative">
+                    <div class="rounded-2xl overflow-hidden shadow-xl">
+                        <img
+                                src="https://images.unsplash.com/photo-1617625802912-cde586faf331?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+                                alt="Custom Laddoo Preview"
+                                class="w-full h-[450px] object-cover"
+                        />
+                    </div>
+                    <div class="absolute -bottom-6 -right-6 bg-white rounded-full p-3 shadow-lg customize-badge">
+                        <div class="bg-gold rounded-full w-24 h-24 flex flex-col items-center justify-center">
+                            <span class="font-dancing text-white text-lg">Your</span>
+                            <span class="font-playfair font-bold text-white text-xl">Creation</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-7 customize-options">
+                <div class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                    <h3 class="font-playfair text-2xl font-semibold text-brown-dark mb-6">Customize Your Laddoo</h3>
+
+                    <!-- Base Type -->
+                    <div class="mb-6">
+                        <label class="block text-brown-dark font-medium mb-2">Base Type</label>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                            <button class="base-type-btn px-4 py-3 border-2 border-gold bg-gold bg-opacity-10 text-brown-dark rounded-lg font-medium hover:bg-opacity-20 transition-colors relative" data-id="premium-dates">
+                                <div class="flex flex-col items-center">
+                                    <div class="mb-1">
+                                        <i class="fas fa-star text-gold text-lg"></i>
+                                    </div>
+                                    <span>Premium Dates</span>
+                                    <div class="absolute -top-2 -right-2 bg-gold text-white w-5 h-5 flex items-center justify-center rounded-full text-xs">
+                                        <i class="fas fa-check"></i>
+                                    </div>
+                                </div>
+                                <div class="absolute -top-2 -left-2 bg-[#E86C00] text-white text-xs py-0.5 px-2 rounded-full">
+                                    Popular
+                                </div>
+                            </button>
+                            <button class="base-type-btn px-4 py-3 border-2 border-brown-light text-brown-dark rounded-lg font-medium hover:bg-opacity-20 transition-colors relative" data-id="date-fig">
+                                <div class="flex flex-col items-center">
+                                    <div class="mb-1">
+                                        <i class="fas fa-apple-alt text-gold text-lg"></i>
+                                    </div>
+                                    <span>Date & Fig</span>
+                                </div>
+                            </button>
+                            <button class="base-type-btn px-4 py-3 border-2 border-brown-light text-brown-dark rounded-lg font-medium hover:bg-opacity-20 transition-colors relative" data-id="date-jaggery">
+                                <div class="flex flex-col items-center">
+                                    <div class="mb-1">
+                                        <i class="fas fa-cubes text-gold text-lg"></i>
+                                    </div>
+                                    <span>Date & Jaggery</span>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Add-ins -->
+                    <div class="mb-6">
+                        <div class="flex items-center justify-between">
+                            <label class="block text-brown-dark font-medium mb-2">Add-ins (Choose up to 3)</label>
+                            <span class="text-sm text-brown-light">
+                  <span id="add-ins-count">2</span>/3 selected
+                </span>
+                        </div>
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+                            <button class="add-in-btn px-4 py-2 border-2 border-gold bg-gold bg-opacity-10 text-brown-dark rounded-lg font-medium hover:bg-opacity-20 transition-colors relative" data-id="almonds">
+                                <div class="flex items-center justify-center">
+                                    <i class="fas fa-seedling text-gold mr-2"></i>
+                                    Almonds
+                                </div>
+                                <span class="absolute -top-2 -right-2 bg-gold text-white w-5 h-5 flex items-center justify-center rounded-full text-xs">
+                    <i class="fas fa-check"></i>
+                  </span>
+                            </button>
+                            <button class="add-in-btn px-4 py-2 border-2 border-gold bg-gold bg-opacity-10 text-brown-dark rounded-lg font-medium hover:bg-opacity-20 transition-colors relative" data-id="pistachios">
+                                <div class="flex items-center justify-center">
+                                    <i class="fas fa-leaf text-gold mr-2"></i>
+                                    Pistachios
+                                </div>
+                                <span class="absolute -top-2 -right-2 bg-gold text-white w-5 h-5 flex items-center justify-center rounded-full text-xs">
+                    <i class="fas fa-check"></i>
+                  </span>
+                            </button>
+                            <button class="add-in-btn px-4 py-2 border-2 border-brown-light text-brown-dark rounded-lg font-medium hover:bg-opacity-20 transition-colors relative" data-id="cashews">
+                                <div class="flex items-center justify-center">
+                                    <i class="fas fa-moon text-gold mr-2"></i>
+                                    Cashews
+                                </div>
+                            </button>
+                            <button class="add-in-btn px-4 py-2 border-2 border-brown-light text-brown-dark rounded-lg font-medium hover:bg-opacity-20 transition-colors relative" data-id="walnuts">
+                                <div class="flex items-center justify-center">
+                                    <i class="fas fa-brain text-gold mr-2"></i>
+                                    Walnuts
+                                </div>
+                            </button>
+                            <button class="add-in-btn px-4 py-2 border-2 border-brown-light text-brown-dark rounded-lg font-medium hover:bg-opacity-20 transition-colors relative" data-id="coconut">
+                                <div class="flex items-center justify-center">
+                                    <i class="fas fa-globe-asia text-gold mr-2"></i>
+                                    Coconut
+                                </div>
+                            </button>
+                            <button class="add-in-btn px-4 py-2 border-2 border-brown-light text-brown-dark rounded-lg font-medium hover:bg-opacity-20 transition-colors relative" data-id="chocolate-chips">
+                                <div class="flex items-center justify-center">
+                                    <i class="fas fa-cookie text-gold mr-2"></i>
+                                    Chocolate Chips
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Flavors -->
+                    <div class="mb-6">
+                        <label class="block text-brown-dark font-medium mb-2">Flavors & Spices</label>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                            <button class="flavor-btn flex items-center justify-center px-4 py-2 border-2 border-gold bg-gold bg-opacity-10 text-brown-dark rounded-lg font-medium hover:bg-opacity-20 transition-colors relative" data-id="cardamom">
+                                <i class="fas fa-mortar-pestle text-gold mr-2"></i>
+                                Cardamom
+                                <span class="absolute -top-2 -right-2 bg-gold text-white w-5 h-5 flex items-center justify-center rounded-full text-xs">
+                    <i class="fas fa-check"></i>
+                  </span>
+                            </button>
+                            <button class="flavor-btn flex items-center justify-center px-4 py-2 border-2 border-brown-light text-brown-dark rounded-lg font-medium hover:bg-opacity-20 transition-colors relative" data-id="saffron">
+                                <i class="fas fa-seedling text-gold mr-2"></i>
+                                Saffron
+                            </button>
+                            <button class="flavor-btn flex items-center justify-center px-4 py-2 border-2 border-brown-light text-brown-dark rounded-lg font-medium hover:bg-opacity-20 transition-colors relative" data-id="rose">
+                                <i class="fas fa-spa text-gold mr-2"></i>
+                                Rose
+                            </button>
+                            <button class="flavor-btn flex items-center justify-center px-4 py-2 border-2 border-brown-light text-brown-dark rounded-lg font-medium hover:bg-opacity-20 transition-colors relative" data-id="cinnamon">
+                                <i class="fas fa-atom text-gold mr-2"></i>
+                                Cinnamon
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Sweetness -->
+                    <div class="mb-8">
+                        <div class="flex items-center justify-between">
+                            <label class="block text-brown-dark font-medium mb-2">Sweetness Level</label>
+                            <div class="flex items-center gap-2" id="sweetness-indicator">
+                                <i class="fas fa-cookie text-gold"></i>
+                                <i class="fas fa-cookie text-gold"></i>
+                                <i class="fas fa-cookie text-gold"></i>
+                                <i class="fas fa-cookie text-brown-light/30"></i>
+                                <i class="fas fa-cookie text-brown-light/30"></i>
+                            </div>
+                        </div>
+                        <div class="relative mt-1">
+                            <input
+                                    type="range"
+                                    min="1"
+                                    max="5"
+                                    value="3"
+                                    class="w-full h-2 bg-brown-light/30 rounded-lg appearance-none cursor-pointer accent-gold"
+                                    id="sweetness-range"
+                            />
+                            <div class="flex justify-between text-xs text-brown-light mt-1">
+                                <span>Mild</span>
+                                <span>Medium</span>
+                                <span>Sweet</span>
+                            </div>
+                        </div>
+                        <div class="mt-2 text-sm text-brown-light italic" id="sweetness-description">
+                            Balanced sweetness, our most popular choice
+                        </div>
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <button class="flex-1 px-6 py-3 bg-gold text-white font-medium rounded-full shadow-lg hover:bg-opacity-90 transition-all transform hover:-translate-y-1 flex items-center justify-center">
+                            <i class="fas fa-shopping-cart mr-2"></i>
+                            Add to Cart
+                        </button>
+                        <button class="flex-1 px-6 py-3 border-2 border-brown text-brown font-medium rounded-full hover:bg-brown hover:text-white transition-all transform hover:-translate-y-1 flex items-center justify-center">
+                            <i class="fas fa-heart mr-2"></i>
+                            Save for Later
+                        </button>
+                    </div>
+
+                    <div class="mt-4 text-center">
+                        <div class="flex items-center justify-center gap-2 text-brown-light text-sm flex-wrap">
+                            <span class="flex items-center"><i class="fas fa-shield-alt text-gold mr-1.5"></i> 100% satisfaction guarantee</span>
+                            <span>•</span>
+                            <span class="flex items-center"><i class="fas fa-truck text-gold mr-1.5"></i> Free shipping on orders over ₹999</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Process Section -->
+<section id="process" class="py-16 md:py-24 bg-cream">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+            <h2 class="font-playfair text-3xl md:text-4xl font-bold text-brown-dark mb-4 process-title">Our Meticulous Process</h2>
+            <p class="text-brown-light max-w-2xl mx-auto process-desc">We take pride in our authentic process that ensures each laddoo is crafted with care, resulting in the perfect texture and taste.</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div class="process-content">
+                <div class="process-steps space-y-8">
+                    <div class="flex">
+                        <div class="flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center bg-gold text-white font-bold text-xl mr-4">1</div>
+                        <div>
+                            <h3 class="font-playfair text-xl font-bold text-brown-dark mb-2">Select Premium Ingredients</h3>
+                            <p class="text-brown-light">We source the finest Medjool dates and premium nuts from select suppliers who share our commitment to quality.</p>
+                        </div>
+                    </div>
+
+                    <div class="flex">
+                        <div class="flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center bg-gold text-white font-bold text-xl mr-4">2</div>
+                        <div>
+                            <h3 class="font-playfair text-xl font-bold text-brown-dark mb-2">Traditional Preparation</h3>
+                            <p class="text-brown-light">Our skilled artisans prepare the dates and ingredients using time-honored techniques passed down through generations.</p>
+                        </div>
+                    </div>
+
+                    <div class="flex">
+                        <div class="flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center bg-gold text-white font-bold text-xl mr-4">3</div>
+                        <div>
+                            <h3 class="font-playfair text-xl font-bold text-brown-dark mb-2">Careful Blending</h3>
+                            <p class="text-brown-light">The ingredients are carefully blended with aromatic spices to create a perfect balance of flavors.</p>
+                        </div>
+                    </div>
+
+                    <div class="flex">
+                        <div class="flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center bg-gold text-white font-bold text-xl mr-4">4</div>
+                        <div>
+                            <h3 class="font-playfair text-xl font-bold text-brown-dark mb-2">Handcrafted Shaping</h3>
+                            <p class="text-brown-light">Each laddoo is shaped by hand to ensure the perfect consistency and presentation.</p>
+                        </div>
+                    </div>
+
+                    <div class="flex">
+                        <div class="flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center bg-gold text-white font-bold text-xl mr-4">5</div>
+                        <div>
+                            <h3 class="font-playfair text-xl font-bold text-brown-dark mb-2">Quality Control</h3>
+                            <p class="text-brown-light">Every batch undergoes strict quality checks to ensure it meets our high standards before being packaged.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="process-images relative">
+                <div class="rounded-2xl overflow-hidden shadow-xl">
+                    <img
+                            src="https://images.unsplash.com/photo-1627308043947-7a96c8e11b11?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80"
+                            alt="Our Laddoo Making Process"
+                            class="w-full h-auto object-cover"
+                    />
+                </div>
+                <div class="absolute -bottom-6 -right-6 md:-right-10 p-4 bg-white rounded-xl shadow-lg max-w-xs">
+                    <div class="flex items-start">
+                        <i class="fas fa-certificate text-gold text-3xl mr-3 mt-1"></i>
+                        <div>
+                            <h4 class="font-playfair text-lg font-bold text-brown-dark mb-1">Quality Guarantee</h4>
+                            <p class="text-brown-light text-sm">We stand behind the quality of every laddoo we create, using only the finest ingredients.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials Section -->
+<section id="testimonials" class="py-16 md:py-24 bg-offwhite">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+            <h2 class="font-playfair text-3xl md:text-4xl font-bold text-brown-dark mb-4 testimonial-title">What Our Customers Say</h2>
+            <p class="text-brown-light max-w-2xl mx-auto testimonial-desc">Don't just take our word for it - hear from our satisfied customers who have experienced the delight of our date laddoos.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Testimonial 1 -->
+            <div class="bg-white rounded-2xl p-6 shadow-lg">
+                <div class="flex items-center mb-4">
+                    <img
+                            src="https://randomuser.me/api/portraits/women/42.jpg"
+                            alt="Customer"
+                            class="w-12 h-12 rounded-full mr-4"
+                    />
+                    <div>
+                        <h4 class="font-playfair font-bold text-brown-dark">Priya Sharma</h4>
+                        <p class="text-sm text-brown-light">Delhi, India</p>
+                    </div>
+                </div>
+                <div class="flex text-gold mb-3">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+                <p class="text-brown-light">"These laddoos are absolutely incredible! The perfect balance of sweetness and the premium quality of dates is unmistakable. They've become a staple for all our family celebrations."</p>
+            </div>
+
+            <!-- Testimonial 2 -->
+            <div class="bg-white rounded-2xl p-6 shadow-lg">
+                <div class="flex items-center mb-4">
+                    <img
+                            src="https://randomuser.me/api/portraits/men/32.jpg"
+                            alt="Customer"
+                            class="w-12 h-12 rounded-full mr-4"
+                    />
+                    <div>
+                        <h4 class="font-playfair font-bold text-brown-dark">Rajesh Patel</h4>
+                        <p class="text-sm text-brown-light">Mumbai, India</p>
+                    </div>
+                </div>
+                <div class="flex text-gold mb-3">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                </div>
+                <p class="text-brown-light">"I ordered the customized laddoos as a gift for my parents' anniversary. Not only were they delicious, but the presentation was also spectacular. The personalized touch made it extra special."</p>
+            </div>
+
+            <!-- Testimonial 3 -->
+            <div class="bg-white rounded-2xl p-6 shadow-lg">
+                <div class="flex items-center mb-4">
+                    <img
+                            src="https://randomuser.me/api/portraits/women/68.jpg"
+                            alt="Customer"
+                            class="w-12 h-12 rounded-full mr-4"
+                    />
+                    <div>
+                        <h4 class="font-playfair font-bold text-brown-dark">Anita Desai</h4>
+                        <p class="text-sm text-brown-light">Bangalore, India</p>
+                    </div>
+                </div>
+                <div class="flex text-gold mb-3">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+                <p class="text-brown-light">"As someone who is health-conscious, I love that these laddoos are made with natural ingredients and no refined sugar. They satisfy my sweet cravings without the guilt. Simply divine!"</p>
+            </div>
+        </div>
+
+        <div class="mt-12 text-center">
+            <a href="#" class="inline-block px-8 py-3 bg-gold text-white font-medium rounded-full shadow-lg hover:bg-opacity-90 transition-all transform hover:-translate-y-1">
+                Read More Reviews
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action Section -->
+<section id="cta" class="py-16 md:py-20 bg-gradient-to-r from-brown to-[#543814] text-white">
+    <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            <div class="lg:col-span-7">
+                <h2 class="font-playfair text-3xl md:text-4xl font-bold mb-4 cta-title">Ready to Indulge in Premium Sweetness?</h2>
+                <p class="text-white/80 mb-8 max-w-2xl cta-desc">Order our handcrafted date laddoos today and experience the perfect blend of tradition and indulgence. Ideal for gifting or treating yourself to something special.</p>
+
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a href="#products" class="px-8 py-3 bg-gold text-white font-medium rounded-full shadow-lg hover:bg-opacity-90 transition-all transform hover:-translate-y-1 text-center">
+                        Shop Now
+                    </a>
+                    <a href="#customize" class="px-8 py-3 bg-white text-brown font-medium rounded-full shadow-lg hover:bg-opacity-90 transition-all transform hover:-translate-y-1 text-center">
+                        Customize Your Order
+                    </a>
+                </div>
+
+                <div class="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="flex flex-col items-center">
+                        <i class="fas fa-gift text-gold text-2xl mb-2"></i>
+                        <p class="text-sm text-center">Perfect for Gifting</p>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <i class="fas fa-shipping-fast text-gold text-2xl mb-2"></i>
+                        <p class="text-sm text-center">Fast Delivery</p>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <i class="fas fa-leaf text-gold text-2xl mb-2"></i>
+                        <p class="text-sm text-center">100% Natural</p>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <i class="fas fa-shield-alt text-gold text-2xl mb-2"></i>
+                        <p class="text-sm text-center">Satisfaction Guarantee</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-5">
+                <div class="relative cta-image">
+                    <img
+                            src="https://images.unsplash.com/photo-1576618148400-f54bed99fcfd?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80"
+                            alt="Gift box of Date Laddoos"
+                            class="rounded-2xl shadow-2xl w-full"
+                    />
+                    <div class="absolute -bottom-5 -right-5 bg-white text-brown-dark rounded-xl p-4 shadow-lg max-w-xs">
+                        <div class="flex items-center">
+                            <div class="text-gold text-4xl font-dancing mr-3">15% OFF</div>
+                            <div>
+                                <p class="font-bold">First Order</p>
+                                <p class="text-xs text-brown-light">Use code: SWEET15</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="bg-brown-dark text-white pt-16 pb-8">
+    <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+            <div>
+                <div class="mb-4">
+                    <svg width="120" height="40" viewBox="0 0 240 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M40.54 58.36c-1.28 1.2-2.68 2.1-4.2 2.68-1.52.58-3.08.88-4.68.88-1.52 0-2.94-.26-4.24-.76-1.3-.5-2.42-1.24-3.36-2.2-.94-.96-1.68-2.14-2.2-3.52-.52-1.38-.78-2.94-.78-4.68 0-1.68.26-3.22.78-4.6.52-1.38 1.26-2.56 2.2-3.52.94-.96 2.06-1.7 3.36-2.2 1.3-.5 2.74-.76 4.32-.76 1.44 0 2.88.24 4.32.72 1.44.48 2.76 1.26 3.96 2.32l-2.72 3.28c-.8-.72-1.68-1.28-2.64-1.68-.96-.4-1.96-.6-3-.6-.88 0-1.7.16-2.44.48-.74.32-1.4.78-1.96 1.36-.56.58-1 1.28-1.32 2.12-.32.84-.48 1.76-.48 2.76 0 1 .16 1.92.48 2.76.32.84.76 1.56 1.32 2.16.56.6 1.22 1.06 1.96 1.38.74.32 1.56.48 2.44.48 1.12 0 2.16-.22 3.12-.68.96-.44 1.82-1.08 2.56-1.88l2.2 3.6z" fill="#D4AF37"/>
+                        <path d="M90.06 53.2c0 1.16-.22 2.22-.68 3.16-.44.94-1.08 1.74-1.88 2.4-.8.66-1.76 1.16-2.88 1.52-1.12.36-2.34.54-3.68.54h-8.68V39.76h8.76c1.3 0 2.48.18 3.56.56 1.08.38 2 .9 2.8 1.56.8.66 1.42 1.46 1.84 2.4.44.94.64 1.98.64 3.12 0 1.36-.32 2.54-.96 3.52-.64.98-1.5 1.72-2.6 2.24 1.16.48 2.12 1.2 2.88 2.16.76.96 1.12 2.14 1.12 3.52v-.12zm-5.6-10.04c0-.96-.32-1.7-.96-2.2-.64-.5-1.54-.76-2.68-.76h-3.6v5.92h3.68c1.12 0 2-.26 2.64-.76.64-.5.96-1.26.96-2.24l-.04.04zm.68 9.8c0-.96-.36-1.74-1.08-2.32-.72-.58-1.68-.88-2.88-.88h-3.96v6.48h3.96c1.2 0 2.18-.28 2.92-.84.74-.56 1.1-1.36 1.1-2.4l-.06-.04z" fill="#D4AF37"/>
+                        <path d="M97.97 39.76h13.8v4.08h-8.84v3.68h8.28v4.08h-8.28v4.2h9.16v4.08h-14.12V39.76z" fill="#D4AF37"/>
+                        <path d="M139.87 53.2c0 1.16-.22 2.22-.66 3.16-.44.94-1.08 1.74-1.88 2.4-.8.66-1.76 1.16-2.88 1.52-1.12.36-2.36.54-3.68.54h-8.68V39.76h8.76c1.28 0 2.48.18 3.56.56 1.08.38 2 .9 2.8 1.56.8.66 1.42 1.46 1.84 2.4.44.94.66 1.98.66 3.12 0 1.36-.32 2.54-.96 3.52-.64.98-1.5 1.72-2.6 2.24 1.16.48 2.12 1.2 2.88 2.16.76.96 1.14 2.14 1.14 3.52v-.12zm-5.6-10.04c0-.96-.32-1.7-.96-2.2-.64-.5-1.54-.76-2.68-.76h-3.6v5.92h3.68c1.12 0 2-.26 2.64-.76.64-.5.96-1.26.96-2.24l-.04.04zm.68 9.8c0-.96-.36-1.74-1.08-2.32-.72-.58-1.68-.88-2.88-.88h-3.96v6.48h3.96c1.2 0 2.18-.28 2.92-.84.74-.56 1.1-1.36 1.1-2.4l-.06-.04z" fill="#D4AF37"/>
+                        <path d="M151.07 39.76h5v20.12h-5V39.76z" fill="#D4AF37"/>
+                        <path d="M170.69 60.28c-1.6 0-3.06-.28-4.36-.84-1.3-.56-2.42-1.32-3.36-2.28-.94-.96-1.66-2.12-2.16-3.48-.5-1.36-.76-2.84-.76-4.44 0-1.6.26-3.08.76-4.44.5-1.36 1.22-2.52 2.16-3.48.94-.96 2.06-1.72 3.36-2.28 1.3-.56 2.76-.84 4.36-.84 1.6 0 3.06.28 4.36.84 1.3.56 2.42 1.32 3.36 2.28.94.96 1.66 2.12 2.16 3.48.5 1.36.76 2.84.76 4.44 0 1.6-.26 3.08-.76 4.44-.5 1.36-1.22 2.52-2.16 3.48-.94.96-2.06 1.72-3.36 2.28-1.3.56-2.76.84-4.36.84zm0-4.2c.88 0 1.68-.16 2.4-.48.72-.32 1.34-.78 1.84-1.36.5-.58.9-1.28 1.16-2.12.28-.84.42-1.76.42-2.76 0-1-.14-1.92-.42-2.76-.28-.84-.66-1.54-1.16-2.12-.5-.58-1.12-1.02-1.84-1.32-.72-.3-1.52-.46-2.4-.46-.88 0-1.68.16-2.4.46-.72.3-1.34.74-1.84 1.32-.5.58-.9 1.28-1.16 2.12-.28.84-.42 1.76-.42 2.76 0 1 .14 1.92.42 2.76.28.84.66 1.54 1.16 2.12.5.58 1.12 1.04 1.84 1.36.72.32 1.52.48 2.4.48z" fill="#D4AF37"/>
+                        <path d="M194.9 60.28c-1.6 0-3.06-.28-4.36-.84-1.3-.56-2.42-1.32-3.36-2.28-.94-.96-1.66-2.12-2.16-3.48-.5-1.36-.76-2.84-.76-4.44 0-1.6.26-3.08.76-4.44.5-1.36 1.22-2.52 2.16-3.48.94-.96 2.06-1.72 3.36-2.28 1.3-.56 2.76-.84 4.36-.84 1.6 0 3.06.28 4.36.84 1.3.56 2.42 1.32 3.36 2.28.94.96 1.66 2.12 2.16 3.48.5 1.36.76 2.84.76 4.44 0 1.6-.26 3.08-.76 4.44-.5 1.36-1.22 2.52-2.16 3.48-.94.96-2.06 1.72-3.36 2.28-1.3.56-2.76.84-4.36.84zm0-4.2c.88 0 1.68-.16 2.4-.48.72-.32 1.34-.78 1.84-1.36.5-.58.9-1.28 1.16-2.12.28-.84.42-1.76.42-2.76 0-1-.14-1.92-.42-2.76-.28-.84-.66-1.54-1.16-2.12-.5-.58-1.12-1.02-1.84-1.32-.72-.3-1.52-.46-2.4-.46-.88 0-1.68.16-2.4.46-.72.3-1.34.74-1.84 1.32-.5.58-.9 1.28-1.16 2.12-.28.84-.42 1.76-.42 2.76 0 1 .14 1.92.42 2.76.28.84.66 1.54 1.16 2.12.5.58 1.12 1.04 1.84 1.36.72.32 1.52.48 2.4.48z" fill="#D4AF37"/>
+                        <path d="M43.26 25.68H7.71L5.83 31H1l14.59-36h19.8L50 31h-4.83l-1.9-5.32zm-2.03-5.5l-15.75-1.33-15.75 1.34 7.87-19.68h15.77l7.86 19.68z" fill="#D4AF37"/>
+                        <path d="M89.34 31l-11.09-14.9L66.95 31h-5.4l14.88-18.43L62.59 0h5.4l10.27 13.9L88.75 0h5.14L80.04 12.56 94.74 31h-5.4z" fill="#D4AF37"/>
+                        <path d="M103.66 31V0h4.34v27.01h19.13V31h-23.47z" fill="#D4AF37"/>
+                        <path d="M165.99 31l-5.05-9.05h-20.1L135.97 31h-4.51L149.23 0h3.52l17.71 31h-4.5v.01zm-6.46-12.83l-8.5-14.87-8.62 14.87h17.12z" fill="#D4AF37"/>
+                        <path d="M186.6 31V4.1h-13.1V0h30.57v4.1h-13.13V31H186.6z" fill="#D4AF37"/>
+                        <path d="M210.63 31V0h25.79v3.99h-21.45v9.63h19.51v3.98h-19.51v9.42h21.72V31h-26.06z" fill="#D4AF37"/>
+                    </svg>
+                </div>
+                <p class="text-white/70 mb-4">Premium handcrafted date laddoos made with the finest ingredients. Perfect for celebrations and gifting.</p>
+                <div class="flex space-x-4">
+                    <a href="#" class="text-white hover:text-gold transition-colors"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="text-white hover:text-gold transition-colors"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="text-white hover:text-gold transition-colors"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="text-white hover:text-gold transition-colors"><i class="fab fa-pinterest"></i></a>
+                </div>
+            </div>
+
+            <div>
+                <h4 class="font-playfair text-lg font-bold mb-4">Quick Links</h4>
+                <ul class="space-y-2">
+                    <li><a href="#hero" class="text-white/70 hover:text-gold transition-colors">Home</a></li>
+                    <li><a href="#products" class="text-white/70 hover:text-gold transition-colors">Products</a></li>
+                    <li><a href="#customize" class="text-white/70 hover:text-gold transition-colors">Customize</a></li>
+                    <li><a href="#process" class="text-white/70 hover:text-gold transition-colors">Our Process</a></li>
+                    <li><a href="#testimonials" class="text-white/70 hover:text-gold transition-colors">Testimonials</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="font-playfair text-lg font-bold mb-4">Contact Us</h4>
+                <ul class="space-y-2">
+                    <li class="flex items-start">
+                        <i class="fas fa-map-marker-alt text-gold mt-1 mr-3"></i>
+                        <span class="text-white/70">123 Sweet Lane, Gourmet District, Mumbai, 400001</span>
+                    </li>
+                    <li class="flex items-center">
+                        <i class="fas fa-phone-alt text-gold mr-3"></i>
+                        <span class="text-white/70">+91 12345 67890</span>
+                    </li>
+                    <li class="flex items-center">
+                        <i class="fas fa-envelope text-gold mr-3"></i>
+                        <span class="text-white/70">info@swaadisht.com</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="font-playfair text-lg font-bold mb-4">Newsletter</h4>
+                <p class="text-white/70 mb-4">Subscribe to get special offers, free giveaways, and once-in-a-lifetime deals.</p>
+                <div class="flex">
+                    <input type="email" placeholder="Your email" class="px-4 py-2 bg-white/10 text-white border border-white/20 rounded-l-lg focus:outline-none focus:border-gold w-full" />
+                    <button class="bg-gold text-white px-4 py-2 rounded-r-lg hover:bg-opacity-90 transition-colors">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="border-t border-white/10 pt-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <p class="text-white/70 text-sm mb-4 md:mb-0">© 2025 Swaadisht. All rights reserved.</p>
+                <div class="flex space-x-4">
+                    <a href="#" class="text-white/70 text-sm hover:text-gold transition-colors">Privacy Policy</a>
+                    <a href="#" class="text-white/70 text-sm hover:text-gold transition-colors">Terms of Service</a>
+                    <a href="#" class="text-white/70 text-sm hover:text-gold transition-colors">Shipping</a>
+                    <a href="#" class="text-white/70 text-sm hover:text-gold transition-colors">Refund Policy</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Back to Top Button -->
+<button id="back-to-top" class="fixed bottom-6 right-6 bg-gold text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg opacity-0 invisible transition-all">
+    <i class="fas fa-arrow-up"></i>
+</button>
+
+<!-- GSAP -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/ScrollTrigger.min.js"></script>
+<!-- Custom Scripts -->
+<script src="/js/script.js"></script>
 </body>
 </html>

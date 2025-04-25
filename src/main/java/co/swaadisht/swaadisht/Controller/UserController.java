@@ -76,6 +76,7 @@ public class UserController {
         User user = getLoggedInUserDetails(p);
         List<Cart> Cart = cartService.getCartByUser(user.getId());
         m.addAttribute("carts", Cart);
+        m.addAttribute("NoProduct", Cart.isEmpty());
         if(!Cart.isEmpty()){
             m.addAttribute("totalOrderPrice", Cart.get(Cart.size()-1).getTotalOrderPrice());
         }
