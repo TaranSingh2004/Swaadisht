@@ -1,7 +1,9 @@
 package co.swaadisht.swaadisht.Controller;
 
+import co.swaadisht.swaadisht.Repository.UserRepository;
 import co.swaadisht.swaadisht.Services.UserService;
 import co.swaadisht.swaadisht.entities.User;
+import co.swaadisht.swaadisht.helpers.ResourceNotFoundException;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
@@ -10,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,6 +29,9 @@ public class AdminUserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @GetMapping("/users")
     public String getAllUsers(Model m){
@@ -57,12 +63,17 @@ public class AdminUserController {
 
     @GetMapping("/add-admin")
     public String loadAdminAdd(){
+
         return "/admin/add_admin";
     }
 
     @PostMapping("/save-admin")
-    public String saveUser(@ModelAttribute User user, HttpSession session) throws IOException {
+    public String saveUser(@ModelAttribute User user, HttpSession session, RedirectAttributes redirectAttributes) throws IOException {
 
+        if (userRepository.existsByEmail(user.getEmail())) {
+            session.setAttribute("errorMsg", "email already registered.");
+            return "redirect:/admin/add-admin";
+        }
         User saveUser = userService.saveAdmin(user);
         if(!ObjectUtils.isEmpty(saveUser)){
             session.setAttribute("succMsg", "Registered successfully");

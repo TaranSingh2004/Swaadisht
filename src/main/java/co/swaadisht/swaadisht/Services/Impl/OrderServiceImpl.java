@@ -155,7 +155,7 @@ public class OrderServiceImpl implements OrderService {
         }
         order.setPrice(totalOrderPrice);
 
-        order.setTotalPrice(totalOrderPrice + shippingCharge);
+        order.setTotalPrice(totalOrderPrice + shippingCharge -discountAmount);
 
         // Save the entire order with all order items
         orderRepository.save(order);

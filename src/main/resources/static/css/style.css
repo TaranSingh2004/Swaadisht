@@ -1,6 +1,10 @@
 .custom-bg {
   background-color: #ebe8e1; /* Light Gray */
 }
+
+.custom-bg-box{
+    background-color: #d9c6c5;
+}
 /* Please ❤ this if you like it! */
 
 
@@ -553,7 +557,7 @@ body {
 }
 
 .container {
-  max-width: 1280px;
+  max-width: 1350px;
 }
 
 /* Background Pattern */

@@ -1,9 +1,9 @@
 
 <nav th:fragment="navbar" class="custom-bg border-gray-200 dark:bg-gray-900 w-full">
     <div class="max-w-screen-2xl flex flex-wrap items-center justify-between  p-3 px-16 w-full">
-        <a href="#" class="flex items-center space-x-2 rtl:space-x-reverse">
+        <a href="/" class="flex items-center space-x-2 rtl:space-x-reverse">
             <div class="pt-0 ml-8">
-                <img th:src="@{/img/image.png}" class="h-auto w-32 me-3" alt="swaadisht">
+                <img th:src="@{/img/finalLogo.png}" class="h-auto w-32 me-3" alt="swaadisht">
             </div>
             <!--                <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">SWAADISHT</span>-->
         </a>
@@ -12,12 +12,12 @@
 
 
             <th:block th:if="${user==null}">
-                <a href="/signin" type="button" class="text-white space-x-2 mr-2 custom-color font-medium rounded-lg text-sm px-4 py-2 text-center">LogIn</a>
-                <a href="/register"  type="button" class="text-white custom-color font-medium rounded-lg text-sm px-4 py-2 text-center">SignUp</a>
+                <a href="/signin" type="button" class="text-white text-lg space-x-2 mr-2 custom-color font-medium rounded-lg px-4 py-2 text-center">LogIn</a>
+                <a href="/register"  type="button" class="text-white text-lg custom-color font-medium rounded-lg px-4 py-2 text-center">SignUp</a>
             </th:block>
             <th:block th:if="${user!=null}">
 
-                <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown" class="text-white custom-color font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center" type="button">[[${user.name}]] <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown" class="text-white text-lg custom-color font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center" type="button">[[${user.name}]] <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
                 </svg>
                 </button>
@@ -26,9 +26,6 @@
                 <div id="dropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700">
                     <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
                         <th:block>
-<!--                            <li th:if="${user.role=='ROLE_ADMIN'}">-->
-<!--                                <a href="/user/profile" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Profile</a>-->
-<!--                            </li>-->
                             <li th:if="${user.role=='ROLE_USER'}">
                                 <a href="/user/profile" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Profile</a>
                             </li>
@@ -69,13 +66,13 @@
 <!--                    </li>-->
 <!--                </th:block>-->
                 <li>
-                    <a href="#" class="block py-2 px-3 md:p-0 text-lg text-[#650c04] rounded-lg hover:bg-[#f3e8e8] md:hover:bg-transparent md:hover:text-[#8a1007] transition-colors duration-300 text-primary">About</a>
+                    <a href="/about" class="block py-2 px-3 md:p-0 text-lg text-[#650c04] rounded-lg hover:bg-[#f3e8e8] md:hover:bg-transparent md:hover:text-[#8a1007] transition-colors duration-300 text-primary">About</a>
                 </li>
                 <li>
                     <a href="/products" class="block py-2 px-3 md:p-0 text-lg text-[#650c04] rounded-lg hover:bg-[#f3e8e8] md:hover:bg-transparent md:hover:text-[#8a1007] transition-colors duration-300 text-primary">Products</a>
                 </li>
                 <li>
-                    <a href="#" class="block py-2 px-3 md:p-0 text-lg text-[#650c04] rounded-lg hover:bg-[#f3e8e8] md:hover:bg-transparent md:hover:text-[#8a1007] transition-colors duration-300 text-primary">Contact</a>
+                    <a href="/contact" class="block py-2 px-3 md:p-0 text-lg text-[#650c04] rounded-lg hover:bg-[#f3e8e8] md:hover:bg-transparent md:hover:text-[#8a1007] transition-colors duration-300 text-primary">Contact</a>
                 </li>
             </ul>
         </div>

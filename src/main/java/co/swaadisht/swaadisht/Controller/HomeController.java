@@ -59,8 +59,18 @@ public class HomeController {
     }
 
     @GetMapping("/")
-    public String home(){
-        return "index";
+    public String home(Model model){
+        try {
+            List<Product> products = productService.getAllActiveProducts();
+            if (products.isEmpty()) {
+                model.addAttribute("message", "No products available at the moment");
+            }
+            model.addAttribute("products", products);
+            return "index"; // Thymeleaf template name
+        } catch (Exception e) {
+            model.addAttribute("error", "Error loading products. Please try again later.");
+            return "index"; // Still return the template but with error message
+        }
     }
 
 
@@ -68,6 +78,14 @@ public class HomeController {
     public String aboutPage() {
         return "about"; // looks for templates/about.html (Thymeleaf) or similar
     }
+
+
+    @GetMapping("/contact")
+    public String ContactPage() {
+        return "contact";
+    }
+
+
 
     @GetMapping("/register")
     public String register(Model m) {

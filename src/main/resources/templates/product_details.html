@@ -50,7 +50,7 @@
               <p class="text-gray-600 leading-relaxed">[[${pro.description}]]</p>
 
               <div th:if="${not pro.availableSizes.isEmpty()}" class="pt-4 border-t border-gray-200">
-                <h3 class="text-lg font-semibold text-gray-900 mb-3 text-center">Select Size</h3>
+                <h3 class="text-lg font-semibold text-gray-900 mb-3 text-center">Select Size (Required)</h3>
                 <div class="grid grid-cols-2 sm:grid-cols-3 gap-3" id="sizeContainer">
                   <div th:each="size : ${pro.availableSizes}">
                     <input type="radio"
@@ -58,17 +58,19 @@
                            th:value="${size.id}"
                            name="selectedSizeId"
                            th:checked="${size.id == selectedSizeId}"
-                           class="hidden size-radio">
+                           class="opacity-0 absolute size-radio"
+                           required>
                     <label th:for="'size_' + ${size.id}"
-                           th:attr="data-size-id=${size.id}"
                            class="size-label block p-3 border-2 border-gray-200 rounded-lg cursor-pointer
-                    hover:bg-[#f0e8e8] hover:border-[#650c04]
-                    transition-colors duration-200">
+                    hover:bg-[#f0e8e8] hover:border-[#650c04] transition-colors duration-200">
                       <span class="block text-center font-medium" th:text="${size.name}"></span>
                       <span class="block text-center text-[#650c04] font-semibold mt-1"
                             th:text="${#numbers.formatCurrency(size.price)}"></span>
                     </label>
                   </div>
+                </div>
+                <div id="sizeError" class="hidden text-red-500 text-center mt-2">
+                  ⚠️ Please select a size before proceeding.
                 </div>
               </div>
 
@@ -251,6 +253,26 @@
         label.classList.add('bg-[#d9d2d2]', 'border-[#650c04]');
       });
     });
+  });
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('form');
+    if (form) {
+      form.addEventListener('submit', function(e) {
+        const selectedSize = document.querySelector('input[name="selectedSizeId"]:checked');
+        const sizeError = document.getElementById('sizeError');
+
+        if (!selectedSize) {
+          e.preventDefault();
+          sizeError.classList.remove('hidden');
+          document.getElementById('sizeContainer').scrollIntoView({
+            behavior: 'smooth',
+            block: 'center'
+          });
+        }
+      });
+    }
   });
 </script>
 </body>

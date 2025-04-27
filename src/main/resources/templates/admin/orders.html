@@ -273,18 +273,18 @@
 
         <!-- Pagination -->
         <th:block th:if="${!srch}">
-            <div class="container mx-auto px-4 mt-4">
+            <div class="container mx-auto px-4 mt-4 pb-4">
                 <nav class="flex flex-row flex-nowrap justify-between md:justify-center items-center" aria-label="Pagination">
                     <!-- Previous Page -->
-                    <a th:classappend="${isFirst} ? 'opacity-50 cursor-not-allowed' : ''"
-                       class="flex w-10 h-10 mr-1 justify-center items-center rounded-full border border-gray-200 bg-white text-black hover:border-gray-300"
-                       th:href="@{'/admin/orders?pageNo=' + ${pageNo-1}}" title="Previous Page">
-                        <span class="sr-only">Previous Page</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                             stroke="currentColor" class="block w-5 h-5">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
-                        </svg>
-                    </a>
+<!--                    <a th:classappend="${isFirst} ? 'opacity-50 cursor-not-allowed' : ''"-->
+<!--                       class="flex w-10 h-10 mr-1 justify-center items-center rounded-full border border-gray-200 bg-white text-black hover:border-gray-300"-->
+<!--                       th:href="@{'/admin/orders?pageNo=' + ${pageNo-1}}" title="Previous Page">-->
+<!--                        <span class="sr-only">Previous Page</span>-->
+<!--                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"-->
+<!--                             stroke="currentColor" class="block w-5 h-5">-->
+<!--                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />-->
+<!--                        </svg>-->
+<!--                    </a>-->
 
                     <!-- Page Numbers -->
                     <div th:each="i:${#numbers.sequence(1, totalPages)}">
@@ -296,15 +296,15 @@
                     </div>
 
                     <!-- Next Page -->
-                    <a th:classappend="${isLast} ? 'opacity-50 cursor-not-allowed' : ''"
-                       class="flex w-10 h-10 ml-1 justify-center items-center rounded-full border border-gray-200 bg-white text-black hover:border-gray-300"
-                       th:href="@{'/admin/orders?pageNo=' + ${pageNo+1}}" title="Next Page">
-                        <span class="sr-only">Next Page</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                             stroke="currentColor" class="block w-5 h-5">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-                        </svg>
-                    </a>
+<!--                    <a th:classappend="${isLast} ? 'opacity-50 cursor-not-allowed' : ''"-->
+<!--                       class="flex w-10 h-10 ml-1 justify-center items-center rounded-full border border-gray-200 bg-white text-black hover:border-gray-300"-->
+<!--                       th:href="@{'/admin/orders?pageNo=' + ${pageNo+1}}" title="Next Page">-->
+<!--                        <span class="sr-only">Next Page</span>-->
+<!--                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"-->
+<!--                             stroke="currentColor" class="block w-5 h-5">-->
+<!--                            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />-->
+<!--                        </svg>-->
+<!--                    </a>-->
                 </nav>
             </div>
         </th:block>

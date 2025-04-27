@@ -80,7 +80,8 @@
 
     <form data-th-action="@{'/do-register'}"
           method="post"
-          data-th-object="${userForm}">
+          data-th-object="${userForm}"
+          id="userRegister" novalidate>
       <div class="space-y-4">
         <!-- Full Name -->
         <div class="grid grid-cols-1 gap-4">
@@ -126,7 +127,7 @@
                 <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
               </svg>
             </div>
-            <input type="password" id="password" th:field="*{password}" required
+            <input type="password" id="pass" th:field="*{password}" required
                    class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                    placeholder="••••••••">
           </div>
@@ -142,7 +143,7 @@
                 <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
               </svg>
             </div>
-            <input type="password" id="confirmPassword" th:field="*{confirmPassword}" required
+            <input type="password" id="confirmPassword" name="confirmpassword" th:field="*{confirmPassword}" required
                    class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                    placeholder="••••••••">
           </div>
@@ -232,8 +233,196 @@
   </div>
   </div>
 </div>
-<script>
-  console.log("about page");
+<script th:inline="javascript">
+  document.addEventListener('DOMContentLoaded', function() {
+      const form = document.getElementById('userRegister');
+
+      // Add margin to password fields container to prevent layout shift
+      const passwordContainer = document.querySelector('div:has(#pass)').parentNode;
+      passwordContainer.style.marginBottom = '1.5rem';
+
+      form.addEventListener('submit', function(e) {
+          clearErrors();
+
+          const isValidName = validateName();
+          const isValidEmail = validateEmail();
+          const isValidPhone = validatePhone();
+          const isValidPassword = validatePassword();
+          const isValidConfirmPassword = validateConfirmPassword();
+          const passwordsMatch = checkPasswordMatch();
+          const termsChecked = validateTerms();
+
+          if (!isValidName || !isValidEmail || !isValidPhone ||
+              !isValidPassword || !isValidConfirmPassword ||
+              !passwordsMatch || !termsChecked) {
+              e.preventDefault();
+          }
+      });
+
+      // Real-time validation
+      document.getElementById('pass').addEventListener('input', function() {
+          validatePassword();
+          checkPasswordMatch();
+      });
+
+      document.getElementById('confirmPassword').addEventListener('input', function() {
+          validateConfirmPassword();
+          checkPasswordMatch();
+      });
+
+      function validateName() {
+          const nameInput = document.querySelector('[name="name"]');
+          if (!nameInput.value.trim()) {
+              showError(nameInput, 'Name is required');
+              return false;
+          }
+          return true;
+      }
+
+      function validateEmail() {
+          const emailInput = document.getElementById('email');
+          const email = emailInput.value.trim();
+          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+          if (!email) {
+              showError(emailInput, 'Email is required');
+              return false;
+          }
+
+          if (!emailRegex.test(email)) {
+              showError(emailInput, 'Please enter a valid email address');
+              return false;
+          }
+
+          return true;
+      }
+
+      function validatePhone() {
+          const phoneInput = document.getElementById('phone');
+          const phone = phoneInput.value.trim();
+          const phoneRegex = /^[0-9]{10,15}$/;
+
+          if (!phone) {
+              showError(phoneInput, 'Phone number is required');
+              return false;
+          }
+
+          if (!phoneRegex.test(phone)) {
+              showError(phoneInput, 'Please enter a valid phone number');
+              return false;
+          }
+
+          return true;
+      }
+
+      function validatePassword() {
+          const passwordInput = document.getElementById('pass');
+          const password = passwordInput.value;
+
+          if (!password) {
+              showError(passwordInput, 'Password is required');
+              return false;
+          }
+
+          if (password.length < 8) {
+              showError(passwordInput, 'Password must be at least 8 characters');
+              return false;
+          }
+
+          clearError(passwordInput);
+          return true;
+      }
+
+      function validateConfirmPassword() {
+          const confirmInput = document.getElementById('confirmPassword');
+          if (!confirmInput.value) {
+              showError(confirmInput, 'Please confirm your password');
+              return false;
+          }
+          return true;
+      }
+
+      function checkPasswordMatch() {
+          const password = document.getElementById('pass').value;
+          const confirmPassword = document.getElementById('confirmPassword').value;
+          const confirmInput = document.getElementById('confirmPassword');
+          const passwordInput = document.getElementById('pass');
+
+          if (password && confirmPassword) {
+              if (password !== confirmPassword) {
+                  showError(confirmInput, 'Passwords do not match');
+                  showError(passwordInput, ''); // Clear any previous error on password field
+                  return false;
+              } else {
+                  clearError(confirmInput);
+                  clearError(passwordInput);
+                  return true;
+              }
+          }
+          return false;
+      }
+
+      function validateTerms() {
+          const termsCheckbox = document.getElementById('terms');
+          const termsLabel = document.querySelector('label[for="terms"]');
+
+          if (!termsCheckbox.checked) {
+              termsLabel.classList.add('text-red-500');
+              termsLabel.classList.remove('text-gray-700');
+              return false;
+          } else {
+              termsLabel.classList.remove('text-red-500');
+              termsLabel.classList.add('text-gray-700');
+              return true;
+          }
+      }
+
+      function showError(inputElement, message) {
+          const parentDiv = inputElement.closest('div');
+          let errorElement = parentDiv.querySelector('.error-message');
+
+          if (!errorElement) {
+              errorElement = document.createElement('p');
+              errorElement.className = 'error-message text-red-500 text-xs mt-1';
+              parentDiv.appendChild(errorElement);
+          }
+
+          errorElement.textContent = message;
+          inputElement.classList.add('border-red-500', 'focus:border-red-500', 'focus:ring-red-500');
+          inputElement.classList.remove('border-gray-300', 'focus:border-indigo-500', 'focus:ring-indigo-500');
+      }
+
+      function clearError(inputElement) {
+          if (!inputElement) return;
+
+          const parentDiv = inputElement.closest('div');
+          const errorElement = parentDiv.querySelector('.error-message');
+
+          if (errorElement) {
+              errorElement.textContent = '';
+          }
+
+          inputElement.classList.remove('border-red-500', 'focus:border-red-500', 'focus:ring-red-500');
+          inputElement.classList.add('border-gray-300', 'focus:border-indigo-500', 'focus:ring-indigo-500');
+      }
+
+      function clearErrors() {
+          document.querySelectorAll('.error-message').forEach(el => {
+              el.textContent = '';
+          });
+
+          document.querySelectorAll('input').forEach(input => {
+              input.classList.remove('border-red-500', 'focus:border-red-500', 'focus:ring-red-500');
+              input.classList.add('border-gray-300', 'focus:border-indigo-500', 'focus:ring-indigo-500');
+          });
+
+          const termsLabel = document.querySelector('label[for="terms"]');
+          if (termsLabel) {
+              termsLabel.classList.remove('text-red-500');
+              termsLabel.classList.add('text-gray-700');
+          }
+      }
+  });
 </script>
 </body>
 </html>
