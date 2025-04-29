@@ -1,12 +1,16 @@
 package co.swaadisht.swaadisht.Controller;
 
 import co.swaadisht.swaadisht.Services.ToppingService;
+import co.swaadisht.swaadisht.Services.UserService;
 import co.swaadisht.swaadisht.entities.Toppings;
+import co.swaadisht.swaadisht.entities.User;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
 
 @Controller
 @RequestMapping("/admin")
@@ -14,6 +18,18 @@ public class ToppingController {
 
     @Autowired
     private ToppingService toppingService;
+
+    @Autowired
+    private UserService userService;
+
+    @ModelAttribute
+    public void getUserDetails(Principal p, Model m){
+        if(p!=null){
+            String email= p.getName();
+            User user = userService.getUserByEmail(email);
+            m.addAttribute("user", user);
+        }
+    }
 
     @GetMapping("/toppings")
     public String listToppings(Model model) {

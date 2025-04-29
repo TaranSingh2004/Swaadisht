@@ -2,16 +2,22 @@ package co.swaadisht.swaadisht.Controller;
 
 import co.swaadisht.swaadisht.Services.CustomizationIngredientService;
 import co.swaadisht.swaadisht.Services.Impl.IngredientToppingService;
+import co.swaadisht.swaadisht.Services.UserService;
 import co.swaadisht.swaadisht.entities.CustomizationIngredient;
+import co.swaadisht.swaadisht.entities.User;
 import co.swaadisht.swaadisht.helpers.ResourceNotFoundException;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+
 @Controller
 @RequestMapping("/admin")
+@PreAuthorize("hasRole('ROLE_ADMIN')")
 public class IngredientController {
 
     @Autowired
@@ -19,6 +25,18 @@ public class IngredientController {
 
     @Autowired
     private IngredientToppingService ingredientToppingService;
+
+    @Autowired
+    private UserService userService;
+
+    @ModelAttribute
+    public void getUserDetails(Principal p, Model m){
+        if(p!=null){
+            String email= p.getName();
+            User user = userService.getUserByEmail(email);
+            m.addAttribute("user", user);
+        }
+    }
 
     @GetMapping("/ingredients")
     public String listIngredients(Model model) {
