@@ -91,8 +91,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void createOrder(int userId, Integer addressId, String paymentMethod,
-                            String couponCode, Double discountAmount) {
+    public ProductOrder createOrder(int userId, Integer addressId, String paymentMethod,
+                                    String couponCode, Double discountAmount) {
 
         User user = userRepository.findById(userId).orElseThrow();
         OrderAddress address = addressRepository.findById(addressId).orElseThrow();
@@ -162,6 +162,7 @@ public class OrderServiceImpl implements OrderService {
 
         // Clear the cart after all items are processed
         cartService.clearUserCart(userId);
+        return order;
     }
 
 

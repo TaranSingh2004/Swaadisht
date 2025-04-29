@@ -62,7 +62,8 @@
                                             </span>
                                         </div>
                                     </td>
-                                    <td class="py-2 w-16 text-center">[[${#numbers.formatCurrency(cart.price)}]]</td>
+                                    <td class="py-2 w-16 text-center"><span class="block text-center text-[#650c04] font-semibold mt-1"
+                                                                            th:text="${'₹' + #numbers.formatDecimal(cart.price, 1, 2, 'COMMA')}"></span></td>
                                     <td class="py-2 w-16 text-center">
                                         <div class="items-center">
                                             <a th:href="@{'/user/cartQuantityUpdate?s=de&cid=' + ${cart.id}}">

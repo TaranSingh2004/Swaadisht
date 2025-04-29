@@ -34,7 +34,8 @@ public class User {
     private String phoneNumber;
 
 //    @Getter(value = AccessLevel.NONE)
-    private Boolean enabled;
+    @Column(nullable = false, columnDefinition = "boolean default true")
+    private Boolean enabled = true;
 
     private boolean emailVerified=false;
     private boolean phoneVerified = false;
@@ -55,5 +56,14 @@ public class User {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<OrderAddress> addresses = new ArrayList<>();
+
+    public boolean isEnabled() {
+        return enabled != null && enabled;
+    }
+
+    // Setter should handle null values
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled != null ? enabled : true;
+    }
 
 }

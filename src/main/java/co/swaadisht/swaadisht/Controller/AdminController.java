@@ -13,6 +13,7 @@ import com.cloudinary.Cloudinary;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpSession;
 import org.apache.hc.client5.http.psl.PublicSuffixList;
+import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -254,16 +255,31 @@ public class AdminController {
     @GetMapping("/search-order")
     public String searchProduct(@RequestParam String orderId, Model m, HttpSession session,
                                 @RequestParam(name = "pageNo", defaultValue = "0") Integer pageNo,
-                                @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize){
-        if(orderId.length()>0 && orderId!=null) {
-            ProductOrder order = orderService.getOrdersByOrderId(orderId.trim());
-            if (ObjectUtils.isEmpty(order)) {
-                session.setAttribute("errorMsg", "Incorrect orderId");
+                                @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize) {
+
+        if (orderId != null && !orderId.trim().isEmpty()) {
+            try {
+                ProductOrder order = orderService.getOrdersByOrderId(orderId.trim());
+                if (order == null) {
+                    session.setAttribute("errorMsg", "Order not found with ID: " + orderId);
+                    m.addAttribute("orderDtls", null);
+                } else {
+                    // Ensure all relationships are loaded
+                    Hibernate.initialize(order.getOrderItems());
+                    order.getOrderItems().forEach(item -> {
+                        Hibernate.initialize(item.getProduct());
+                        Hibernate.initialize(item.getSelectedSize());
+                        Hibernate.initialize(item.getSelectedIngredients());
+                        Hibernate.initialize(item.getSelectedToppings());
+                    });
+                    m.addAttribute("orderDtls", order);
+                }
+                m.addAttribute("srch", true);
+            } catch (Exception e) {
+                session.setAttribute("errorMsg", "Error searching order: " + e.getMessage());
                 m.addAttribute("orderDtls", null);
-            } else {
-                m.addAttribute("orderDtls", order);
+                m.addAttribute("srch", true);
             }
-            m.addAttribute("srch", true);
         } else {
             Page<ProductOrder> page = orderService.getAllOrdersPagination(pageNo, pageSize);
             m.addAttribute("orders", page);
@@ -277,6 +293,4 @@ public class AdminController {
         }
         return "/admin/orders";
     }
-
-
 }

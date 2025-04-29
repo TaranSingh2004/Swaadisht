@@ -2,6 +2,7 @@ package co.swaadisht.swaadisht.Controller;
 
 import co.swaadisht.swaadisht.Services.*;
 import co.swaadisht.swaadisht.entities.*;
+import co.swaadisht.swaadisht.util.CommonUtil;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -47,6 +48,9 @@ public class UserController {
 
     @Autowired
     private ShippingCalculatorService shippingService;
+
+    @Autowired
+    private CommonUtil commonUtil;
 
 
     @ModelAttribute
@@ -282,7 +286,7 @@ public class UserController {
             String couponCode = (String) session.getAttribute("couponCode");
             Double discountAmount = (Double) session.getAttribute("discountAmount");
 
-            orderService.createOrder(
+            ProductOrder order = orderService.createOrder(
                     user.getId(),
                     addressId,
                     paymentMethod,
@@ -293,6 +297,8 @@ public class UserController {
             cartService.clearUserCart(user.getId());
             session.removeAttribute("couponCode");
             session.removeAttribute("discountAmount");
+
+            commonUtil.sendOrderConfirmationEmail(order, user);
 
             // Redirect to order success page with order ID
             return "redirect:/user/order-success";

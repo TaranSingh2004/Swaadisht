@@ -1,6 +1,8 @@
 package co.swaadisht.swaadisht.util;
 
 import co.swaadisht.swaadisht.Services.UserService;
+import co.swaadisht.swaadisht.entities.OrderAddress;
+import co.swaadisht.swaadisht.entities.OrderItem;
 import co.swaadisht.swaadisht.entities.ProductOrder;
 import co.swaadisht.swaadisht.entities.User;
 import jakarta.mail.MessagingException;
@@ -86,5 +88,91 @@ public class CommonUtil {
         String email = p.getName();
         User userDtls = userService.getUserByEmail(email);
         return userDtls;
+    }
+
+    public Boolean sendOrderConfirmationEmail(ProductOrder order, User user)
+            throws MessagingException, UnsupportedEncodingException {
+
+        String subject = "Your Order #" + order.getId() + " Confirmation";
+        String senderName = "Swaadisht Team";
+
+        String content = "<!DOCTYPE html>"
+                + "<html>"
+                + "<head>"
+                + "<style>"
+                + "body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }"
+                + ".container { max-width: 600px; margin: 0 auto; padding: 20px; }"
+                + ".header { background-color: #f8f9fa; padding: 15px; text-align: center; }"
+                + ".order-details { margin: 20px 0; }"
+                + ".table { width: 100%; border-collapse: collapse; }"
+                + ".table th, .table td { padding: 8px; text-align: left; border-bottom: 1px solid #ddd; }"
+                + ".footer { margin-top: 20px; font-size: 0.9em; color: #777; }"
+                + "</style>"
+                + "</head>"
+                + "<body>"
+                + "<div class='container'>"
+                + "<div class='header'>"
+                + "<h2>Thank you for your order!</h2>"
+                + "</div>"
+                + "<div class='order-details'>"
+                + "<p>Hello [[name]],</p>"
+                + "<p>Your order has been successfully placed. Here are your order details:</p>"
+                + "<h3>Order Summary</h3>"
+                + "<table class='table'>"
+                + "<tr><th>Order Number</th><td>[[orderId]]</td></tr>"
+                + "<tr><th>Order Date</th><td>[[orderDate]]</td></tr>"
+                + "<tr><th>Payment Method</th><td>[[paymentMethod]]</td></tr>"
+                + "<tr><th>Delivery Address</th><td>[[address]]</td></tr>"
+                + "<h3>Order Items</h3>"
+                + "<table class='table'>"
+                + "<tr><th>Product</th><th>Quantity</th><th>Price</th></tr>"
+                + "[[orderItems]]"
+                + "</table>"
+                + "<tr><th>Discount Amount</th><td>₹[[discountAmount]]</td></tr>"
+                + "<tr><th>Total Amount</th><td>₹[[totalAmount]]</td></tr>"
+                + "</table>"
+                + "</div>"
+                + "<div class='footer'>"
+                + "<p>We'll notify you when your order ships. If you have any questions, please contact our support team.</p>"
+                + "<p>Best regards,<br>Swaadisht Team</p>"
+                + "</div>"
+                + "</div>"
+                + "</body>"
+                + "</html>";
+
+        // Replace placeholders with actual values
+        content = content.replace("[[name]]", user.getName());
+        content = content.replace("[[orderId]]", order.getOrderId());
+        content = content.replace("[[orderDate]]", order.getOrderDate().toString());
+        content = content.replace("[[paymentMethod]]", order.getPaymentType());
+        content = content.replace("[[address]]", formatAddress(order.getOrderAddress()));
+        content = content.replace("[[discountAmount]]", String.format("%.2f", order.getDiscountAmount()));
+        content = content.replace("[[totalAmount]]", String.format("%.2f", order.getTotalPrice()));
+
+        // Build order items table rows
+        StringBuilder itemsBuilder = new StringBuilder();
+        for (OrderItem item : order.getOrderItems()) {
+            itemsBuilder.append("<tr>")
+                    .append("<td>").append(item.getProduct().getName()).append("</td>")
+                    .append("<td>").append(item.getQuantity()).append("</td>")
+                    .append("<td>₹").append(String.format("%.2f", item.getSelectedSize().getPrice())).append("</td>")
+                    .append("</tr>");
+        }
+        content = content.replace("[[orderItems]]", itemsBuilder.toString());
+
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message);
+        helper.setFrom("ecommercetesttaran@gmail.com", senderName);
+        helper.setTo(user.getEmail());
+        helper.setSubject(subject);
+        helper.setText(content, true);
+
+        mailSender.send(message);
+        return true;
+    }
+
+    private String formatAddress(OrderAddress address) {
+        return address.getAddress() + ", " + address.getCity() + ", "
+                + address.getState() + " - " + address.getPincode();
     }
 }

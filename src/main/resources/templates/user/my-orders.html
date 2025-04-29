@@ -41,7 +41,7 @@
         <td class="px-6 py-4 whitespace-nowrap">
           <div class="text-sm text-gray-900">[[${#temporals.format(order.orderDate, 'dd-MM-yyyy')}]]</div>
         </td>
-        <td class="px-6 py-4">
+        <td class="px-6 py-4 w-96">
           <div class="flex flex-col gap-2">
             <div th:each="item : ${order.orderItems}" class="ml-1 px-1 py-0.5 text-xm rounded bg-pink-100 text-pink-800">
               <div class="font-medium">[[${item.product.name}]]</div>
@@ -64,18 +64,18 @@
             </div>
           </div>
         </td>
-        <td class="px-6 py-4 whitespace-nowrap">
+        <td class="px-6 py-4 whitespace-nowrap w-32">
           <div class="flex flex-col gap-2">
             <div th:each="item : ${order.orderItems}">
               <div class="text-sm">
-                [[${item.quantity}]] x [[${#numbers.formatCurrency(item.unitPrice)}]]
+                [[${item.quantity}]] x <span class="block text-center text-[#650c04] font-semibold mt-1" th:text="${'₹' + #numbers.formatDecimal(item.unitPrice, 1, 2, 'COMMA')}"></span>
                 <span th:if="${item.selectedSize != null}">
                   ([[${item.selectedSize.name}]])
                 </span>
               </div>
             </div>
             <div class="font-medium">
-              Total: [[${#numbers.formatCurrency(order.totalPrice)}]]
+              Total: <span class="block text-center text-[#650c04] font-semibold mt-1" th:text="${'₹' + #numbers.formatDecimal(order.totalPrice, 1, 2, 'COMMA')}"></span>
             </div>
           </div>
         </td>

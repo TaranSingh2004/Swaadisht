@@ -1,6 +1,5 @@
 package co.swaadisht.swaadisht.Services;
 
-import co.swaadisht.swaadisht.entities.OrderAddress;
 import co.swaadisht.swaadisht.entities.OrderRequest;
 import co.swaadisht.swaadisht.entities.ProductOrder;
 import co.swaadisht.swaadisht.entities.User;
@@ -16,7 +15,7 @@ public interface OrderService {
 
     public List<ProductOrder> getOrdersByUsers(int userId);
 
-    void createOrder(int id, Integer addressId, String paymentMethod, String couponCode, Double discountAmount);
+    ProductOrder createOrder(int id, Integer addressId, String paymentMethod, String couponCode, Double discountAmount);
 
     ProductOrder getOrderByOrderIdAndUser(String orderId, User user);
 

@@ -5,7 +5,7 @@
 </head>
 <body>
 <div id="content">
-    <a href="/admin" class="text-decoration-none"><i class="fa-solid fa-arrow-left"></i> Back to cart</a>
+    <a href="/admin/" class="text-decoration-none"><i class="fa-solid fa-arrow-left"></i> Back</a>
 
     <!-- Search Form -->
     <form th:action="@{/admin/search-order}" method="get" class="relative max-w-sm mx-auto mt-20">
@@ -98,13 +98,16 @@
                             <div th:each="item : ${orderDtls.orderItems}">
                                 <div class="text-sm">
                                     [[${item.quantity}]] x [[${#numbers.formatCurrency(item.unitPrice)}]]
+                                    <span class="block text-center text-[#650c04] font-semibold mt-1"
+                                          th:text="${'₹' + #numbers.formatDecimal(item.unitPrice, 1, 2, 'COMMA')}"></span>
                                     <span th:if="${item.selectedSize != null}">
-                                          ([[${item.selectedSize.name}]])
-                                        </span>
+                                        ([[${item.selectedSize.name}]])
+                                    </span>
                                 </div>
                             </div>
                             <div class="font-medium">
-                                Total: [[${#numbers.formatCurrency(orderDtls.totalPrice)}]]
+                                Total: <span class="block text-center text-[#650c04] font-semibold mt-1"
+                                             th:text="${'₹' + #numbers.formatDecimal(orderDtls.totalPrice, 1, 2, 'COMMA')}"></span>
                             </div>
                         </div>
                     </td>
@@ -204,7 +207,8 @@
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap">
                         <div class="font-medium">
-                            Total: [[${#numbers.formatCurrency(order.totalPrice)}]]
+                            Total: <span class="block text-center text-[#650c04] font-semibold mt-1"
+                                         th:text="${'₹' + #numbers.formatDecimal(order.totalPrice, 1, 2, 'COMMA')}"></span>
                         </div>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap">

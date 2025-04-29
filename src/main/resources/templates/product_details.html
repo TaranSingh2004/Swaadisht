@@ -65,7 +65,7 @@
                     hover:bg-[#f0e8e8] hover:border-[#650c04] transition-colors duration-200">
                       <span class="block text-center font-medium" th:text="${size.name}"></span>
                       <span class="block text-center text-[#650c04] font-semibold mt-1"
-                            th:text="${#numbers.formatCurrency(size.price)}"></span>
+                            th:text="${'₹' + #numbers.formatDecimal(size.price, 1, 2, 'COMMA')}"></span>
                     </label>
                   </div>
                 </div>

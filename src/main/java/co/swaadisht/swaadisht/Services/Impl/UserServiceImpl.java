@@ -171,8 +171,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User saveAdmin(User user) {
+        String encodedPassword = passwordEncoder.encode("Swaadisht@123");
         user.setRole("ROLE_ADMIN");
+        user.setEnabled(true);
+        user.setPassword(encodedPassword);
         return userRepo.save(user);
     }
-
 }
