@@ -64,18 +64,32 @@
             </div>
           </div>
         </td>
-        <td class="px-6 py-4 whitespace-nowrap w-32">
-          <div class="flex flex-col gap-2">
-            <div th:each="item : ${order.orderItems}">
-              <div class="text-sm">
-                [[${item.quantity}]] x <span class="block text-center text-[#650c04] font-semibold mt-1" th:text="${'₹' + #numbers.formatDecimal(item.unitPrice, 1, 2, 'COMMA')}"></span>
-                <span th:if="${item.selectedSize != null}">
-                  ([[${item.selectedSize.name}]])
+        <td class="px-4 py-3 w-40">
+          <div class="flex flex-col gap-1">
+            <!-- Individual Items -->
+            <div th:each="item : ${order.orderItems}" class="mb-2 last:mb-0">
+              <div class="flex items-baseline justify-between gap-2">
+                <span class="text-sm text-gray-600">
+                  [[${item.quantity}]] ×
+                  <span th:if="${item.selectedSize != null}" class="text-xs text-gray-500">
+                    ([[${item.selectedSize.name}]])
+                  </span>
+                </span>
+                        <span class="text-sm font-medium text-gray-900"
+                              th:text="${'₹' + #numbers.formatDecimal(item.totalPrice, 1, 2, 'POINT')}">
                 </span>
               </div>
             </div>
-            <div class="font-medium">
-              Total: <span class="block text-center text-[#650c04] font-semibold mt-1" th:text="${'₹' + #numbers.formatDecimal(order.totalPrice, 1, 2, 'COMMA')}"></span>
+
+            <!-- Divider -->
+            <div class="border-t border-gray-200 my-1"></div>
+
+            <!-- Grand Total -->
+            <div class="flex items-baseline justify-between">
+              <span class="text-sm font-semibold text-gray-700">Total:</span>
+              <span class="text-base font-bold text-[#650c04]"
+                    th:text="${'₹' + #numbers.formatDecimal(order.totalPrice, 1, 2, 'COMMA')}">
+      </span>
             </div>
           </div>
         </td>
