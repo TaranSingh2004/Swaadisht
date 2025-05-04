@@ -4,8 +4,9 @@
 
 
 <p align="center">
-  <img src="![swaadisht_logo_WB 1](https://github.com/user-attachments/assets/8ea9cfb4-1364-49b5-a9ff-7113cb9d46fa)" alt="Swaadisht Logo" width="250"/>
+  <img src="https://github.com/user-attachments/assets/8ea9cfb4-1364-49b5-a9ff-7113cb9d46fa" alt="Swaadisht Logo" width="250"/>
 </p>
+
 
 
 ## 🚀 Features
