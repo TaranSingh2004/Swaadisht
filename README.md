@@ -49,7 +49,7 @@
 ## 📸 Screenshots
 
 ### 👤 User Interface
-📋 Summary
+📋 Summary -
 The User Interface is crafted to offer a smooth, intuitive, and responsive experience for all users interacting with the system. Every element is designed to ensure that users can complete tasks efficiently with minimal friction. Key highlights include:
 
 🧾 Registration & Login: Seamless sign-up and sign-in experience with secure authentication.
@@ -110,7 +110,7 @@ The user interface ensures accessibility, clarity, and a clean visual flow to ma
 
 
 ### 🛠️ Admin Dashboard
-📋 Summary
+📋 Summary -
 The Admin Dashboard is the control center for managing the core functionalities of the platform. It empowers administrators with full visibility and control over the operations. Key features include:
 
 📦 Product Management: Add, edit, or delete items from the catalog with ease.
