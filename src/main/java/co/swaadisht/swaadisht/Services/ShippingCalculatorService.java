@@ -84,9 +84,12 @@ public class ShippingCalculatorService {
 
     private double calculateChargeBasedOnDistance(double distanceKm) {
         // Example pricing model - replace with your business logic
-        if (distanceKm < 10) return 50;         // Local delivery
-        if (distanceKm < 50) return 80;         // Nearby cities
-        if (distanceKm < 200) return 150;       // Regional
-        return 200 + (distanceKm - 200) * 1.5;  // Long distance (₹1.5 per km beyond 200km)
+        if (distanceKm < 10) return 0;         // Local delivery
+        if (distanceKm < 25) return 60;
+        if (distanceKm < 40) return 110;
+        if (distanceKm < 75) return 180;         // Nearby cities
+        if (distanceKm < 100) return 205;       // Regional
+        if (distanceKm > 100) return 270;
+        return 0;// Long distance (₹1.5 per km beyond 200km)
     }
 }

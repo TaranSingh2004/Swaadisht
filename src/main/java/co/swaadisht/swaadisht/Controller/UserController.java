@@ -269,7 +269,7 @@ public class UserController {
     }
 
     @PostMapping("/place-order")
-    public String placeOrder(@RequestParam Integer addressId,
+    public String placeOrder(@RequestParam(required = false) Integer addressId,
                              @RequestParam String paymentMethod,
                              Principal principal,
                              HttpSession session,
@@ -277,14 +277,17 @@ public class UserController {
 
         User user = getLoggedInUserDetails(principal);
 
-        if (addressId == null) {
-            redirectAttributes.addFlashAttribute("error", "Please select a delivery address");
+        if (addressId == null || addressId <= 0) {
+            redirectAttributes.addFlashAttribute("error", "Please add or select a delivery address");
             return "redirect:/user/orders";
         }
 
         try {
             String couponCode = (String) session.getAttribute("couponCode");
             Double discountAmount = (Double) session.getAttribute("discountAmount");
+            if(discountAmount==null){
+                discountAmount=0.0;
+            }
 
             ProductOrder order = orderService.createOrder(
                     user.getId(),

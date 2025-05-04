@@ -25,7 +25,7 @@ public class User {
     @Column(unique = true, nullable = false)
     private String email;
 
-//    @Getter(value = AccessLevel.NONE)
+    //    @Getter(value = AccessLevel.NONE)
 //    @Setter
     private String password;
 
@@ -33,15 +33,15 @@ public class User {
 
     private String phoneNumber;
 
-//    @Getter(value = AccessLevel.NONE)
+    //    @Getter(value = AccessLevel.NONE)
     @Column(nullable = false, columnDefinition = "boolean default true")
     private Boolean enabled = true;
 
-    private boolean emailVerified=false;
+    private boolean emailVerified = false;
     private boolean phoneVerified = false;
 
     @Enumerated(value = EnumType.STRING)
-    private Providers provider=Providers.SELF;
+    private Providers provider = Providers.SELF;
 
     private String providerId;
 

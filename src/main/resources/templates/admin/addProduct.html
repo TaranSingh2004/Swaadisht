@@ -7,10 +7,10 @@
     <title>Home page</title>
 </head>
 <body>
-<div id="content" class="border">
+<div id="content" class="">
 
     <a href="/admin/" class="text-decoration-none"><i class="fa-solid fa-arrow-left"></i> Back</a>
-    <h2 class="text-center"> Add Product </h2>
+    <h1 class="text-primary">Add Product</h1>
     <th:block th:if="${session.succMsg}">
         <p class="text-success fw-bold">[[${session.succMsg}]]</p>
         <th:block th:text="${@commonServiceImpl.removeSessionMessage()}"></th:block>
