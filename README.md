@@ -1,8 +1,11 @@
 # 🧁 Swaadhist – Customizable Indian Sweets & Snacks Ordering Platform
 
 **Swaadhist** is a full-stack e-commerce platform for ordering healthy, customizable Indian snacks—especially date-based laddus. Built using **Spring Boot**, **HTML**, **Tailwind CSS**, and **JavaScript**, the platform offers rich user and admin features with real-time customization of products.
-![swaadisht_logo_WB 1](https://github.com/user-attachments/assets/8ea9cfb4-1364-49b5-a9ff-7113cb9d46fa)
 
+
+<p align="center">
+  <img src="![swaadisht_logo_WB 1](https://github.com/user-attachments/assets/8ea9cfb4-1364-49b5-a9ff-7113cb9d46fa)" alt="Swaadisht Logo" width="250"/>
+</p>
 
 
 ## 🚀 Features
