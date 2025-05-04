@@ -93,30 +93,15 @@
 
 
 ### 🛠️ Admin Dashboard
-![Admin Dashboard](images/admin-dashboard.png)
-![Manage Ingredients](images/manage-ingredients.png)
-
+<div align="center"> <table> <tr> <td><img src="https://github.com/user-attachments/assets/2ab01ceb-0cbc-4495-9e38-f19d92f00d37" width="400"/></td> <td><img src="https://github.com/user-attachments/assets/47ce31ee-2207-49cd-962d-3ed356a84825" width="400"/></td> </tr> <tr> <td><img src="https://github.com/user-attachments/assets/1cf07366-d20e-4c40-b8a8-4fe972f9913d" width="400"/></td> <td><img src="https://github.com/user-attachments/assets/b8831228-96a2-44db-bc5a-a52227e827c0" width="400"/></td> </tr> <tr> <td><img src="https://github.com/user-attachments/assets/ca3980ed-7fcd-4a68-9e76-1a29fce7e749" width="400"/></td> <td><img src="https://github.com/user-attachments/assets/0ab2c73a-26c1-4980-81f9-b9738c8f9cad" width="400"/></td> </tr> <tr> <td><img src="https://github.com/user-attachments/assets/71634fe9-e1d2-42ff-b5c8-6734babf9c3b" width="400"/></td> <td><img src="https://github.com/user-attachments/assets/ad9ac75b-fbe0-405c-86e8-cfa036c6163d" width="400"/></td> </tr> <tr> <td><img src="https://github.com/user-attachments/assets/6e60fec0-34ed-49dc-8b0d-272f3d495e95" width="400"/></td> <td><img src="https://github.com/user-attachments/assets/e62868e4-c3cc-416e-b479-20e8f3a1143a" width="400"/></td> </tr> <tr> <td><img src="https://github.com/user-attachments/assets/002db777-4fb9-43af-acd8-548cf96571a4" width="400"/></td> <td><img src="https://github.com/user-attachments/assets/b533ba03-2405-49f5-bea6-9ab21cd0eb5e" width="400"/></td> </tr> </table> </div>
 ---
-
-## 📂 Project Structure (Spring Boot)
-
-src/
-├── main/
-│ ├── java/com/swaadhist
-│ │ ├── controller
-│ │ ├── service
-│ │ ├── model
-│ │ └── repository
-│ └── resources/
-│ ├── application.properties
-│ └── templates/
-└── test/
-
 
 ## 🛡️ Security
 
 - Passwords are encrypted using BCrypt.
 - Role-based access for admin and users.
+
+  ---
 
 ## 🧠 Key Highlights
 
