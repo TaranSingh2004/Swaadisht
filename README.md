@@ -42,14 +42,31 @@
 | Backend     | Java, Spring Boot, Spring Security |
 | Database    | MySQL |
 | Tools       | IntelliJ IDEA, Git, Postman |
-| Deployment  | (Add your deployment info if hosted) |
+| Deployment  | (to be done) |
 
 ---
 
 ## 📸 Screenshots
 
 ### 👤 User Interface
-<h3 align="center">👤 User Interface</h3>
+📋 Summary
+The User Interface is crafted to offer a smooth, intuitive, and responsive experience for all users interacting with the system. Every element is designed to ensure that users can complete tasks efficiently with minimal friction. Key highlights include:
+
+🧾 Registration & Login: Seamless sign-up and sign-in experience with secure authentication.
+
+🔍 Dashboard Overview: Personalized dashboard displaying user-specific activities, bookings, or services.
+
+📅 Service Booking: Easy-to-navigate interface for booking services with real-time availability.
+
+📬 Notifications: Stay updated with in-app alerts and status updates.
+
+🧍‍♂️ Profile Management: View and edit personal information, preferences, and settings.
+
+📜 Activity History: Track past services, payments, or interactions.
+
+🎯 Mobile Responsive: Works flawlessly across mobile, tablet, and desktop devices.
+
+The user interface ensures accessibility, clarity, and a clean visual flow to make every interaction meaningful and efficient.
 
 <table align="center">
   <tr>
@@ -93,6 +110,22 @@
 
 
 ### 🛠️ Admin Dashboard
+📋 Summary
+The Admin Dashboard is the control center for managing the core functionalities of the platform. It empowers administrators with full visibility and control over the operations. Key features include:
+
+📦 Product Management: Add, edit, or delete items from the catalog with ease.
+
+👥 User Management: View user activity, manage user roles, and permissions.
+
+📊 Analytics & Reports: Visual insights into sales, user behavior, and system health.
+
+🧾 Order Handling: Track, update, or cancel orders; manage refund requests.
+
+🧹 Inventory Tracking: Keep tabs on stock levels and receive alerts on low inventory.
+
+🛠️ Settings & Configuration: Update system settings, manage categories, payment methods, and more.
+
+The dashboard is designed with usability and clarity in mind, ensuring administrators can act quickly and confidently.
 <div align="center"> <table> <tr> <td><img src="https://github.com/user-attachments/assets/2ab01ceb-0cbc-4495-9e38-f19d92f00d37" width="400"/></td> <td><img src="https://github.com/user-attachments/assets/47ce31ee-2207-49cd-962d-3ed356a84825" width="400"/></td> </tr> <tr> <td><img src="https://github.com/user-attachments/assets/1cf07366-d20e-4c40-b8a8-4fe972f9913d" width="400"/></td> <td><img src="https://github.com/user-attachments/assets/b8831228-96a2-44db-bc5a-a52227e827c0" width="400"/></td> </tr> <tr> <td><img src="https://github.com/user-attachments/assets/ca3980ed-7fcd-4a68-9e76-1a29fce7e749" width="400"/></td> <td><img src="https://github.com/user-attachments/assets/0ab2c73a-26c1-4980-81f9-b9738c8f9cad" width="400"/></td> </tr> <tr> <td><img src="https://github.com/user-attachments/assets/71634fe9-e1d2-42ff-b5c8-6734babf9c3b" width="400"/></td> <td><img src="https://github.com/user-attachments/assets/ad9ac75b-fbe0-405c-86e8-cfa036c6163d" width="400"/></td> </tr> <tr> <td><img src="https://github.com/user-attachments/assets/6e60fec0-34ed-49dc-8b0d-272f3d495e95" width="400"/></td> <td><img src="https://github.com/user-attachments/assets/e62868e4-c3cc-416e-b479-20e8f3a1143a" width="400"/></td> </tr> <tr> <td><img src="https://github.com/user-attachments/assets/002db777-4fb9-43af-acd8-548cf96571a4" width="400"/></td> <td><img src="https://github.com/user-attachments/assets/b533ba03-2405-49f5-bea6-9ab21cd0eb5e" width="400"/></td> </tr> </table> </div>
 ---
 
